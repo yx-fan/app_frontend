@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/signup_view_model.dart';
+import '../components/theme_button.dart';
 
 class SignUpStep2View extends StatelessWidget {
   @override
@@ -35,7 +36,7 @@ class SignUpStep2View extends StatelessWidget {
                         'Join ExpenseTrack!',
                         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 60),
                       TextField(
                         controller: viewModel.passwordController,
                         decoration: InputDecoration(
@@ -64,18 +65,14 @@ class SignUpStep2View extends StatelessWidget {
                           style: TextStyle(color: Colors.red),
                         ),
                       SizedBox(height: 20),
-                      ElevatedButton(
+                      ThemeButton(
+                        text: 'Sign up',
                         onPressed: () async {
                           bool success = await viewModel.register();
                           if (success) {
                             Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
                           }
                         },
-                        child: Text('Sign up'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          minimumSize: Size(double.infinity, 50), // match parent width
-                        ),
                       ),
                       SizedBox(height: 20),
                       TextButton(
