@@ -1,0 +1,56 @@
+name: Notify collaborators on release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  send_email:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install nodemailer
+
+    - name: Send notification email
+      env:
+        EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+        EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+        EMAIL_USER: ${{ secrets.EMAIL_USER }}
+        EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        TO_EMAIL: "r29jiang@seas.upenn.edu,rongjial@seas.upenn.edu, yuxinfan@seas.upenn.edu"
+      run: |
+        node -e "
+          const nodemailer = require('nodemailer');
+          const transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT,
+            secure: false,
+            auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+            },
+          });
+
+          const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: process.env.TO_EMAIL,
+            subject: 'New Release of Travel Expense App: ${{ github.event.release.tag_name }}',
+            text: 'A new release has been published: ${{ github.event.release.html_url }}',
+          };
+
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+          });
+        "
