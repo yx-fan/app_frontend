@@ -36,6 +36,7 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   intl: ^0.17.0
   google_maps_flutter: ^2.7.0
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
