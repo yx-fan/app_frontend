@@ -1,3 +1,4 @@
+import 'package:app_frontend/views/map_screen.dart';
 import 'package:flutter/material.dart';
 import '../views/trip_expense_view.dart';
 import "../models/trip.dart";
@@ -66,6 +67,13 @@ class _TripCardState extends State<TripCard> {
                       ElevatedButton(
                         onPressed: () {
                           // Implement map functionality
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  MapScreen(),
+                            ),
+                          );
                         },
                         child: Text('Map'),
                       ),

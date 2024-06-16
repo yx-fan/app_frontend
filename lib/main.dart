@@ -6,6 +6,7 @@ import 'views/login_view.dart';
 import 'package:provider/provider.dart';
 import 'viewmodels/trip_viewmodel.dart';
 import 'views/trip_list_view.dart';
+import 'views/map_screen.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 216, 151, 86),
@@ -41,8 +42,10 @@ class MyApp extends StatelessWidget {
           '/signup_step2': (context) => SignUpStep2View(),
           '/login': (context) => LoginScreen(),
           '/tripView': (context) => TripListView(),
+          '/map': (context) => MapScreen(),
         },
       ),
     );
   }
 }
+
