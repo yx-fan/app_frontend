@@ -61,7 +61,8 @@ class LoginScreen extends StatelessWidget {
                         onPressed: () async {
                           bool success = await viewModel.login();
                           if (success) {
-                            Navigator.pushNamedAndRemoveUntil(context, '/signup_step1', (route) => false);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, '/tripView', (route) => false);
                           }
                         },
                       ),
@@ -99,7 +100,8 @@ class LoginScreen extends StatelessWidget {
                       child: const Text('Create an account to start tracking'),
                     ),
                     const SizedBox(height: 20),
-                    const Text('Terms of Service | Privacy Policy | Contact Us'),
+                    const Text(
+                        'Terms of Service | Privacy Policy | Contact Us'),
                     const SizedBox(height: 10),
                     const Text('© 2024 ExpenseTrack'),
                   ],
