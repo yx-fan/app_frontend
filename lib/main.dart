@@ -27,18 +27,10 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'viewmodels/map_view_model.dart';
 import 'views/map_screen.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => MapViewModel(),
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

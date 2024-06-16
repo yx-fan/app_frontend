@@ -17,8 +17,10 @@ class _MapScreenState extends State<MapScreen> {
  @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MapViewModel>(context);
-
-    return Scaffold(
+    return ChangeNotifierProvider(
+      create: (_) => MapViewModel(),
+      builder: (context, child) {
+        return Scaffold(
       body: Stack(
         children: [
           GoogleMap(
@@ -124,6 +126,7 @@ class _MapScreenState extends State<MapScreen> {
             ),
         ],
       ),
+    );}
     );
   }
 }
