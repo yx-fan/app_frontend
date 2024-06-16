@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'views/expense_details_page.dart';
+import 'package:provider/provider.dart';
+import 'viewmodels/trip_viewmodel.dart';
+import 'views/trip_list_view.dart';
+
+var kColorScheme = ColorScheme.fromSeed(
+  seedColor: const Color.fromARGB(255, 216, 151, 86),
+);
 
 void main() {
   runApp(MyApp());
@@ -8,25 +14,22 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Travel Expense Tracker',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ExpenseDetailsPage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
-      ),
-      body: Center(
-        child: Text('Hello, Flutter!'),
+    return ChangeNotifierProvider(
+      create: (_) => TripViewModel(),
+      child: MaterialApp(
+        title: 'Trip Planner',
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor:
+                  Color.fromARGB(194, 241, 147, 6), // Button background color
+              foregroundColor: Colors.white, // Button text color
+            ),
+          ),
+        ),
+        themeMode: ThemeMode.system,
+        home: TripListView(),
       ),
     );
   }
