@@ -1,4 +1,17 @@
 # ChangeLog
+## [1.0.2] - 2024-06-16
+### Added
+- Added User Interface for viewing:
+  - List of Trips
+  - List of Expenses
+  - Map
+
+### Fixed
+- Refractored code to separate out reusable components:
+  - two different theme buttons
+  - nagivation bar
+  - expense category icons/colors
+
 ## [1.0.1] - 2024-06-16
 ### Added
 - Added Login Feature
