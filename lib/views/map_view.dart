@@ -4,22 +4,27 @@ import 'package:provider/provider.dart';
 
 import '../viewmodels/map_view_model.dart';
 
-class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
-
+class MapView extends StatelessWidget {
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => MapViewModel(),
+      child: _MapView(),
+    );
+  }
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapView extends StatefulWidget {
+  @override
+  _MapViewState createState() => _MapViewState();
+}
+
+class _MapViewState extends State<_MapView> {
  GoogleMapController? _mapController;
 
  @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MapViewModel>(context);
-    return ChangeNotifierProvider(
-      create: (_) => MapViewModel(),
-      builder: (context, child) {
         return Scaffold(
       body: Stack(
         children: [
@@ -126,7 +131,6 @@ class _MapScreenState extends State<MapScreen> {
             ),
         ],
       ),
-    );}
     );
-  }
+    }
 }
