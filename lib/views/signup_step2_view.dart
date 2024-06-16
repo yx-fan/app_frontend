@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/signup_view_model.dart';
-import '../components/theme_button.dart';
+import '../widgets/theme_button_large.dart';
 
 class SignUpStep2View extends StatelessWidget {
   @override
@@ -34,7 +34,10 @@ class SignUpStep2View extends StatelessWidget {
                       ),
                       Text(
                         'Join ExpenseTrack!',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
                       ),
                       SizedBox(height: 60),
                       TextField(
@@ -65,12 +68,13 @@ class SignUpStep2View extends StatelessWidget {
                           style: TextStyle(color: Colors.red),
                         ),
                       SizedBox(height: 20),
-                      ThemeButton(
+                      ThemeButtonLarge(
                         text: 'Sign up',
                         onPressed: () async {
                           bool success = await viewModel.register();
                           if (success) {
-                            Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, '/login', (route) => false);
                           }
                         },
                       ),
@@ -79,13 +83,15 @@ class SignUpStep2View extends StatelessWidget {
                         onPressed: () {
                           Navigator.pushNamed(context, '/signup_step1');
                         },
-                        child: Text('Didn\'t receive it? Resend', style: TextStyle(color: Colors.black)),
+                        child: Text('Didn\'t receive it? Resend',
+                            style: TextStyle(color: Colors.black)),
                       ),
                       TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/login');
                         },
-                        child: Text('Existing user? Sign in', style: TextStyle(color: Colors.black)),
+                        child: Text('Existing user? Sign in',
+                            style: TextStyle(color: Colors.black)),
                       ),
                     ],
                   );

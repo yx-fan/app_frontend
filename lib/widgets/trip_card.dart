@@ -1,7 +1,8 @@
 import 'package:app_frontend/views/map_view.dart';
 import 'package:flutter/material.dart';
 import '../views/trip_expense_view.dart';
-import "../models/trip.dart";
+import "../models/trip_model.dart";
+import '../widgets/theme_button_small.dart';
 
 class TripCard extends StatefulWidget {
   final Trip trip;
@@ -27,26 +28,44 @@ class _TripCardState extends State<TripCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.trip.name,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Starting Date: ${widget.formattedDate}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.trip.name,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          'Starting Date: ${widget.formattedDate}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.camera_alt),
+                    onPressed: () {
+                      // Implement camera functionality
+                    },
+                  ),
+                ],
               ),
               SizedBox(height: 16),
               AspectRatio(
                 aspectRatio: 16 / 8,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      15.0), // Adjust the radius as needed
+                  borderRadius: BorderRadius.circular(15.0),
                   child: Image(
                     image: ResizeImage(
                       AssetImage(widget.trip.imageUrl),
@@ -64,21 +83,21 @@ class _TripCardState extends State<TripCard> {
                 children: [
                   Row(
                     children: [
-                      ElevatedButton(
+                      ThemeButtonSmall(
+                        text: 'Map',
                         onPressed: () {
                           // Implement map functionality
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  MapView(),
+                              builder: (context) => MapView(),
                             ),
                           );
                         },
-                        child: Text('Map'),
                       ),
                       SizedBox(width: 8),
-                      ElevatedButton(
+                      ThemeButtonSmall(
+                        text: 'Details',
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -88,7 +107,6 @@ class _TripCardState extends State<TripCard> {
                             ),
                           );
                         },
-                        child: Text('Details'),
                       ),
                     ],
                   ),

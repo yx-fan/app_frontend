@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/trip.dart';
-import '../models/expense.dart';
+import '../models/trip_model.dart';
+import '../models/expense_model.dart';
 
 class TripViewModel extends ChangeNotifier {
   List<Trip> _trips = [

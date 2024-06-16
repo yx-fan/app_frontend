@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/expense.dart';
-import '../models/trip.dart';
+import '../models/expense_model.dart';
+import '../models/trip_model.dart';
 import '../widgets/expense_card.dart';
 
 class TripExpenseView extends StatefulWidget {
@@ -56,26 +56,6 @@ class _TripExpenseViewState extends State<TripExpenseView> {
                   isStarred: starredExpenses.contains(expense),
                 );
               },
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            height: 80,
-            color: Colors.orange, // Navigation bar style
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 253, 253, 253),
-                foregroundColor: Color.fromARGB(194, 241, 147, 6),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.zero,
-                ),
-              ),
-              onPressed: () {
-                // Implement capturing more expenses
-              },
-              child: Text('Capture More Expenses',
-                  style: TextStyle(
-                      color: Color.fromARGB(194, 241, 147, 6), fontSize: 16)),
             ),
           ),
         ],

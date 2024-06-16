@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/login_view_model.dart';
-import '../components/theme_button.dart';
+import '../widgets/theme_button_large.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -56,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                     if (viewModel.isLoading)
                       const CircularProgressIndicator()
                     else
-                      ThemeButton(
+                      ThemeButtonLarge(
                         text: 'Log in',
                         onPressed: () async {
                           bool success = await viewModel.login();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/signup_view_model.dart';
-import '../components/theme_button.dart';
+import '../widgets/theme_button_large.dart';
 
 class SignUpStep1View extends StatelessWidget {
   @override
@@ -25,7 +25,10 @@ class SignUpStep1View extends StatelessWidget {
                     children: [
                       Text(
                         'Join ExpenseTrack!',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
                       ),
                       SizedBox(height: 60),
                       TextField(
@@ -44,10 +47,11 @@ class SignUpStep1View extends StatelessWidget {
                           style: TextStyle(color: Colors.red),
                         ),
                       SizedBox(height: 20),
-                      ThemeButton(
+                      ThemeButtonLarge(
                         text: 'Next',
                         onPressed: () async {
-                          bool success = await viewModel.sendVerificationEmail();
+                          bool success =
+                              await viewModel.sendVerificationEmail();
                           if (success) {
                             Navigator.pushNamed(context, '/signup_step2');
                           }
@@ -58,7 +62,8 @@ class SignUpStep1View extends StatelessWidget {
                         onPressed: () {
                           Navigator.pushNamed(context, '/login');
                         },
-                        child: Text('Existing user? Sign in', style: TextStyle(color: Colors.black)),
+                        child: Text('Existing user? Sign in',
+                            style: TextStyle(color: Colors.black)),
                       ),
                     ],
                   );

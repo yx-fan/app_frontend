@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/trip.dart';
-import '../viewmodels/trip_viewmodel.dart';
+import '../models/trip_model.dart';
+import '../viewmodels/trip_view_model.dart';
 
 class TripCreationView extends StatefulWidget {
   @override

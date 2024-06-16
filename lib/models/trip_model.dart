@@ -1,4 +1,4 @@
-import 'expense.dart';
+import 'expense_model.dart';
 
 class Trip {
   final String name;
