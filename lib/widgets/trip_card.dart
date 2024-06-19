@@ -57,6 +57,7 @@ class _TripCardState extends State<TripCard> {
                     icon: Icon(Icons.camera_alt),
                     onPressed: () {
                       // Implement camera functionality
+                      Navigator.pushNamed(context, '/camera');
                     },
                   ),
                 ],

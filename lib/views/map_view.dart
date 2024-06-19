@@ -69,6 +69,7 @@ class _MapViewState extends State<_MapView> {
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
                   // Handle back button press
+                  Navigator.pushNamed(context, '/tripView');
                 },
               ),
             ),
