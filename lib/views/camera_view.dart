@@ -58,7 +58,7 @@ class CameraView extends StatelessWidget {
                         ),
                         FloatingActionButton(
                           heroTag: "cameraButton",
-                          backgroundColor: Colors.redAccent,
+                          backgroundColor: Colors.orangeAccent,
                           child: Icon(captureIcon, color: Colors.white, size: 30),
                           onPressed: () async {
                             XFile? picture = await cameraViewModel.takePicture();
