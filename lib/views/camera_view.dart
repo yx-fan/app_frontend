@@ -5,6 +5,18 @@ import '../viewmodels/camera_view_model.dart';
 import 'preview_view.dart';
 
 class CameraView extends StatelessWidget {
+  final Function(XFile) onPictureTaken;
+  final String title;
+  final IconData captureIcon;
+  final Widget? overlay;
+
+  CameraView({
+    required this.onPictureTaken,
+    required this.title,
+    required this.captureIcon,
+    this.overlay,
+  });
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -22,26 +34,13 @@ class CameraView extends StatelessWidget {
                   Navigator.pop(context);
                 },
               ),
+              title: Text(title, style: TextStyle(color: Colors.white)),
             ),
             body: cameraViewModel.isCameraInitialized
                 ? Stack(
               children: [
                 CameraPreview(cameraViewModel.cameraController!),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.black54, Colors.transparent],
-                      ),
-                    ),
-                  ),
-                ),
+                if (overlay != null) overlay!,
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
@@ -60,16 +59,11 @@ class CameraView extends StatelessWidget {
                         FloatingActionButton(
                           heroTag: "cameraButton",
                           backgroundColor: Colors.redAccent,
-                          child: Icon(Icons.camera_alt, color: Colors.white, size: 30),
+                          child: Icon(captureIcon, color: Colors.white, size: 30),
                           onPressed: () async {
                             XFile? picture = await cameraViewModel.takePicture();
                             if (picture != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PreviewView(imagePath: picture.path),
-                                ),
-                              );
+                              onPictureTaken(picture);
                             }
                           },
                         ),

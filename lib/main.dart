@@ -5,7 +5,7 @@ import 'views/signup_step2_view.dart';
 import 'views/login_view.dart';
 import 'views/trip_list_view.dart';
 import 'views/map_view.dart';
-import 'views/camera_view.dart';
+import 'views/receipt_camera_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/tripView': (context) => TripListView(),
         '/map': (context) => MapView(),
-        '/camera': (context) => CameraView(),
+        '/receipt_camera': (context) => ReceiptCameraPage(),
       },
     );
   }
