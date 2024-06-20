@@ -55,6 +55,8 @@ class TripViewModel extends ChangeNotifier {
   ];
 
   List<Trip> get trips => _trips;
+  int _currentIndex = 0;
+  int get currentIndex => _currentIndex;
 
   void addTrip(Trip trip) {
     _trips.add(trip);
@@ -75,6 +77,11 @@ class TripViewModel extends ChangeNotifier {
   void removeExpense(Trip trip, Expense expense) {
     trip.expenses.remove(expense);
     trip.totalExpense -= expense.amount;
+    notifyListeners();
+  }
+
+  void changeTab(int index) {
+    _currentIndex = index;
     notifyListeners();
   }
 }

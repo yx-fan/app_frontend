@@ -6,6 +6,7 @@ import 'views/login_view.dart';
 import 'views/trip_list_view.dart';
 import 'views/map_view.dart';
 import 'views/receipt_camera_view.dart';
+import 'views/profile_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         '/tripView': (context) => TripListView(),
         '/map': (context) => MapView(),
         '/receipt_camera': (context) => ReceiptCameraPage(),
+        '/profile': (context) => ProfileView(),
       },
     );
   }

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Navigation extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) onTap;
+
+  Navigation({required this.currentIndex, required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      currentIndex: 0,
+      currentIndex: currentIndex,
       selectedItemColor: Colors.orange,
       unselectedItemColor: const Color.fromARGB(255, 3, 3, 3),
       items: [
@@ -30,9 +35,7 @@ class Navigation extends StatelessWidget {
           label: 'Profile',
         ),
       ],
-      onTap: (index) {
-        // Handle navigation based on the selected index
-      },
+      onTap: onTap, // 调用传入的 onTap 回调函数
     );
   }
 }
