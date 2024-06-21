@@ -1,5 +1,4 @@
 import 'package:app_frontend/widgets/map_google.dart';
-import 'package:app_frontend/widgets/map_receipt.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,11 +32,15 @@ class MapView extends StatelessWidget {
             ),
           ),
         ),
-        body: Stack(
-          children: [
-            MapGoogle(),
-            MapReceipt(),
-          ],
+        body: Builder(
+          builder: (context) {
+            Provider.of<MapViewModel>(context, listen: false).setBottomSheetContext(context);
+            return Stack(
+              children: [
+                MapGoogle(),
+              ],
+            );
+          }
         ),
       ),
     );

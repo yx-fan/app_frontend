@@ -1,14 +1,20 @@
+import 'package:app_frontend/widgets/map_receipt.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/map_model.dart';
 import '../services/receipt_service.dart';
 
 class MapViewModel extends ChangeNotifier {
   List<Receipt> receipts = [];
   Receipt? _selectedReceipt;
+  BuildContext? bottomSheetContext;
+  LatLng? currentLocation;
 
   final ReceiptService receiptService = ReceiptService();
 
-  MapViewModel() {fetchReceipts();}
+  MapViewModel() {
+    fetchReceipts();
+  }
 
   Future<void> fetchReceipts() async {
     try {
@@ -37,10 +43,32 @@ class MapViewModel extends ChangeNotifier {
   void selectReceipt(Receipt receipt) {
     _selectedReceipt = receipt;
     notifyListeners();
+    showBottomSheet();
   }
 
   void unselectReceipt() {
     _selectedReceipt = null;
     notifyListeners();
+    hideBottomSheet();
+  }
+
+  void setBottomSheetContext(BuildContext context) {
+    bottomSheetContext = context;
+  }
+
+  void showBottomSheet() {
+    if (bottomSheetContext != null && selectedReceipt != null) {
+      showModalBottomSheet(
+        context: bottomSheetContext!,
+        builder: (context) => MapReceipt(receipt: selectedReceipt!),
+        isScrollControlled: true,
+      );
+    }
+  }
+
+  void hideBottomSheet() {
+    if (bottomSheetContext != null) {
+      Navigator.of(bottomSheetContext!).pop();
+    }
   }
 }

@@ -38,9 +38,6 @@ class MapGoogle extends StatelessWidget {
                 ),
               )
               .toSet(),
-          onTap: (LatLng latLng) {
-            viewModel.unselectReceipt();
-          },
         ),
         Positioned(
           top: 120,
