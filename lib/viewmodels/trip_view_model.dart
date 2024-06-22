@@ -24,12 +24,14 @@ class TripViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> createTrip(String tripName, DateTime startDate, DateTime endDate,
+  Future<bool> createTrip(String tripName, DateTime startDate, DateTime endDate,
       String description) async {
+    bool success = false;
     try {
-      bool success = await _tripService.createTrip(
+      success = await _tripService.createTrip(
           tripName, startDate, endDate, description);
     } catch (e) {}
+    return success;
   }
 
   void addTrip(Trip trip) {

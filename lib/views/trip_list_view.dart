@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'trip_creation_view.dart';
 import '../viewmodels/trip_view_model.dart';
-import '../widgets/trip_card.dart';
+import 'trip_creation_view.dart';
+import "../widgets/trip_card.dart";
 import '../widgets/navigation.dart';
-import '../models/trip_model.dart';
+import '../services/navigation_service.dart';
 
-class TripListView extends StatelessWidget {
+class TripListView extends StatefulWidget {
+  @override
+  _TripListViewState createState() => _TripListViewState();
+}
+
+class _TripListViewState extends State<TripListView> {
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<TripViewModel>(context, listen: false).fetchTrips();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,19 +27,19 @@ class TripListView extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () => {},
-            // onPressed: () async {
-            //   final newTrip = await Navigator.push<Trip>(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => TripCreationView(),
-            //     ),
-            //   );
-            //   if (newTrip != null) {
-            //     Provider.of<TripViewModel>(context, listen: false)
-            //         .addTrip(newTrip);
-            //   }
-            // },
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TripCreationView(),
+                ),
+              );
+
+              if (result == true) {
+                // Refresh the trip list
+                Provider.of<TripViewModel>(context, listen: false).fetchTrips();
+              }
+            },
           ),
         ],
       ),
@@ -48,19 +59,20 @@ class TripListView extends StatelessWidget {
                       ),
                       SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: () => {},
-                        // onPressed: () async {
-                        //   final newTrip = await Navigator.push<Trip>(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => TripCreationView(),
-                        //     ),
-                        //   );
-                        //   if (newTrip != null) {
-                        //     Provider.of<TripViewModel>(context, listen: false)
-                        //         .addTrip(newTrip);
-                        //   }
-                        // },
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TripCreationView(),
+                            ),
+                          );
+
+                          if (result == true) {
+                            // Refresh the trip list
+                            Provider.of<TripViewModel>(context, listen: false)
+                                .fetchTrips();
+                          }
+                        },
                         child: Text('Create'),
                       ),
                     ],
@@ -86,7 +98,8 @@ class TripListView extends StatelessWidget {
             currentIndex: tripViewModel.currentIndex,
             onTap: (index) {
               tripViewModel.changeTab(index);
-              // Implement navigation logic if necessary
+              NavigationService.navigateToPage(
+                  context, index); // Use navigation service
             },
           );
         },
