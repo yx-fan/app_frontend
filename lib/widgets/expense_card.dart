@@ -61,7 +61,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          widget.expense.title,
+                          widget.expense.merchantName,
                           style: TextStyle(
                             fontSize: 16,
                           ),

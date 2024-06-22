@@ -70,6 +70,15 @@ flutter:
     - assets/mountain.jpg
     - assets/japan.jpg
     - assets/new_trip.jpg
+    - assets/trip_img0.jpg
+    - assets/trip_img1.jpg
+    - assets/trip_img2.jpg
+    - assets/trip_img3.jpg
+    - assets/trip_img4.jpg
+    - assets/trip_img5.jpg
+    - assets/trip_img6.jpg
+    - assets/trip_img7.jpg
+    - assets/trip_img8.jpg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
