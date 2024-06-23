@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/expense_model.dart';
 import '../models/trip_model.dart';
 import '../widgets/expense_card.dart';
 import '../viewmodels/trip_expense_view_model.dart';

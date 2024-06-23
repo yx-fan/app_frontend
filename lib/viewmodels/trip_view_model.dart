@@ -1,7 +1,6 @@
 import 'package:app_frontend/services/trip_service.dart';
 import 'package:flutter/material.dart';
 import '../models/trip_model.dart';
-import '../models/expense_model.dart';
 
 class TripViewModel extends ChangeNotifier {
   final TripService _tripService = TripService();
@@ -30,7 +29,9 @@ class TripViewModel extends ChangeNotifier {
     try {
       success = await _tripService.createTrip(
           tripName, startDate, endDate, description);
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
     return success;
   }
 
