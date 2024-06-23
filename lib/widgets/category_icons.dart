@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
 
 class CategoryIcons {
-  IconData getCategoryIcon(String category) {
+  static const int transportation = 1;
+  static const int food = 2;
+  static const int entertainment = 3;
+  static const int accommodation = 4;
+  static const int shopping = 5;
+  static const int other = 6; // Represent other as 6
+
+  IconData getCategoryIcon(int category) {
     switch (category) {
-      case 'transportation':
+      case transportation:
         return Icons.flight;
-      case 'food':
+      case food:
         return Icons.restaurant;
-      case 'entertainment':
+      case entertainment:
         return Icons.movie;
-      case 'accommodation':
+      case accommodation:
         return Icons.hotel;
-      case 'shopping':
+      case shopping:
         return Icons.shopping_bag;
-      case 'other':
-      default:
+      default: // Handle other as any value >= 6
         return Icons.category;
     }
   }
 
-  Color getCategoryColor(String category) {
+  Color getCategoryColor(int category) {
     switch (category) {
-      case 'transportation':
+      case transportation:
         return Color.fromARGB(255, 234, 187, 238);
-      case 'food':
+      case food:
         return Color.fromARGB(204, 244, 213, 122);
-      case 'entertainment':
+      case entertainment:
         return Color.fromARGB(235, 167, 168, 236);
-      case 'accommodation':
+      case accommodation:
         return Color.fromARGB(255, 220, 182, 126);
-      case 'shopping':
+      case shopping:
         return Color.fromARGB(255, 249, 161, 161);
-      case 'other':
-      default:
+      default: // Handle other as any value >= 6
         return Color.fromARGB(255, 238, 165, 165);
     }
   }

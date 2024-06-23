@@ -18,7 +18,8 @@ class ThemeButtonLarge extends StatelessWidget {
         ),
       ),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.orange, // Background color of the button
+        backgroundColor:
+            Color.fromARGB(194, 241, 147, 6), // Background color of the button
         foregroundColor: Colors.white, // Text color of the button
         minimumSize: Size(double.infinity, 50),
         shape: RoundedRectangleBorder(

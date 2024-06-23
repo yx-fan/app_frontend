@@ -37,7 +37,7 @@ class _TripCardState extends State<TripCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.trip.name,
+                          widget.trip.tripName,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -121,7 +121,8 @@ class _TripCardState extends State<TripCard> {
                           SizedBox(width: 6),
                           SizedBox(
                             width: 45,
-                            child: Text('${widget.trip.expenses.length}'),
+                            child: Text(
+                                '0'), //${widget.trip.expenses.length} placeholder for now
                           ),
                         ],
                       ),
@@ -144,7 +145,7 @@ class _TripCardState extends State<TripCard> {
                                   ? SizedBox(
                                       width: 45,
                                       child: Text(
-                                        '\$${widget.trip.totalExpense.toStringAsFixed(0)}',
+                                        '0', // \$${widget.trip.totalExpense.toStringAsFixed(0)} placeholder for now
                                         key: ValueKey<bool>(_isTapped),
                                       ),
                                     )
