@@ -60,10 +60,14 @@ class _ExpenseCardState extends State<ExpenseCard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          widget.expense.merchantName,
-                          style: TextStyle(
-                            fontSize: 16,
+                        Expanded(
+                          child: Text(
+                            widget.expense.merchantName,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ),
                         Row(

@@ -20,9 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => TripViewModel()),
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => TripViewModel())],
       child: MaterialApp(
         title: 'Trip Planner',
         initialRoute: '/signup_step1',

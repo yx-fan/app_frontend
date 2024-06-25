@@ -35,11 +35,6 @@ class TripViewModel extends ChangeNotifier {
     return success;
   }
 
-  void addTrip(Trip trip) {
-    _trips.add(trip);
-    notifyListeners();
-  }
-
   void removeTrip(Trip trip) {
     _trips.remove(trip);
     notifyListeners();
