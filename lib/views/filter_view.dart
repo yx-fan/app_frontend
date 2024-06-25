@@ -159,7 +159,7 @@ class _FilterScreenState extends State<FilterScreen> {
       width: double.infinity, // Ensure it takes the available width
       decoration: BoxDecoration(
         color: selectedCategories.contains(category)
-            ? Colors.orange
+            ? Color.fromARGB(194, 241, 147, 6)
             : Colors.white,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
