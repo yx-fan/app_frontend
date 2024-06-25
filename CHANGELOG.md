@@ -1,4 +1,19 @@
 # ChangeLog
+## [1.0.3] - 2024-06-24
+### Added
+- Added User Interface for viewing:
+  - Filter Expenses
+  - Camera View
+  - Creating a trip
+- Under map, each location now shows expense amount when clicking on the pin
+- Trip list view lists actual user data stored in mongoDB
+- Trip expense now lists actual user expense data stored in mongoDB
+- User can now log in, create a trip. When entering trip information, user can navigate back and forth to edit the trip creation details.
+
+### Fixed
+- Navigation bars will now navigate to the corresponding pages instead of hardcoding. 
+
+# ChangeLog
 ## [1.0.2] - 2024-06-16
 ### Added
 - Added User Interface for viewing:
