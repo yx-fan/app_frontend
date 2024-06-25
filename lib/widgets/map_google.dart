@@ -15,7 +15,7 @@ class MapGoogle extends StatelessWidget {
             zoom: 12.0,
           ),
           onMapCreated: (GoogleMapController controller) {
-            // viewModel.fetchReceipts();
+            viewModel.setMapController(controller);
           },
           markers: viewModel.receipts
               .map(
@@ -48,7 +48,7 @@ class MapGoogle extends StatelessWidget {
               icon: const Icon(Icons.my_location),
               onPressed: () {
                 // Handle locate button press
-                // e.g., _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(viewModel.currentLocation.latitude, viewModel.currentLocation.longitude))));
+                viewModel.locateUser();
               },
             ),
           ),
