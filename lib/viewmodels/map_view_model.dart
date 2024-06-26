@@ -12,6 +12,7 @@ class MapViewModel extends ChangeNotifier {
   BuildContext? bottomSheetContext;
   LatLng? _currentLocation = LatLng(37.4223, -122.0848);
   GoogleMapController? _mapController;
+  TextEditingController searchController = TextEditingController();
 
   int _currentIndex = 2;
   int get currentIndex => _currentIndex;
@@ -120,6 +121,11 @@ class MapViewModel extends ChangeNotifier {
       print('Failed to get autocomplete suggestions: $e');
       return [];
     }
+  }
+
+  void updateSearchText(String newText) {
+    searchController.text = newText;
+    notifyListeners();
   }
 
 }

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Trip Planner',
-      initialRoute: '/signup_step1',
+      initialRoute: '/map',
       routes: {
         '/signup_step1': (context) => SignUpStep1View(),
         '/signup_step2': (context) => SignUpStep2View(),

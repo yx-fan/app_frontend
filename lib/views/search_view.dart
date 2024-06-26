@@ -10,7 +10,7 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Location'),
+        title: Text('Navigate to Location'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -26,8 +26,7 @@ class SearchView extends StatelessWidget {
                 }
               },
               onSelected: (String selection) {
-                mapViewModel.searchAndNavigate(selection);
-                Navigator.pop(context);
+                Navigator.pop(context, selection);
               },
               fieldViewBuilder: (BuildContext context,
                   TextEditingController textEditingController,
@@ -36,9 +35,10 @@ class SearchView extends StatelessWidget {
                 return TextField(
                   controller: textEditingController,
                   focusNode: focusNode,
-                  decoration: InputDecoration(
-                    hintText: 'Search',
+                  decoration: const InputDecoration(
+                    hintText: 'Search Location',
                     border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.search, color: Colors.orange,),
                   ),
                   onSubmitted: (String value) {
                     onFieldSubmitted();

@@ -5,7 +5,6 @@ import '../viewmodels/map_view_model.dart';
 import '../widgets/map_google.dart';
 import '../widgets/navigation.dart';
 import '../services/navigation_service.dart';
-import 'search_view.dart';
 
 class MapView extends StatelessWidget {
   @override
@@ -13,40 +12,22 @@ class MapView extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => MapViewModel(),
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: false,
-          // Trip Map View needs 'Go Back" button
-          // leading: Ink(
-          //   decoration: const ShapeDecoration(
-          //     color: Colors.white,
-          //     shape: CircleBorder(),
-          //   ),
-          //   child: IconButton(
-          //     icon: const Icon(Icons.arrow_back),
-          //     onPressed: () => Navigator.of(context).pop(),
-          //   ),
-          // ),
-          title: Text('Map View'),
-          actions: [
-            Consumer<MapViewModel>(
-              builder: (context, viewModel, child) => IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  final viewModel =
-                      Provider.of<MapViewModel>(context, listen: false);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SearchView(mapViewModel: viewModel)),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+        // extendBodyBehindAppBar: true,
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   automaticallyImplyLeading: false,
+        // leading: Ink(
+        //   decoration: const ShapeDecoration(
+        //     color: Colors.white,
+        //     shape: CircleBorder(),
+        //   ),
+        //   child: IconButton(
+        //     icon: const Icon(Icons.arrow_back),
+        //     onPressed: () => Navigator.of(context).pop(),
+        //   ),
+        // ),
+        // title: Text('Map View'),
+        // ),
         body: Builder(builder: (context) {
           Provider.of<MapViewModel>(context, listen: false)
               .setBottomSheetContext(context);
