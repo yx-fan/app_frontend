@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:app_frontend/viewmodels/map_view_model.dart';
 import 'package:provider/provider.dart';
+
+import '../viewmodels/map_view_model.dart';
+import '../views/search_view.dart';
 
 class MapGoogle extends StatelessWidget {
   @override
@@ -15,7 +17,7 @@ class MapGoogle extends StatelessWidget {
             zoom: 12.0,
           ),
           onMapCreated: (GoogleMapController controller) {
-            // viewModel.fetchReceipts();
+            viewModel.setMapController(controller);
           },
           markers: viewModel.receipts
               .map(
@@ -39,18 +41,64 @@ class MapGoogle extends StatelessWidget {
               )
               .toSet(),
         ),
-        Positioned(
-          top: 120,
-          right: 16,
-          child: CircleAvatar(
-            backgroundColor: Colors.white,
-            child: IconButton(
-              icon: const Icon(Icons.my_location),
-              onPressed: () {
-                // Handle locate button press
-                // e.g., _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(viewModel.currentLocation.latitude, viewModel.currentLocation.longitude))));
-              },
+        Positioned( // The Search Bar
+          top: 40,
+          left: 15,
+          right: 15,
+          child: GestureDetector(
+            onTap: () async {
+              final selectedAddress = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SearchView(mapViewModel: viewModel)),
+              );
+              if (selectedAddress != null) {
+                viewModel.updateSearchText(selectedAddress);
+                viewModel.searchAndNavigate(selectedAddress);
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 5.0,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.search, color: Colors.orange),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Consumer<MapViewModel>(
+                      builder: (context, viewModel, child) => Text(
+                        viewModel.searchController.text.isEmpty
+                            ? 'Search location'
+                            : viewModel.searchController.text,
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+          ),
+        ),
+        Positioned(
+          top: 90,
+          right: 15,
+          child: FloatingActionButton.small(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.orange,
+            onPressed: () {
+              viewModel.locateUser();
+            },
+            shape: const CircleBorder(),
+            child: const Icon(Icons.my_location),
           ),
         ),
       ],
