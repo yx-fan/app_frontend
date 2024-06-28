@@ -19,23 +19,23 @@ class MapGoogle extends StatelessWidget {
           onMapCreated: (GoogleMapController controller) {
             viewModel.setMapController(controller);
           },
-          markers: viewModel.receipts
+          markers: viewModel.expenses
               .map(
-                (receipt) => Marker(
-                  markerId: MarkerId(receipt.id),
+                (expense) => Marker(
+                  markerId: MarkerId(expense.id),
                   position: LatLng(
-                    receipt.latitude,
-                    receipt.longitude,
+                    expense.latitude,
+                    expense.longitude,
                   ),
                   icon: BitmapDescriptor.defaultMarkerWithHue(
                     BitmapDescriptor.hueOrange,
                   ),
                   infoWindow: InfoWindow(
-                      title: receipt.name,
-                      snippet: '\$${receipt.amount}' //${receipt.currency},
+                      title: expense.merchantName,
+                      snippet: '\$${expense.amount}' //${expense.currency},
                       ),
                   onTap: () {
-                    viewModel.selectReceipt(receipt);
+                    viewModel.selectExpense(expense);
                   },
                 ),
               )

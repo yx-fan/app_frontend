@@ -1,14 +1,14 @@
-import 'package:app_frontend/widgets/map_receipt.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../models/map_model.dart';
-import '../services/receipt_service.dart';
 import 'package:geolocator/geolocator.dart';
+import '../services/expense_service.dart';
 import '../services/google_places_service.dart';
+import '../models/expense_model.dart';
+import '../widgets/map_expense.dart';
 
 class MapViewModel extends ChangeNotifier {
-  List<Receipt> receipts = [];
-  Receipt? _selectedReceipt;
+  List<Expense> expenses = [];
+  Expense? _selectedExpense;
   BuildContext? bottomSheetContext;
   LatLng? _currentLocation = LatLng(37.4223, -122.0848);
   GoogleMapController? _mapController;
@@ -17,32 +17,32 @@ class MapViewModel extends ChangeNotifier {
   int _currentIndex = 2;
   int get currentIndex => _currentIndex;
 
-  final ReceiptService receiptService = ReceiptService();
+  final ExpenseService expenseService = ExpenseService();
   final GooglePlacesService placesService = GooglePlacesService();
 
   MapViewModel() {
-    fetchReceipts();
+    fetchExpenses();
   }
 
-  Future<void> fetchReceipts() async {
+  Future<void> fetchExpenses() async {
     try {
-      receipts = await receiptService.fetchReceipts();
+      expenses = await expenseService.fetchAllExpenses();
       notifyListeners();
     } catch (e) {
-      print('Failed to load receipts: $e');
+      print('Failed to load expenses: $e');
     }
   }
 
-  Receipt? get selectedReceipt => _selectedReceipt;
+  Expense? get selectedExpense => _selectedExpense;
 
-  void selectReceipt(Receipt receipt) {
-    _selectedReceipt = receipt;
+  void selectExpense(Expense expense) {
+    _selectedExpense = expense;
     notifyListeners();
     showBottomSheet();
   }
 
-  void unselectReceipt() {
-    _selectedReceipt = null;
+  void unselectExpense() {
+    _selectedExpense = null;
     notifyListeners();
     hideBottomSheet();
   }
@@ -52,10 +52,10 @@ class MapViewModel extends ChangeNotifier {
   }
 
   void showBottomSheet() {
-    if (bottomSheetContext != null && selectedReceipt != null) {
+    if (bottomSheetContext != null && selectedExpense != null) {
       showModalBottomSheet(
         context: bottomSheetContext!,
-        builder: (context) => MapReceipt(receipt: selectedReceipt!),
+        builder: (context) => MapExpense(expense: selectedExpense!),
         isScrollControlled: true,
       );
     }
@@ -127,5 +127,4 @@ class MapViewModel extends ChangeNotifier {
     searchController.text = newText;
     notifyListeners();
   }
-
 }

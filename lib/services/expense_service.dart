@@ -28,4 +28,20 @@ class ExpenseService {
       return [];
     }
   }
+
+  Future<List<Expense>> fetchAllExpenses() async {
+    final token = await getToken();
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/v1/expense'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      List<dynamic> data = jsonResponse['data']['expenses'];
+      return data.map((json) => Expense.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load receipts');
+    }
+  }
 }

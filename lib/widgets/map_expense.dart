@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/map_model.dart';
+import '../models/expense_model.dart';
 
-class MapReceipt extends StatelessWidget {
-  final Receipt receipt;
+class MapExpense extends StatelessWidget {
+  final Expense expense;
 
-  MapReceipt({required this.receipt});
+  MapExpense({required this.expense});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MapReceipt extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              receipt.name,
+              expense.merchantName,
               style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
@@ -32,10 +32,10 @@ class MapReceipt extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             Text(
-              '${receipt.date.year}/${receipt.date.month}/${receipt.date.day}',
+              '${expense.date.year}/${expense.date.month}/${expense.date.day}',
             ),
             Text(
-              '\$${receipt.amount}', //${receipt.currency}',
+              '\$${expense.amount}', //${expense.currency}',
             ),
           ],
         ),
