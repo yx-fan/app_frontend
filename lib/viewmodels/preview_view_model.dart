@@ -1,17 +1,22 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../services/receipt_service.dart';
 
 class PreviewViewModel extends ChangeNotifier {
   final String imagePath;
+  final ReceiptService _receiptService = ReceiptService();
+  Map<String, dynamic>? parsedReceipt;
 
   PreviewViewModel({required this.imagePath});
 
   Future<void> uploadImage() async {
-    // Implement the logic to upload the image to the backend and extract expense information
-    // Example:
-    // final response = await http.post(Uri.parse('your_api_endpoint'), body: {
-    //   'image': base64Encode(File(imagePath).readAsBytesSync()),
-    // });
-    // Handle the response and notify listeners if needed
+    try {
+      final response = await _receiptService.uploadReceiptImage(File(imagePath));
+      parsedReceipt = response['data']['parsedReceipt'];
+      notifyListeners();
+    } catch (e) {
+      print('Failed to upload image: $e');
+      notifyListeners();
+    }
   }
 }

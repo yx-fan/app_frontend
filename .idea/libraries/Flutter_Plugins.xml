@@ -27,6 +27,10 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+3" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/image_picker_macos-0.2.1+1" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/camera_android_camerax-0.6.5+6" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_android-4.6.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_web-4.0.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator-12.0.0" />
+      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/geolocator_apple-2.3.7" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
