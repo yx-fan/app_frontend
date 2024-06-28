@@ -1,4 +1,5 @@
 class Expense {
+  final String id;
   final int category;
   final String merchantName;
   final DateTime date;
@@ -10,6 +11,7 @@ class Expense {
   final double latitude;
 
   Expense({
+    required this.id,
     required this.merchantName,
     required this.amount,
     required this.date,
@@ -23,6 +25,7 @@ class Expense {
 
   factory Expense.fromJson(Map<String, dynamic> json) {
     return Expense(
+      id: json['_id'],
       merchantName: json['merchantName'] ?? '',
       amount: (json['amount'] ?? 0).toDouble(),
       date: DateTime.parse(json['date']),
