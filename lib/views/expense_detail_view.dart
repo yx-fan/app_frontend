@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/expense_model.dart';
-import '../widgets/theme_button_small.dart'; // 导入 ThemeButtonSmall
+import '../viewmodels/trip_expense_view_model.dart';
+import '../widgets/theme_button_small.dart';
 
 class ExpenseDetailView extends StatefulWidget {
   final Expense expense;
@@ -25,15 +27,6 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
   late TextEditingController _descriptionController;
   late int _selectedCategory;
 
-  static final _categoryMap = {
-    1: "Transportation",
-    2: "Food",
-    3: "Entertainment",
-    4: "Accommodation",
-    5: "Shopping",
-    6: "Other"
-  };
-
   @override
   void initState() {
     super.initState();
@@ -57,13 +50,14 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<TripExpenseViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Text('Details'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context); // 返回上一页
           },
         ),
       ),
@@ -95,7 +89,7 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
               decoration: InputDecoration(
                 labelText: 'Category',
               ),
-              items: _categoryMap.entries.map((entry) {
+              items: viewModel.categoryMap.entries.map((entry) {
                 return DropdownMenuItem<int>(
                   value: entry.key,
                   child: Text(entry.value),
@@ -170,8 +164,35 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
               children: [
                 if (widget.isDeletable)
                   TextButton(
-                    onPressed: () {
-                      // Handle delete action
+                    onPressed: () async {
+                      bool confirmed = await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Confirm Delete'),
+                            content: Text('Are you sure you want to delete this expense?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(false); // 返回 false 表示不删除
+                                },
+                                child: Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(true); // 返回 true 表示确认删除
+                                },
+                                child: Text('Delete'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      if (confirmed) {
+                        await viewModel.deleteExpense(widget.expense.id);
+                        Navigator.pop(context, true); // 返回上一页，传递 true 以触发刷新
+                      }
                     },
                     child: Text(
                       'Delete expense',
@@ -181,8 +202,21 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                 Spacer(),
                 ThemeButtonSmall(
                   text: 'Save changes',
-                  onPressed: () {
-                    // Handle save changes
+                  onPressed: () async {
+                    final updatedExpense = Expense(
+                      id: widget.expense.id,
+                      merchantName: _merchantController.text,
+                      date: DateTime.parse(_dateController.text),
+                      amount: double.parse(_amountController.text),
+                      location: _locationController.text,
+                      description: _descriptionController.text,
+                      category: _selectedCategory,
+                      postalCode: widget.expense.postalCode, // Use original value
+                      latitude: widget.expense.latitude, // Use original value
+                      longitude: widget.expense.longitude, // Use original value
+                    );
+                    await viewModel.saveChanges(widget.expense, updatedExpense);
+                    Navigator.pop(context, updatedExpense); // 返回修改后的 expense 对象
                   },
                 ),
               ],

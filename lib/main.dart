@@ -9,6 +9,7 @@ import 'views/map_view.dart';
 import 'views/receipt_camera_view.dart';
 import 'views/profile_view.dart';
 import 'viewmodels/trip_view_model.dart';
+import 'viewmodels/trip_expense_view_model.dart'; // 导入 TripExpenseViewModel
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +21,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => TripViewModel())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => TripViewModel()),
+        ChangeNotifierProvider(create: (_) => TripExpenseViewModel(tripId: 'initialTripId')),
+      ],
       child: MaterialApp(
         title: 'Trip Planner',
         initialRoute: '/signup_step1',
