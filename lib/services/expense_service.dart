@@ -24,7 +24,6 @@ class ExpenseService {
       return Expense.fromJsonList(data);
     } else {
       print('Response status code: ${response.statusCode}');
-      print('token is: ${token}');
       return [];
     }
   }
@@ -42,6 +41,39 @@ class ExpenseService {
       return data.map((json) => Expense.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load receipts');
+    }
+  }
+
+  Future<Expense> updateExpense(String expenseId, Map<String, dynamic> updates) async {
+    final token = await getToken();
+    final response = await http.patch(
+      Uri.parse('$baseUrl/api/v1/expense/$expenseId'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(updates),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body)['data'];
+      return Expense.fromJson(data);
+    } else {
+      throw Exception('Failed to update expense in service');
+    }
+  }
+
+  Future<void> deleteExpense(String expenseId) async {
+    final token = await getToken();
+    final response = await http.delete(
+      Uri.parse('$baseUrl/api/v1/expense/$expenseId'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete expense');
     }
   }
 }

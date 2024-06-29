@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/expense_model.dart';
 import '../widgets/category_icons.dart';
-import '../views/expense_detail_view.dart'; // 导入 ExpenseDetailView
+import '../views/expense_detail_view.dart';
+import '../viewmodels/trip_expense_view_model.dart';
 
 class ExpenseCard extends StatefulWidget {
   final Expense expense;
   final void Function(bool) onStarred;
   final bool isStarred;
+  final void Function(Expense) onUpdate;
 
   ExpenseCard({
     required this.expense,
     required this.onStarred,
     required this.isStarred,
+    required this.onUpdate,
   });
 
   @override
@@ -30,24 +34,28 @@ class _ExpenseCardState extends State<ExpenseCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        final updatedExpense = await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ExpenseDetailView(
-              expense: widget.expense, // 直接传递 Expense 对象
-              isEditable: true, // 根据需要设置是否可编辑
-              isDeletable: true, // 根据需要设置是否可删除
+              expense: widget.expense,
+              isEditable: true,
+              isDeletable: true,
             ),
           ),
         );
+        if (updatedExpense != null) {
+          widget.onUpdate(updatedExpense);
+        }
       },
       child: Card(
-        color: Color.fromARGB(255, 251, 247, 244), // Light orange background
+        color: Color.fromARGB(255, 251, 247, 244),
         shape: RoundedRectangleBorder(
           side: BorderSide(
-              color: Color.fromARGB(255, 244, 216, 174),
-              width: 0.5), // Orange border
+            color: Color.fromARGB(255, 244, 216, 174),
+            width: 0.5,
+          ),
           borderRadius: BorderRadius.circular(8),
         ),
         margin: EdgeInsets.symmetric(vertical: 3, horizontal: 18),
@@ -56,13 +64,12 @@ class _ExpenseCardState extends State<ExpenseCard> {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundColor:
-                CategoryIcons().getCategoryColor(widget.expense.category),
-                radius: 28, // Adjust the radius for larger size
+                backgroundColor: CategoryIcons().getCategoryColor(widget.expense.category),
+                radius: 28,
                 child: Icon(
                   CategoryIcons().getCategoryIcon(widget.expense.category),
                   color: Colors.white,
-                  size: 18, // Adjust the size of the category icon
+                  size: 18,
                 ),
               ),
               SizedBox(width: 16),
@@ -77,9 +84,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                           Expanded(
                             child: Text(
                               widget.expense.merchantName,
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
+                              style: TextStyle(fontSize: 16),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -88,26 +93,24 @@ class _ExpenseCardState extends State<ExpenseCard> {
                             children: [
                               Text(
                                 '\$${widget.expense.amount.toStringAsFixed(0)}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
+                                style: TextStyle(fontSize: 16),
                               ),
                               IconButton(
-                                icon: Icon(Icons.chevron_right,
-                                    size:
-                                    24), // Adjust the size of the arrow icon
-                                onPressed: () {
-                                  // Navigate to expense details page
-                                  Navigator.push(
+                                icon: Icon(Icons.chevron_right, size: 24),
+                                onPressed: () async {
+                                  final updatedExpense = await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => ExpenseDetailView(
-                                        expense: widget.expense, // 直接传递 Expense 对象
+                                        expense: widget.expense,
                                         isEditable: true,
                                         isDeletable: true,
                                       ),
                                     ),
                                   );
+                                  if (updatedExpense != null) {
+                                    widget.onUpdate(updatedExpense);
+                                  }
                                 },
                               ),
                             ],
@@ -122,18 +125,13 @@ class _ExpenseCardState extends State<ExpenseCard> {
                         children: [
                           Text(
                             '${widget.expense.date.toLocal()}'.split(' ')[0],
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                            ),
+                            style: TextStyle(color: Colors.grey, fontSize: 14),
                           ),
                           IconButton(
                             icon: Icon(
                               isStarred ? Icons.favorite : Icons.favorite_border,
-                              color: isStarred
-                                  ? Color.fromARGB(194, 241, 147, 6)
-                                  : Color.fromARGB(194, 241, 147, 6),
-                              size: 24, // Adjust the size of the heart icon
+                              color: isStarred ? Color.fromARGB(194, 241, 147, 6) : Color.fromARGB(194, 241, 147, 6),
+                              size: 24,
                             ),
                             onPressed: () {
                               setState(() {
