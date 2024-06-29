@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => LoginScreen(),
           '/tripView': (context) => TripListView(),
           '/map': (context) => MapView(tripID: 'all',),
+          '/receipt_camera': (context) => ReceiptCameraPage(),
           '/profile': (context) => ProfileView(),
         },
       ),

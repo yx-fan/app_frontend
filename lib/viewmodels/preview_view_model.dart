@@ -4,11 +4,10 @@ import '../services/receipt_service.dart';
 
 class PreviewViewModel extends ChangeNotifier {
   final String imagePath;
-  final String tripId; // 添加 tripId
   final ReceiptService _receiptService = ReceiptService();
   Map<String, dynamic>? parsedReceipt;
 
-  PreviewViewModel({required this.imagePath, required this.tripId}); // 更新构造函数
+  PreviewViewModel({required this.imagePath});
 
   Future<void> uploadImage() async {
     try {

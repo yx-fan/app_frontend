@@ -44,31 +44,6 @@ class ExpenseService {
     }
   }
 
-  Future<Expense> createExpense(String tripId, Map<String, dynamic> expenseData) async {
-    print(tripId);
-    print(expenseData);
-    final token = await getToken();
-    final response = await http.post(
-      Uri.parse('$baseUrl/api/v1/expense/$tripId'),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(expenseData),
-    );
-    print(response.statusCode);
-    print(jsonDecode(response.body));
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
-      final Map<String, dynamic> data = responseData['data']['expense'];
-      return Expense.fromJson(data);
-    } else {
-      print('Failed to create expense: ${response.body}');
-      throw Exception('Failed to create expense');
-    }
-  }
-
   Future<Expense> updateExpense(String expenseId, Map<String, dynamic> updates) async {
     final token = await getToken();
     final response = await http.patch(

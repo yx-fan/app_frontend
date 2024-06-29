@@ -21,13 +21,14 @@ class ReceiptService {
       ..files.add(await http.MultipartFile.fromPath('receipt', imageFile.path));
 
     final response = await request.send();
-    final responseBody = await http.Response.fromStream(response);
-    final decodedResponse = jsonDecode(responseBody.body);
 
     if (response.statusCode == 200) {
-      return decodedResponse;
+      final responseBody = await http.Response.fromStream(response);
+      return jsonDecode(responseBody.body);
     } else {
+      print('Failed to upload image');
       throw Exception('Failed to upload image');
     }
   }
+
 }

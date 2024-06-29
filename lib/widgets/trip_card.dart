@@ -1,8 +1,6 @@
+import 'package:app_frontend/views/map_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../views/map_view.dart';
 import '../views/trip_expense_view.dart';
-import '../views/receipt_camera_view.dart'; // 导入 ReceiptCameraPage
 import "../models/trip_model.dart";
 import '../widgets/theme_button_small.dart';
 
@@ -59,12 +57,7 @@ class _TripCardState extends State<TripCard> {
                     icon: Icon(Icons.camera_alt),
                     onPressed: () {
                       // Implement camera functionality
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ReceiptCameraPage(tripId: widget.trip.tripId), // 传递 tripId
-                        ),
-                      );
+                      Navigator.pushNamed(context, '/receipt_camera');
                     },
                   ),
                 ],
@@ -110,7 +103,8 @@ class _TripCardState extends State<TripCard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TripExpenseView(trip: widget.trip),
+                              builder: (context) =>
+                                  TripExpenseView(trip: widget.trip),
                             ),
                           );
                         },
@@ -141,22 +135,24 @@ class _TripCardState extends State<TripCard> {
                         },
                         child: Row(
                           children: [
-                            Icon(_isTapped ? Icons.visibility : Icons.visibility_off),
+                            Icon(_isTapped
+                                ? Icons.visibility
+                                : Icons.visibility_off),
                             SizedBox(width: 6),
                             AnimatedSwitcher(
                               duration: Duration(milliseconds: 300),
                               child: _isTapped
                                   ? SizedBox(
-                                width: 45,
-                                child: Text(
-                                  '0', // \$${widget.trip.totalExpense.toStringAsFixed(0)} placeholder for now
-                                  key: ValueKey<bool>(_isTapped),
-                                ),
-                              )
+                                      width: 45,
+                                      child: Text(
+                                        '0', // \$${widget.trip.totalExpense.toStringAsFixed(0)} placeholder for now
+                                        key: ValueKey<bool>(_isTapped),
+                                      ),
+                                    )
                                   : SizedBox(
-                                width: 45,
-                                key: ValueKey<bool>(_isTapped),
-                              ),
+                                      width: 45,
+                                      key: ValueKey<bool>(_isTapped),
+                                    ),
                             ),
                           ],
                         ),
