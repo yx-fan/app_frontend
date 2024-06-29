@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/expense_model.dart';
 import '../viewmodels/trip_expense_view_model.dart';
-import '../widgets/theme_button_small.dart'; // 导入 ThemeButtonSmall
+import '../widgets/theme_button_small.dart';
 
 class ExpenseDetailView extends StatefulWidget {
   final Expense expense;
@@ -26,22 +26,16 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
   late TextEditingController _locationController;
   late TextEditingController _descriptionController;
   late int _selectedCategory;
-  late TextEditingController _postalCodeController; // 新增
-  late TextEditingController _latitudeController; // 新增
-  late TextEditingController _longitudeController; // 新增
 
   @override
   void initState() {
     super.initState();
-    _merchantController = TextEditingController(text: widget.expense.merchantName ?? '');
+    _merchantController = TextEditingController(text: widget.expense.merchantName);
     _dateController = TextEditingController(text: widget.expense.date.toIso8601String());
     _amountController = TextEditingController(text: widget.expense.amount.toString());
-    _locationController = TextEditingController(text: widget.expense.location ?? '');
-    _descriptionController = TextEditingController(text: widget.expense.description ?? '');
+    _locationController = TextEditingController(text: widget.expense.location);
+    _descriptionController = TextEditingController(text: widget.expense.description);
     _selectedCategory = widget.expense.category;
-    _postalCodeController = TextEditingController(text: widget.expense.postalCode ?? ''); // 初始化
-    _latitudeController = TextEditingController(text: widget.expense.latitude.toString()); // 初始化
-    _longitudeController = TextEditingController(text: widget.expense.longitude.toString()); // 初始化
   }
 
   @override
@@ -51,9 +45,6 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
     _amountController.dispose();
     _locationController.dispose();
     _descriptionController.dispose();
-    _postalCodeController.dispose(); // 释放资源
-    _latitudeController.dispose(); // 释放资源
-    _longitudeController.dispose(); // 释放资源
     super.dispose();
   }
 
@@ -174,8 +165,34 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                 if (widget.isDeletable)
                   TextButton(
                     onPressed: () async {
-                      await viewModel.deleteExpense(widget.expense.id);
-                      Navigator.pop(context, true); // Return to the previous page and trigger refresh
+                      bool confirmed = await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Confirm Delete'),
+                            content: Text('Are you sure you want to delete this expense?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(false); // 返回 false 表示不删除
+                                },
+                                child: Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(true); // 返回 true 表示确认删除
+                                },
+                                child: Text('Delete'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                      if (confirmed) {
+                        await viewModel.deleteExpense(widget.expense.id);
+                        Navigator.pop(context, true); // 返回上一页，传递 true 以触发刷新
+                      }
                     },
                     child: Text(
                       'Delete expense',
