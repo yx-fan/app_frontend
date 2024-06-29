@@ -7,27 +7,15 @@ import '../widgets/navigation.dart';
 import '../services/navigation_service.dart';
 
 class MapView extends StatelessWidget {
+  final String tripID;
+
+  MapView({required this.tripID});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MapViewModel(),
+      create: (_) => MapViewModel(tripID: tripID),
       child: Scaffold(
-        // extendBodyBehindAppBar: true,
-        // appBar: AppBar(
-        //   backgroundColor: Colors.transparent,
-        //   automaticallyImplyLeading: false,
-        // leading: Ink(
-        //   decoration: const ShapeDecoration(
-        //     color: Colors.white,
-        //     shape: CircleBorder(),
-        //   ),
-        //   child: IconButton(
-        //     icon: const Icon(Icons.arrow_back),
-        //     onPressed: () => Navigator.of(context).pop(),
-        //   ),
-        // ),
-        // title: Text('Map View'),
-        // ),
         body: Builder(builder: (context) {
           Provider.of<MapViewModel>(context, listen: false)
               .setBottomSheetContext(context);
@@ -37,18 +25,20 @@ class MapView extends StatelessWidget {
             ],
           );
         }),
-        bottomNavigationBar: Consumer<MapViewModel>(
-          builder: (context, mapViewModel, child) {
-            return Navigation(
-              currentIndex: mapViewModel.currentIndex,
-              onTap: (index) {
-                mapViewModel.changeTab(index);
-                NavigationService.navigateToPage(
-                    context, index); // Use navigation service
-              },
-            );
-          },
-        ),
+        bottomNavigationBar: tripID != 'all'
+            ? null
+            : Consumer<MapViewModel>(
+                builder: (context, mapViewModel, child) {
+                  return Navigation(
+                    currentIndex: mapViewModel.currentIndex,
+                    onTap: (index) {
+                      mapViewModel.changeTab(index);
+                      NavigationService.navigateToPage(
+                          context, index); // Use navigation service
+                    },
+                  );
+                },
+              ),
       ),
     );
   }

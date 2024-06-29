@@ -9,13 +9,24 @@ class MapGoogle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MapViewModel>(context);
+
+    CameraPosition initialCameraPosition = const CameraPosition(
+      target: LatLng(37.7749, -122.4194), // Default position (San Francisco)
+      zoom: 12.0,
+    );
+
+    if (viewModel.expenses.isNotEmpty) {
+      final firstReceipt = viewModel.expenses.first;
+      initialCameraPosition = CameraPosition(
+        target: LatLng(firstReceipt.latitude, firstReceipt.longitude),
+        zoom: 12.0,
+      );
+    }
+
     return Stack(
       children: [
         GoogleMap(
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(37.7749, -122.4194),
-            zoom: 12.0,
-          ),
+          initialCameraPosition: initialCameraPosition,
           onMapCreated: (GoogleMapController controller) {
             viewModel.setMapController(controller);
           },
@@ -41,15 +52,17 @@ class MapGoogle extends StatelessWidget {
               )
               .toSet(),
         ),
-        Positioned( // The Search Bar
+        Positioned(
+          // The Search Bar
           top: 40,
-          left: 15,
+          left: viewModel.tripID == 'all' ? 15 : 65,
           right: 15,
           child: GestureDetector(
             onTap: () async {
               final selectedAddress = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SearchView(mapViewModel: viewModel)),
+                MaterialPageRoute(
+                    builder: (context) => SearchView(mapViewModel: viewModel)),
               );
               if (selectedAddress != null) {
                 viewModel.updateSearchText(selectedAddress);
@@ -57,7 +70,8 @@ class MapGoogle extends StatelessWidget {
               }
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
@@ -101,6 +115,21 @@ class MapGoogle extends StatelessWidget {
             child: const Icon(Icons.my_location),
           ),
         ),
+        if (viewModel.tripID != 'all') ...[
+          Positioned(
+            top: 36,
+            left: 15,
+            child: FloatingActionButton.small(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.orange,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              shape: const CircleBorder(),
+              child: const Icon(Icons.arrow_back),
+            ),
+          )
+        ],
       ],
     );
   }

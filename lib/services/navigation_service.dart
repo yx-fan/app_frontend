@@ -18,7 +18,7 @@ class NavigationService {
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MapView()),
+          MaterialPageRoute(builder: (context) => MapView(tripID: 'all',)),
         );
         break;
       case 3:

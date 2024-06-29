@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           '/signup_step2': (context) => SignUpStep2View(),
           '/login': (context) => LoginScreen(),
           '/tripView': (context) => TripListView(),
-          '/map': (context) => MapView(),
+          '/map': (context) => MapView(tripID: 'all',),
           '/receipt_camera': (context) => ReceiptCameraPage(),
           '/profile': (context) => ProfileView(),
         },

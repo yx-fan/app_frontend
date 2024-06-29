@@ -91,7 +91,7 @@ class _TripCardState extends State<TripCard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MapView(),
+                              builder: (context) => MapView(tripID: widget.trip.tripId,),
                             ),
                           );
                         },
