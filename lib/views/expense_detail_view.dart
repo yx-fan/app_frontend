@@ -175,7 +175,7 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                   TextButton(
                     onPressed: () async {
                       await viewModel.deleteExpense(widget.expense.id);
-                      Navigator.pop(context, true); // 返回上一页，传递 true 以触发刷新
+                      Navigator.pop(context, true); // Return to the previous page and trigger refresh
                     },
                     child: Text(
                       'Delete expense',
