@@ -75,7 +75,104 @@ if (environment == "prod") {
                 minifyEnabled false
                 shrinkResources false
             } else if (environment == "dev") {
-                signingConfig signingConfigs.debug
+                signingConfig signiapply plugin: 'com.android.application'
+                apply plugin: 'kotlin-android'
+                apply plugin: 'dev.flutter.flutter-gradle-plugin'
+
+                def localProperties = new Properties()
+                def localPropertiesFile = rootProject.file('local.properties')
+                if (localPropertiesFile.exists()) {
+                    localPropertiesFile.withReader('UTF-8') { reader ->
+                        localProperties.load(reader)
+                    }
+                }
+
+                def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+                if (flutterVersionCode == null) {
+                    flutterVersionCode = '1'
+                }
+
+                def flutterVersionName = localProperties.getProperty('flutter.versionName')
+                if (flutterVersionName == null) {
+                    flutterVersionName = '1.0'
+                }
+
+                def environment = System.getenv('environment')
+                if (environment == null) {
+                    environment = 'dev' // default environment
+                }
+
+                def keystoreProperties = new Properties()
+                if (environment == "prod") {
+                    def keystorePropertiesFile = file('key.properties')
+                    if (keystorePropertiesFile.exists()) {
+                        keystorePropertiesFile.withReader('UTF-8') { reader ->
+                            keystoreProperties.load(reader)
+                        }
+                        println "Loaded keystore properties:"
+                        println "keyAlias: ${keystoreProperties['keyAlias']}"
+                        println "storeFile: ${keystoreProperties['storeFile']}"
+                    } else {
+                        println "keystorePropertiesFile does not exist: ${keystorePropertiesFile}"
+                    }
+                }
+
+                android {
+                    namespace = 'pro.travelexpense.app'  // 修改为新包名
+                    compileSdkVersion 34
+
+                    compileOptions {
+                        sourceCompatibility JavaVersion.VERSION_1_8
+                        targetCompatibility JavaVersion.VERSION_1_8
+                    }
+
+                    defaultConfig {
+                        applicationId 'pro.travelexpense.app'  // 修改为新包名
+                        minSdkVersion flutter.minSdkVersion
+                        targetSdkVersion 34
+                        versionCode flutterVersionCode.toInteger()
+                        versionName flutterVersionName
+                    }
+
+                    if (environment == "prod") {
+                        signingConfigs {
+                            release {
+                                keyAlias keystoreProperties['keyAlias']
+                                keyPassword keystoreProperties['keyPassword']
+                                storeFile file(keystoreProperties['storeFile'])
+                                storePassword keystoreProperties['storePassword']
+                            }
+                        }
+                    }
+
+                    buildTypes {
+                        release {
+                            if (environment == "prod") {
+                                signingConfig signingConfigs.release
+                                minifyEnabled false
+                                shrinkResources false
+                            } else if (environment == "dev") {
+                                signingConfig signingConfigs.debug
+                            }
+                        }
+                    }
+                }
+
+                flutter {
+                    source = '../..'
+                }
+
+                dependencies {
+                    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+                    implementation 'androidx.core:core-ktx:1.6.0'
+                    implementation 'androidx.appcompat:appcompat:1.3.1'
+                    implementation 'com.google.android.material:material:1.4.0'
+                    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+                    testImplementation 'junit:junit:4.13.2'
+                    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+                    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+                }
+                ngConfigs.debug
             }
         }
     }
