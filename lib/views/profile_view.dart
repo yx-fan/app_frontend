@@ -68,18 +68,6 @@ class ProfileView extends StatelessWidget {
             );
           },
         ),
-        bottomNavigationBar: Consumer<ProfileViewModel>(
-          builder: (context, model, child) {
-            return Navigation(
-              currentIndex: model.currentIndex,
-              onTap: (index) {
-                model.changeTab(index);
-                // 这里可以添加导航逻辑，例如：
-                NavigationService.navigateToPage(context, index);
-              },
-            );
-          },
-        ),
       ),
     );
   }

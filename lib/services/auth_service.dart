@@ -1,11 +1,25 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class AuthService {
+class AuthService extends ChangeNotifier {
   final String baseUrl = dotenv.env['API_BASE_URL']!;
   final _storage = FlutterSecureStorage();
+
+  bool _isLoggedIn = false;
+
+  bool get isLoggedIn => _isLoggedIn;
+
+  AuthService() {
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    _isLoggedIn = await checkTokenExists();
+    notifyListeners();
+  }
 
   // Send verification email
   Future<bool> sendVerificationEmail(String email) async {
@@ -50,6 +64,8 @@ class AuthService {
       if (response.statusCode == 200) {
         String token = jsonDecode(response.body)['data']['token'];
         await _storage.write(key: 'token', value: token);
+        _isLoggedIn = true;
+        notifyListeners();
         return true;
       } else {
         print('register error: ${response.statusCode} - ${response.body}');
@@ -78,6 +94,8 @@ class AuthService {
       if (response.statusCode == 200) {
         String token = jsonDecode(response.body)['data']['token'];
         await _storage.write(key: 'token', value: token);
+        _isLoggedIn = true;
+        notifyListeners();
         return true;
       } else {
         print('login error: ${response.statusCode} - ${response.body}');
@@ -97,5 +115,12 @@ class AuthService {
       print('checkTokenExists exception: $e');
       return false;
     }
+  }
+
+  // User logout
+  Future<void> logout() async {
+    await _storage.delete(key: 'token');
+    _isLoggedIn = false;
+    notifyListeners();
   }
 }

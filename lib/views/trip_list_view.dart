@@ -92,18 +92,6 @@ class _TripListViewState extends State<TripListView> {
                 );
         },
       ),
-      bottomNavigationBar: Consumer<TripViewModel>(
-        builder: (context, tripViewModel, child) {
-          return Navigation(
-            currentIndex: tripViewModel.currentIndex,
-            onTap: (index) {
-              tripViewModel.changeTab(index);
-              NavigationService.navigateToPage(
-                  context, index); // Use navigation service
-            },
-          );
-        },
-      ),
     );
   }
 }
