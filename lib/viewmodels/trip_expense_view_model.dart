@@ -9,7 +9,7 @@ class TripExpenseViewModel extends ChangeNotifier {
   List<Expense> _starredExpenses = [];
   List<String> _categories = [];
 
-  final Map<int, String> _categoryMap = { // 改为非静态变量
+  final Map<int, String> _categoryMap = {
     1: "Transportation",
     2: "Food",
     3: "Entertainment",
@@ -21,7 +21,7 @@ class TripExpenseViewModel extends ChangeNotifier {
   List<Expense> get starredExpenses => _starredExpenses;
   List<Expense> get expenses => _categories.isNotEmpty ? _filteredExpenses : _expenses;
   List<Expense> get filteredExpenses => _filteredExpenses;
-  Map<int, String> get categoryMap => _categoryMap; // 添加 getter 访问器
+  Map<int, String> get categoryMap => _categoryMap;
 
   TripExpenseViewModel({required String tripId}) {
     fetchExpenseDetails(tripId);
@@ -32,7 +32,6 @@ class TripExpenseViewModel extends ChangeNotifier {
       _expenses = await _expenseService.fetchExpenses(tripId);
       notifyListeners();
     } catch (e) {
-      // Handle error
       print("Failed to load trip details: $e");
     }
   }
@@ -40,8 +39,7 @@ class TripExpenseViewModel extends ChangeNotifier {
   void filterAndSortExpenses(List<String> categories, String sortOption) {
     _categories = categories;
     _filteredExpenses = _expenses.where((expense) {
-      return categories.isEmpty ||
-          categories.contains(_categoryMap[expense.category]);
+      return categories.isEmpty || categories.contains(_categoryMap[expense.category]);
     }).toList();
 
     if (sortOption == 'Newest') {
@@ -73,32 +71,30 @@ class TripExpenseViewModel extends ChangeNotifier {
 
   Future<void> saveChanges(Expense originalExpense, Expense updatedExpense) async {
     try {
-      // 创建一个 map 来存储需要更新的字段
       final updates = <String, dynamic>{};
 
       if (originalExpense.merchantName != updatedExpense.merchantName) {
-        updates['merchantName'] = updatedExpense.merchantName ?? '';
+        updates['merchantName'] = updatedExpense.merchantName;
       }
       if (originalExpense.date != updatedExpense.date) {
         updates['date'] = updatedExpense.date.toIso8601String();
       }
       if (originalExpense.amount != updatedExpense.amount) {
-        updates['amount'] = updatedExpense.amount ?? 0.0;
+        updates['amount'] = updatedExpense.amount;
       }
       if (originalExpense.location != updatedExpense.location) {
-        updates['location'] = updatedExpense.location ?? '';
+        updates['location'] = updatedExpense.location;
       }
       if (originalExpense.description != updatedExpense.description) {
-        updates['description'] = updatedExpense.description ?? '';
+        updates['description'] = updatedExpense.description;
       }
       if (originalExpense.category != updatedExpense.category) {
-        updates['category'] = updatedExpense.category ?? 6;
+        updates['category'] = updatedExpense.category;
       }
 
-      // Update to database only any field changes
       if (updates.isNotEmpty) {
         final response = await _expenseService.updateExpense(updatedExpense.id, updates);
-        updateExpense(response); // update local data
+        updateExpense(response);
       }
     } catch (e) {
       print('Failed to update expense: $e');
@@ -111,8 +107,17 @@ class TripExpenseViewModel extends ChangeNotifier {
       _expenses.removeWhere((expense) => expense.id == expenseId);
       notifyListeners();
     } catch (e) {
-      // Handle error
       print('Failed to delete expense: $e');
+    }
+  }
+
+  Future<void> createExpense(String tripId, Map<String, dynamic> expenseData) async {
+    try {
+      final expense = await _expenseService.createExpense(tripId, expenseData);
+      _expenses.add(expense);
+      notifyListeners();
+    } catch (e) {
+      print('Failed to create expense: $e');
     }
   }
 }

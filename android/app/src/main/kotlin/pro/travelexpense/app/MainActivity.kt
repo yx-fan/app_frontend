@@ -1,4 +1,4 @@
-package com.example.app_frontend
+package pro.travelexpense.app  // 修改为新包名
 
 import android.Manifest
 import android.content.pm.PackageManager

@@ -4,6 +4,10 @@ import 'preview_view.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ReceiptCameraPage extends StatelessWidget {
+  final String tripId; // 添加 tripId
+
+  ReceiptCameraPage({required this.tripId}); // 更新构造函数
+
   @override
   Widget build(BuildContext context) {
     return CameraView(
@@ -14,7 +18,7 @@ class ReceiptCameraPage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PreviewView(imagePath: picture.path),
+            builder: (context) => PreviewView(imagePath: picture.path, tripId: tripId), // 传递 tripId
           ),
         );
       },

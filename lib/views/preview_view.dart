@@ -2,18 +2,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/preview_view_model.dart';
-import 'expense_detail_view.dart';
+import 'create_expense_view.dart'; // 导入 CreateExpenseView
 import '../models/expense_model.dart'; // 导入 Expense 模型
 
 class PreviewView extends StatelessWidget {
   final String imagePath;
+  final String tripId; // 添加 tripId
 
-  PreviewView({required this.imagePath});
+  PreviewView({required this.imagePath, required this.tripId}); // 更新构造函数
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => PreviewViewModel(imagePath: imagePath),
+      create: (_) => PreviewViewModel(imagePath: imagePath, tripId: tripId), // 传递 tripId
       child: Scaffold(
         appBar: AppBar(
           title: Text('Preview'),
@@ -38,20 +39,18 @@ class PreviewView extends StatelessWidget {
                       onPressed: () async {
                         await previewViewModel.uploadImage();
                         if (previewViewModel.parsedReceipt != null) {
-                          // 假设 parsedReceipt 已经是一个 Expense 对象
-                          Expense expense = Expense.fromJson(previewViewModel.parsedReceipt!);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ExpenseDetailView(
-                                expense: expense,
-                                isEditable: true, // 根据需要设置是否可编辑
-                                isDeletable: false, // 根据需要设置是否可删除
+                              builder: (context) => CreateExpenseView(
+                                imagePath: imagePath, // 传递图像路径
+                                receiptData: previewViewModel.parsedReceipt!, // 传递解析后的数据
+                                tripId: tripId, // 传递 tripId
                               ),
                             ),
                           );
                         } else {
-                          // Handle upload failure
+                          // 处理上传失败的情况
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Failed to upload receipt')),
                           );
