@@ -1,8 +1,6 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'dev.flutter.flutter-gradle-plugin'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'dev.flutter.flutter-gradle-plugin'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -22,18 +20,24 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-// Load the key.properties file
-def keystorePropertiesFile = file('key.properties') // 确保从当前目录加载文件
+def environment = System.getenv('environment')
+if (environment == null) {
+    environment = 'dev' // default environment
+}
+
 def keystoreProperties = new Properties()
-if (keystorePropertiesFile.exists()) {
-    keystorePropertiesFile.withReader('UTF-8') { reader ->
-        keystoreProperties.load(reader)
+if (environment == "prod") {
+    def keystorePropertiesFile = file('key.properties')
+    if (keystorePropertiesFile.exists()) {
+        keystorePropertiesFile.withReader('UTF-8') { reader ->
+            keystoreProperties.load(reader)
+        }
+        println "Loaded keystore properties:"
+        println "keyAlias: ${keystoreProperties['keyAlias']}"
+        println "storeFile: ${keystoreProperties['storeFile']}"
+    } else {
+        println "keystorePropertiesFile does not exist: ${keystorePropertiesFile}"
     }
-    println "Loaded keystore properties:"
-    println "keyAlias: ${keystoreProperties['keyAlias']}"
-    println "storeFile: ${keystoreProperties['storeFile']}"
-} else {
-    println "keystorePropertiesFile does not exist: ${keystorePropertiesFile}"
 }
 
 android {
@@ -53,6 +57,7 @@ android {
         versionName flutterVersionName
     }
 
+if (environment == "prod") {
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
@@ -61,12 +66,17 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+}
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
-            minifyEnabled false
-            shrinkResources false
+            if (environment == "prod") {
+                signingConfig signingConfigs.release
+                minifyEnabled false
+                shrinkResources false
+            } else if (environment == "dev") {
+                signingConfig signingConfigs.debug
+            }
         }
     }
 }

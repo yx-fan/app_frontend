@@ -125,6 +125,8 @@ class _FilterScreenState extends State<FilterScreen> {
         dense: true, // Make the RadioListTile more compact
         contentPadding: EdgeInsets.zero, // Remove internal padding
         visualDensity: VisualDensity.compact, // Adjust visual density
+        activeColor:
+            Color.fromARGB(194, 241, 147, 6), // Set the active color to orange
         title: Text(title, style: TextStyle(fontSize: 16)), // Reduce font size
         value: title,
         groupValue: sortOption,
