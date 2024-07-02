@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../viewmodels/map_view_model.dart';
 import '../widgets/map_google.dart';
-import '../widgets/navigation.dart';
-import '../services/navigation_service.dart';
 
 class MapView extends StatelessWidget {
   final String tripID;
@@ -25,20 +23,6 @@ class MapView extends StatelessWidget {
             ],
           );
         }),
-        bottomNavigationBar: tripID != 'all'
-            ? null
-            : Consumer<MapViewModel>(
-                builder: (context, mapViewModel, child) {
-                  return Navigation(
-                    currentIndex: mapViewModel.currentIndex,
-                    onTap: (index) {
-                      mapViewModel.changeTab(index);
-                      NavigationService.navigateToPage(
-                          context, index); // Use navigation service
-                    },
-                  );
-                },
-              ),
       ),
     );
   }

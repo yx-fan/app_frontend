@@ -16,95 +16,96 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Consumer<LoginViewModel>(
               builder: (context, viewModel, child) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/login_icon.png',
-                      height: 100,
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Sign in to ExpenseTrack',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/login_icon.png',
+                        height: 100,
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text('Welcome back to manage your expenses'),
-                    const SizedBox(height: 20),
-                    TextField(
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Sign in to ExpenseTrack',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      onChanged: (value) {
-                        viewModel.email = value;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      decoration: const InputDecoration(
-                        labelText: 'Password',
-                      ),
-                      obscureText: true,
-                      onChanged: (value) {
-                        viewModel.password = value;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    if (viewModel.isLoading)
-                      const CircularProgressIndicator()
-                    else
-                      ThemeButtonLarge(
-                        text: 'Log in',
-                        onPressed: () async {
-                          bool success = await viewModel.login();
-                          if (success) {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, '/tripView', (route) => false);
-                          }
+                      const SizedBox(height: 10),
+                      const Text('Welcome back to manage your expenses'),
+                      const SizedBox(height: 20),
+                      TextField(
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                        ),
+                        onChanged: (value) {
+                          viewModel.email = value;
                         },
                       ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: false,
-                              onChanged: (value) {},
-                            ),
-                            const Text('Remember me'),
-                          ],
+                      const SizedBox(height: 10),
+                      TextField(
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
                         ),
-                        TextButton(
-                          onPressed: () {
-                            // Handle forgot password
-                          },
-                          child: const Text('Forgot your password?'),
-                        ),
-                      ],
-                    ),
-                    if (viewModel.errorMessage.isNotEmpty)
-                      Text(
-                        viewModel.errorMessage,
-                        style: const TextStyle(color: Colors.red),
+                        obscureText: true,
+                        onChanged: (value) {
+                          viewModel.password = value;
+                        },
                       ),
-                    const SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signup_step1');
-                      },
-                      child: const Text('Create an account to start tracking'),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                        'Terms of Service | Privacy Policy | Contact Us'),
-                    const SizedBox(height: 10),
-                    const Text('© 2024 ExpenseTrack'),
-                  ],
+                      const SizedBox(height: 20),
+                      if (viewModel.isLoading)
+                        const CircularProgressIndicator()
+                      else
+                        ThemeButtonLarge(
+                          text: 'Log in',
+                          onPressed: () async {
+                            bool success = await viewModel.login();
+                            if (success) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, '/tripView', (route) => false);
+                            }
+                          },
+                        ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: false,
+                                onChanged: (value) {},
+                              ),
+                              const Text('Remember me'),
+                            ],
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // Handle forgot password
+                            },
+                            child: const Text('Forgot your password?'),
+                          ),
+                        ],
+                      ),
+                      if (viewModel.errorMessage.isNotEmpty)
+                        Text(
+                          viewModel.errorMessage,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      const SizedBox(height: 20),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/signup_step1');
+                        },
+                        child: const Text('Create an account to start tracking'),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text('Terms of Service | Privacy Policy | Contact Us'),
+                      const SizedBox(height: 10),
+                      const Text('© 2024 ExpenseTrack'),
+                    ],
+                  ),
                 );
               },
             ),
