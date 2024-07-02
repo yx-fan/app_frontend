@@ -1,3 +1,4 @@
+import 'package:app_frontend/viewmodels/currency_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => TripViewModel()),
-        ChangeNotifierProvider(create: (_) => TripExpenseViewModel(tripId: 'initialTripId')),
+        ChangeNotifierProvider(create: (_) => TripExpenseViewModel()),
+        ChangeNotifierProvider(create: (_) => CurrencyViewModel()),
       ],
       child: MaterialApp(
         title: 'Trip Planner',
@@ -33,7 +35,9 @@ class MyApp extends StatelessWidget {
           '/signup_step2': (context) => SignUpStep2View(),
           '/login': (context) => LoginScreen(),
           '/tripView': (context) => TripListView(),
-          '/map': (context) => MapView(tripID: 'all',),
+          '/map': (context) => MapView(
+                tripID: 'all',
+              ),
           '/profile': (context) => ProfileView(),
         },
       ),

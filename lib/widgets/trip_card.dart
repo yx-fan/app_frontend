@@ -1,3 +1,4 @@
+import 'package:app_frontend/viewmodels/currency_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../views/map_view.dart';
@@ -21,6 +22,8 @@ class _TripCardState extends State<TripCard> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<CurrencyViewModel>(context, listen: false);
+    String currency = viewModel.currencies[widget.trip.currencyId] ?? "USD";
     return Container(
       height: 350,
       child: Card(
@@ -62,7 +65,8 @@ class _TripCardState extends State<TripCard> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ReceiptCameraPage(tripId: widget.trip.tripId), // 传递 tripId
+                          builder: (context) => ReceiptCameraPage(
+                              tripId: widget.trip.tripId), // 传递 tripId
                         ),
                       );
                     },
@@ -98,7 +102,9 @@ class _TripCardState extends State<TripCard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MapView(tripID: widget.trip.tripId,),
+                              builder: (context) => MapView(
+                                tripID: widget.trip.tripId,
+                              ),
                             ),
                           );
                         },
@@ -110,14 +116,15 @@ class _TripCardState extends State<TripCard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TripExpenseView(trip: widget.trip),
+                              builder: (context) =>
+                                  TripExpenseView(trip: widget.trip),
                             ),
                           );
                         },
                       ),
                     ],
                   ),
-                  Spacer(),
+                  SizedBox(width: 100),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -127,8 +134,7 @@ class _TripCardState extends State<TripCard> {
                           SizedBox(width: 6),
                           SizedBox(
                             width: 45,
-                            child: Text(
-                                '0'), //${widget.trip.expenses.length} placeholder for now
+                            child: Text('${widget.trip.totalCnt}'),
                           ),
                         ],
                       ),
@@ -141,22 +147,27 @@ class _TripCardState extends State<TripCard> {
                         },
                         child: Row(
                           children: [
-                            Icon(_isTapped ? Icons.visibility : Icons.visibility_off),
+                            Icon(_isTapped
+                                ? Icons.visibility
+                                : Icons.visibility_off),
                             SizedBox(width: 6),
                             AnimatedSwitcher(
                               duration: Duration(milliseconds: 300),
                               child: _isTapped
                                   ? SizedBox(
-                                width: 45,
-                                child: Text(
-                                  '0', // \$${widget.trip.totalExpense.toStringAsFixed(0)} placeholder for now
-                                  key: ValueKey<bool>(_isTapped),
-                                ),
-                              )
+                                      width: 45,
+                                      child: Text(
+                                        '${widget.trip.totalAmt.round()}',
+                                        key: ValueKey<bool>(_isTapped),
+                                      ),
+                                    )
                                   : SizedBox(
-                                width: 45,
-                                key: ValueKey<bool>(_isTapped),
-                              ),
+                                      width: 45,
+                                      child: Text(
+                                        currency,
+                                        key: ValueKey<bool>(_isTapped),
+                                      ),
+                                    ),
                             ),
                           ],
                         ),

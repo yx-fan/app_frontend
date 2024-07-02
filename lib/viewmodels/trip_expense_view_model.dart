@@ -8,6 +8,7 @@ class TripExpenseViewModel extends ChangeNotifier {
   List<Expense> _expenses = [];
   List<Expense> _starredExpenses = [];
   List<String> _categories = [];
+  String _tripId = "";
 
   final Map<int, String> _categoryMap = {
     1: "Transportation",
@@ -19,17 +20,18 @@ class TripExpenseViewModel extends ChangeNotifier {
   };
 
   List<Expense> get starredExpenses => _starredExpenses;
-  List<Expense> get expenses => _categories.isNotEmpty ? _filteredExpenses : _expenses;
+  List<Expense> get expenses =>
+      _categories.isNotEmpty ? _filteredExpenses : _expenses;
   List<Expense> get filteredExpenses => _filteredExpenses;
   Map<int, String> get categoryMap => _categoryMap;
+  String get tripId => _tripId;
 
-  TripExpenseViewModel({required String tripId}) {
-    fetchExpenseDetails(tripId);
-  }
+  TripExpenseViewModel() {}
 
   Future<void> fetchExpenseDetails(String tripId) async {
     try {
       _expenses = await _expenseService.fetchExpenses(tripId);
+      _tripId = tripId;
       notifyListeners();
     } catch (e) {
       print("Failed to load trip details: $e");
@@ -39,7 +41,8 @@ class TripExpenseViewModel extends ChangeNotifier {
   void filterAndSortExpenses(List<String> categories, String sortOption) {
     _categories = categories;
     _filteredExpenses = _expenses.where((expense) {
-      return categories.isEmpty || categories.contains(_categoryMap[expense.category]);
+      return categories.isEmpty ||
+          categories.contains(_categoryMap[expense.category]);
     }).toList();
 
     if (sortOption == 'Newest') {
@@ -62,14 +65,16 @@ class TripExpenseViewModel extends ChangeNotifier {
   }
 
   void updateExpense(Expense updatedExpense) {
-    int index = _expenses.indexWhere((expense) => expense.id == updatedExpense.id);
+    int index =
+        _expenses.indexWhere((expense) => expense.id == updatedExpense.id);
     if (index != -1) {
       _expenses[index] = updatedExpense;
       notifyListeners();
     }
   }
 
-  Future<void> saveChanges(Expense originalExpense, Expense updatedExpense) async {
+  Future<void> saveChanges(
+      Expense originalExpense, Expense updatedExpense) async {
     try {
       final updates = <String, dynamic>{};
 
@@ -93,7 +98,8 @@ class TripExpenseViewModel extends ChangeNotifier {
       }
 
       if (updates.isNotEmpty) {
-        final response = await _expenseService.updateExpense(updatedExpense.id, updates);
+        final response =
+            await _expenseService.updateExpense(updatedExpense.id, updates);
         updateExpense(response);
       }
     } catch (e) {
@@ -111,7 +117,8 @@ class TripExpenseViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> createExpense(String tripId, Map<String, dynamic> expenseData) async {
+  Future<void> createExpense(
+      String tripId, Map<String, dynamic> expenseData) async {
     try {
       final expense = await _expenseService.createExpense(tripId, expenseData);
       _expenses.add(expense);

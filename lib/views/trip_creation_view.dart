@@ -2,7 +2,9 @@ import 'package:app_frontend/widgets/theme_button_small.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import '../viewmodels/trip_view_model.dart';
+import '../viewmodels/currency_view_model.dart';
 import '../views/image_select_view.dart';
 
 class TripCreationView extends StatefulWidget {
@@ -26,6 +28,7 @@ class _TripCreationViewState extends State<TripCreationView> {
   Color _startDateColor = Colors.grey;
   Color _endDateColor = Colors.grey;
   bool _datesSelected = false;
+  String _selectedCurrency = 'USD';
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class _TripCreationViewState extends State<TripCreationView> {
         title: Text('Create a Trip'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => {Navigator.pop(context)},
+          onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Center(
@@ -131,6 +134,45 @@ class _TripCreationViewState extends State<TripCreationView> {
                           _tripDescription = value!;
                         },
                       ),
+                    ),
+                    SizedBox(height: 30),
+                    Consumer<CurrencyViewModel>(
+                      builder: (context, currencyViewModel, child) {
+                        return Material(
+                          elevation: 4,
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 2, vertical: 2),
+                            child: DropdownSearch<String>(
+                              items:
+                                  currencyViewModel.currencies.values.toList(),
+                              selectedItem: _selectedCurrency,
+                              dropdownDecoratorProps: DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  labelText: "Select Currency",
+                                  border: InputBorder.none,
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                ),
+                              ),
+                              popupProps: PopupProps.menu(
+                                showSearchBox: true,
+                                fit: FlexFit.loose,
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedCurrency = value!;
+                                });
+                              },
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     SizedBox(height: 30),
                     Align(
@@ -262,6 +304,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                               _startDate,
                               _endDate,
                               _tripDescription,
+                              _selectedCurrency,
                             );
                             if (success) {
                               Navigator.pop(context,

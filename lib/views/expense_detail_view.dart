@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/expense_model.dart';
 import '../viewmodels/trip_expense_view_model.dart';
 import '../widgets/theme_button_small.dart';
+import '../viewmodels/trip_view_model.dart';
 
 class ExpenseDetailView extends StatefulWidget {
   final Expense expense;
@@ -26,16 +27,22 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
   late TextEditingController _locationController;
   late TextEditingController _descriptionController;
   late int _selectedCategory;
+  double _oldAmt = 0;
 
   @override
   void initState() {
     super.initState();
-    _merchantController = TextEditingController(text: widget.expense.merchantName);
-    _dateController = TextEditingController(text: widget.expense.date.toIso8601String());
-    _amountController = TextEditingController(text: widget.expense.amount.toString());
+    _merchantController =
+        TextEditingController(text: widget.expense.merchantName);
+    _dateController =
+        TextEditingController(text: widget.expense.date.toIso8601String());
+    _amountController =
+        TextEditingController(text: widget.expense.amount.toString());
     _locationController = TextEditingController(text: widget.expense.location);
-    _descriptionController = TextEditingController(text: widget.expense.description);
+    _descriptionController =
+        TextEditingController(text: widget.expense.description);
     _selectedCategory = widget.expense.category;
+    _oldAmt = widget.expense.amount;
   }
 
   @override
@@ -51,6 +58,8 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<TripExpenseViewModel>(context, listen: false);
+    final tripViewModel = Provider.of<TripViewModel>(context, listen: false);
+    String currTripID = viewModel.tripId;
     return Scaffold(
       appBar: AppBar(
         title: Text('Details'),
@@ -97,10 +106,10 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
               }).toList(),
               onChanged: widget.isEditable
                   ? (value) {
-                setState(() {
-                  _selectedCategory = value!;
-                });
-              }
+                      setState(() {
+                        _selectedCategory = value!;
+                      });
+                    }
                   : null,
             ),
             SizedBox(height: 10),
@@ -128,7 +137,8 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
               readOnly: !widget.isEditable,
             ),
             SizedBox(height: 20),
-            Text('Receipt', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text('Receipt',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
             Row(
               children: [
@@ -170,17 +180,20 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text('Confirm Delete'),
-                            content: Text('Are you sure you want to delete this expense?'),
+                            content: Text(
+                                'Are you sure you want to delete this expense?'),
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop(false); // 返回 false 表示不删除
+                                  Navigator.of(context)
+                                      .pop(false); // 返回 false 表示不删除
                                 },
                                 child: Text('Cancel'),
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop(true); // 返回 true 表示确认删除
+                                  Navigator.of(context)
+                                      .pop(true); // 返回 true 表示确认删除
                                 },
                                 child: Text('Delete'),
                               ),
@@ -191,6 +204,7 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
 
                       if (confirmed) {
                         await viewModel.deleteExpense(widget.expense.id);
+                        tripViewModel.updateCnt(currTripID, 0, _oldAmt);
                         Navigator.pop(context, true); // 返回上一页，传递 true 以触发刷新
                       }
                     },
@@ -211,11 +225,14 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                       location: _locationController.text,
                       description: _descriptionController.text,
                       category: _selectedCategory,
-                      postalCode: widget.expense.postalCode, // Use original value
+                      postalCode:
+                          widget.expense.postalCode, // Use original value
                       latitude: widget.expense.latitude, // Use original value
                       longitude: widget.expense.longitude, // Use original value
                     );
                     await viewModel.saveChanges(widget.expense, updatedExpense);
+                    tripViewModel.updateAmt(currTripID, _oldAmt,
+                        double.parse(_amountController.text));
                     Navigator.pop(context, updatedExpense); // 返回修改后的 expense 对象
                   },
                 ),

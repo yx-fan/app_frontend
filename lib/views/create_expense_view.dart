@@ -2,17 +2,23 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/trip_expense_view_model.dart';
+import '../viewmodels/trip_view_model.dart';
 
 class CreateExpenseView extends StatelessWidget {
   final String imagePath;
   final Map<String, dynamic> receiptData;
   final String tripId; // 添加 tripId 以便创建费用
 
-  CreateExpenseView({required this.imagePath, required this.receiptData, required this.tripId});
+  CreateExpenseView(
+      {required this.imagePath,
+      required this.receiptData,
+      required this.tripId});
 
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<TripExpenseViewModel>(context, listen: false);
+    final tripViewModel = Provider.of<TripViewModel>(context, listen: false);
+    double amt = 0;
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Expense'),
@@ -50,7 +56,11 @@ class CreateExpenseView extends StatelessWidget {
                   TextFormField(
                     initialValue: receiptData['amount']?.toString() ?? '',
                     decoration: InputDecoration(labelText: 'Amount'),
-                    onChanged: (value) => receiptData['amount'] = value,
+                    onChanged: (value) {
+                      receiptData['amount'] = value;
+                      amt = double.tryParse(value) ?? 0.0;
+                      tripViewModel.updateCnt(tripId, 1, amt);
+                    },
                   ),
                   SizedBox(height: 10),
                   TextFormField(
@@ -85,7 +95,8 @@ class CreateExpenseView extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     await viewModel.createExpense(tripId, receiptData);
-                    Navigator.popUntil(context, ModalRoute.withName('/tripView')); // 回到 trip 主页面
+                    Navigator.popUntil(context,
+                        ModalRoute.withName('/tripView')); // 回到 trip 主页面
                   },
                   child: Text('Create'),
                 ),

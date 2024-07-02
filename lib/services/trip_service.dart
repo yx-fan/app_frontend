@@ -30,7 +30,7 @@ class TripService {
   }
 
   Future<bool> createTrip(String tripName, DateTime startDate, DateTime endDate,
-      String description) async {
+      String description, String selectedCurrency) async {
     try {
       final token = await getToken();
       final response = await http.post(
@@ -44,6 +44,7 @@ class TripService {
           'startDate': startDate.toIso8601String(),
           'endDate': endDate.toIso8601String(),
           'description': description,
+          'currencyCode': selectedCurrency,
         }),
       );
 
