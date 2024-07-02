@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'views/inbox_view.dart';
 import 'views/signup_step1_view.dart';
 import 'views/signup_step2_view.dart';
 import 'views/login_view.dart';
@@ -58,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
     TripListView(),
     StarScreen(), // 假设你有一个 StarScreen 页面
     MapView(tripID: 'all'),
-    InboxScreen(), // 假设你有一个 InboxScreen 页面
+    InboxView(),
     ProfileView(),
   ];
 
@@ -92,20 +93,6 @@ class StarScreen extends StatelessWidget {
       ),
       body: Center(
         child: Text('Star Screen'),
-      ),
-    );
-  }
-}
-
-class InboxScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Inbox'),
-      ),
-      body: Center(
-        child: Text('Inbox Screen'),
       ),
     );
   }
