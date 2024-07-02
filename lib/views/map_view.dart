@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../viewmodels/map_view_model.dart';
 import '../widgets/map_google.dart';
-import '../widgets/navigation.dart';
-import '../services/navigation_service.dart';
 
 class MapView extends StatelessWidget {
   final String tripID;
