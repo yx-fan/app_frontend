@@ -37,8 +37,8 @@ class Trip {
         imageUrl: json.containsKey('imageUrl') && json['imageUrl'] != null
             ? json['imageUrl']
             : "assets/trip_img0.jpg",
-        totalAmt: 0,
-        totalCnt: 0);
+        totalAmt: (json['totalAmount'] ?? 0.0).toDouble(),
+        totalCnt: (json['totalNumberOfExpenses'] ?? 0.0).toInt());
   }
 
   static List<Trip> fromJsonList(List<dynamic> jsonList) {

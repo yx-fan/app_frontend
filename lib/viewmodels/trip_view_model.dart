@@ -1,12 +1,9 @@
 import 'package:app_frontend/services/trip_service.dart';
 import 'package:flutter/material.dart';
 import '../models/trip_model.dart';
-import '../services/expense_service.dart';
-import '../models/expense_model.dart';
 
 class TripViewModel extends ChangeNotifier {
   final TripService _tripService = TripService();
-  final ExpenseService _expenseService = ExpenseService();
   List<Trip> _trips = [];
   int _currentIndex = 0;
 
@@ -20,19 +17,6 @@ class TripViewModel extends ChangeNotifier {
   Future<void> fetchTrips() async {
     try {
       _trips = await _tripService.fetchTrips();
-
-      for (var trip in _trips) {
-        String tripId = trip.tripId;
-        List<Expense> _expenseLst = await _expenseService.fetchExpenses(tripId);
-        double amt = 0;
-        int cnt = 0;
-        for (var i in _expenseLst) {
-          amt += i.amount;
-          cnt += 1;
-        }
-        trip.totalAmt = amt;
-        trip.totalCnt = cnt;
-      }
 
       notifyListeners();
     } catch (e) {
