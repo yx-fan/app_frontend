@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/trip_model.dart';
 import '../widgets/expense_card.dart';
 import '../viewmodels/trip_expense_view_model.dart';
+import '../viewmodels/star_view_model.dart';
 import '../views/filter_view.dart';
 
 class TripExpenseView extends StatefulWidget {
@@ -18,10 +19,14 @@ class _TripExpenseViewState extends State<TripExpenseView> {
   List<String> selectedCategories = [];
   String sortOption = 'Newest';
 
+  late Future<void> _fetchExpensesFuture;
+
   @override
   void initState() {
     super.initState();
-    Provider.of<TripExpenseViewModel>(context, listen: false).fetchExpenseDetails(widget.trip.tripId);
+    _fetchExpensesFuture =
+        Provider.of<TripExpenseViewModel>(context, listen: false)
+            .fetchExpenseDetails(widget.trip.tripId);
   }
 
   @override
@@ -47,7 +52,8 @@ class _TripExpenseViewState extends State<TripExpenseView> {
                   selectedCategories = filterCriteria['selectedCategories'];
                   sortOption = filterCriteria['sortOption'];
                 });
-                Provider.of<TripExpenseViewModel>(context, listen: false).filterAndSortExpenses(
+                Provider.of<TripExpenseViewModel>(context, listen: false)
+                    .filterAndSortExpenses(
                   selectedCategories,
                   sortOption,
                 );
@@ -56,46 +62,63 @@ class _TripExpenseViewState extends State<TripExpenseView> {
           ),
         ],
       ),
-      body: Consumer<TripExpenseViewModel>(
-        builder: (context, viewModel, child) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Past Expenses',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+      body: FutureBuilder<void>(
+        future: _fetchExpensesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error loading expenses'));
+          } else {
+            return Consumer2<TripExpenseViewModel, StarViewModel>(
+              builder: (context, tripExpenseViewModel, starViewModel, child) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 18),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Past Expenses',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: viewModel.expenses.length,
-                  itemBuilder: (context, index) {
-                    final expense = viewModel.filteredExpenses.isNotEmpty
-                        ? viewModel.filteredExpenses[index]
-                        : viewModel.expenses[index];
-                    return ExpenseCard(
-                      expense: expense,
-                      onStarred: (isStarred) {
-                        viewModel.toggleStarredExpense(expense);
-                      },
-                      isStarred: viewModel.starredExpenses.contains(expense),
-                      onUpdate: (updatedExpense) {
-                        viewModel.updateExpense(updatedExpense);
-                      },
-                    );
-                  },
-                ),
-              ),
-            ],
-          );
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount:
+                            tripExpenseViewModel.filteredExpenses.isNotEmpty
+                                ? tripExpenseViewModel.filteredExpenses.length
+                                : tripExpenseViewModel.expenses.length,
+                        itemBuilder: (context, index) {
+                          final expense =
+                              tripExpenseViewModel.filteredExpenses.isNotEmpty
+                                  ? tripExpenseViewModel.filteredExpenses[index]
+                                  : tripExpenseViewModel.expenses[index];
+                          return ExpenseCard(
+                            expense: expense,
+                            onStarred: (isStarred) {
+                              starViewModel.toggleStarredExpense(
+                                  widget.trip.tripId, expense);
+                            },
+                            onUpdate: (updatedExpense) {
+                              tripExpenseViewModel
+                                  .updateExpense(updatedExpense);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         },
       ),
     );

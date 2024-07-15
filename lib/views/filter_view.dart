@@ -50,6 +50,8 @@ class _FilterScreenState extends State<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Filters'),
@@ -73,11 +75,11 @@ class _FilterScreenState extends State<FilterScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 0.02 * screenHeight),
             _buildCategoryRow(['Transportation', 'Food']),
             _buildCategoryRow(['Entertainment', 'Accommodation']),
             _buildCategoryRow(['Shopping', 'Other']),
-            SizedBox(height: 20),
+            SizedBox(height: 0.02 * screenHeight),
             Text(
               'Sort',
               style: TextStyle(
@@ -92,9 +94,7 @@ class _FilterScreenState extends State<FilterScreen> {
                 _buildRadioListTile('Amount: High to Low'),
               ],
             ),
-            SizedBox(
-              height: 100,
-            ),
+            SizedBox(height: 0.2 * screenHeight),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

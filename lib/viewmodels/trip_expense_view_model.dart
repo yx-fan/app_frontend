@@ -6,7 +6,6 @@ class TripExpenseViewModel extends ChangeNotifier {
   final ExpenseService _expenseService = ExpenseService();
   List<Expense> _filteredExpenses = [];
   List<Expense> _expenses = [];
-  List<Expense> _starredExpenses = [];
   List<String> _categories = [];
   String _tripId = "";
 
@@ -19,7 +18,6 @@ class TripExpenseViewModel extends ChangeNotifier {
     6: "Other"
   };
 
-  List<Expense> get starredExpenses => _starredExpenses;
   List<Expense> get expenses =>
       _categories.isNotEmpty ? _filteredExpenses : _expenses;
   List<Expense> get filteredExpenses => _filteredExpenses;
@@ -31,6 +29,8 @@ class TripExpenseViewModel extends ChangeNotifier {
   Future<void> fetchExpenseDetails(String tripId) async {
     try {
       _expenses = await _expenseService.fetchExpenses(tripId);
+      _filteredExpenses = _expenses;
+      _filteredExpenses.sort((a, b) => b.date.compareTo(a.date));
       _tripId = tripId;
       notifyListeners();
     } catch (e) {
@@ -51,15 +51,6 @@ class TripExpenseViewModel extends ChangeNotifier {
       _filteredExpenses.sort((a, b) => a.amount.compareTo(b.amount));
     } else if (sortOption == 'Amount: High to Low') {
       _filteredExpenses.sort((a, b) => b.amount.compareTo(a.amount));
-    }
-    notifyListeners();
-  }
-
-  void toggleStarredExpense(Expense expense) {
-    if (_starredExpenses.contains(expense)) {
-      _starredExpenses.remove(expense);
-    } else {
-      _starredExpenses.add(expense);
     }
     notifyListeners();
   }

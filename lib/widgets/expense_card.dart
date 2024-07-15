@@ -8,13 +8,11 @@ import '../viewmodels/trip_expense_view_model.dart';
 class ExpenseCard extends StatefulWidget {
   final Expense expense;
   final void Function(bool) onStarred;
-  final bool isStarred;
   final void Function(Expense) onUpdate;
 
   ExpenseCard({
     required this.expense,
     required this.onStarred,
-    required this.isStarred,
     required this.onUpdate,
   });
 
@@ -28,7 +26,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
   @override
   void initState() {
     super.initState();
-    isStarred = widget.isStarred;
+    isStarred = widget.expense.starred;
   }
 
   @override
@@ -64,7 +62,8 @@ class _ExpenseCardState extends State<ExpenseCard> {
           child: Row(
             children: [
               CircleAvatar(
-                backgroundColor: CategoryIcons().getCategoryColor(widget.expense.category),
+                backgroundColor:
+                    CategoryIcons().getCategoryColor(widget.expense.category),
                 radius: 28,
                 child: Icon(
                   CategoryIcons().getCategoryIcon(widget.expense.category),
@@ -124,13 +123,17 @@ class _ExpenseCardState extends State<ExpenseCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${widget.expense.date.toLocal()}'.split(' ')[0],
+                            '${widget.expense.date}'.split(' ')[0],
                             style: TextStyle(color: Colors.grey, fontSize: 14),
                           ),
                           IconButton(
                             icon: Icon(
-                              isStarred ? Icons.favorite : Icons.favorite_border,
-                              color: isStarred ? Color.fromARGB(194, 241, 147, 6) : Color.fromARGB(194, 241, 147, 6),
+                              isStarred
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: isStarred
+                                  ? Color.fromARGB(194, 241, 147, 6)
+                                  : Color.fromARGB(194, 241, 147, 6),
                               size: 24,
                             ),
                             onPressed: () {

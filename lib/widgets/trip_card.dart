@@ -24,6 +24,7 @@ class _TripCardState extends State<TripCard> {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<CurrencyViewModel>(context, listen: false);
     String currency = viewModel.currencies[widget.trip.currencyId] ?? "USD";
+
     return Container(
       height: 350,
       child: Card(
@@ -73,58 +74,59 @@ class _TripCardState extends State<TripCard> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
-              AspectRatio(
-                aspectRatio: 16 / 8,
+              SizedBox(height: 8),
+              Container(
+                height: 200, // Set a specific height for the image
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
-                  child: Image(
-                    image: ResizeImage(
-                      AssetImage(widget.trip.imageUrl),
-                      width: 933, // Adjust to the required width
-                      height: 466, // Adjust to the required height
-                    ),
+                  child: Image.asset(
+                    widget.trip.imageUrl,
                     width: double.infinity,
-                    height: 150,
+                    height: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 8),
               Row(
                 children: [
-                  Row(
-                    children: [
-                      ThemeButtonSmall(
-                        text: 'Map',
-                        onPressed: () {
-                          // Implement map functionality
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MapView(
-                                tripID: widget.trip.tripId,
+                  Flexible(
+                    child: Row(
+                      children: [
+                        ThemeButtonSmall(
+                          text: 'Map',
+                          onPressed: () {
+                            // Implement map functionality
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MapView(
+                                  tripID: widget.trip.tripId,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(width: 8),
-                      ThemeButtonSmall(
-                        text: 'Details',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  TripExpenseView(trip: widget.trip),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                            );
+                          },
+                        ),
+                        SizedBox(width: 8),
+                        ThemeButtonSmall(
+                          text: 'Details',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  print("Current Trip");
+                                  print(widget.trip.tripName);
+                                  return TripExpenseView(trip: widget.trip);
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(width: 100),
+                  SizedBox(width: 8),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
