@@ -4,7 +4,7 @@ import '../models/expense_model.dart';
 class MapExpense extends StatelessWidget {
   final Expense expense;
 
-  MapExpense({required this.expense});
+  const MapExpense({super.key, required this.expense});
 
   @override
   Widget build(BuildContext context) {

@@ -10,7 +10,7 @@ class InboxView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Inbox'),
-          centerTitle: true,
+          // centerTitle: true,
         ),
         body: Consumer<InboxViewModel>(
           builder: (context, viewModel, child) {

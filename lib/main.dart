@@ -72,7 +72,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     TripListView(),
     StarScreen(), // Assume you have a StarScreen page
-    MapView(tripID: 'all'),
+    MapView(),
     InboxView(),
     ProfileView(),
   ];

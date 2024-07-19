@@ -7,36 +7,14 @@ import '../models/expense_model.dart';
 import '../widgets/map_expense.dart';
 
 class MapViewModel extends ChangeNotifier {
-  final String tripID;
-
-  MapViewModel({required this.tripID}) {
-    initialize();
-  }
-
-  List<Expense> expenses = [];
   Expense? _selectedExpense;
   BuildContext? bottomSheetContext;
   LatLng? _currentLocation;
   GoogleMapController? _mapController;
   TextEditingController searchController = TextEditingController();
 
-  int _currentIndex = 2;
-  int get currentIndex => _currentIndex;
-
   final ExpenseService expenseService = ExpenseService();
   final GooglePlacesService placesService = GooglePlacesService();
-
-  Future<void> initialize() async {
-    print('initialize called');
-    try {
-      expenses = tripID == 'all'
-          ? await expenseService.fetchAllExpenses()
-          : await expenseService.fetchExpenses(tripID);
-    } catch (e) {
-      print('Failed to load expenses: $e');
-    }
-    notifyListeners();
-  }
 
   Expense? get selectedExpense => _selectedExpense;
 
@@ -70,11 +48,6 @@ class MapViewModel extends ChangeNotifier {
     if (bottomSheetContext != null) {
       Navigator.of(bottomSheetContext!).pop();
     }
-  }
-
-  void changeTab(int index) {
-    _currentIndex = index;
-    notifyListeners();
   }
 
   void setMapController(GoogleMapController controller) {
