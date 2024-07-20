@@ -1,5 +1,8 @@
 import 'package:app_frontend/widgets/theme_button_large.dart';
 import 'package:flutter/material.dart';
+import 'camera_view.dart';
+import 'package:image_picker/image_picker.dart';
+import 'trip_picture_preview_view.dart';
 
 class ImageSelectionView extends StatelessWidget {
   final Function(String) onImageSelected;
@@ -31,7 +34,7 @@ class ImageSelectionView extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       onImageSelected(imagePath);
-                      Navigator.pop(context);
+                      Navigator.pop(context, imagePath);
                     },
                     child: Image(
                       image: ResizeImage(
@@ -50,14 +53,86 @@ class ImageSelectionView extends StatelessWidget {
               alignment: Alignment.center,
               child: ThemeButtonLarge(
                 text: 'Upload from Camera',
-                onPressed: () {
-                  // Implement image upload from camera
+                onPressed: () async {
+                  // Navigate to CameraView
+                  final XFile? picture = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CameraView(
+                        title: "Upload Trip Page",
+                        captureIcon: Icons.camera,
+                        overlay: _buildOverlay(),
+                        onPictureTaken: (XFile picture) {
+                          Navigator.pop(context, picture);
+                        },
+                      ),
+                    ),
+                  );
+                  if (picture != null) {
+                    // Navigate to TripPicturePreviewView
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TripPicturePreviewView(
+                          imagePath: picture.path,
+                          onRetake: () async {
+                            // Handle retake, navigate back to CameraView
+                            final XFile? retakenPicture = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CameraView(
+                                  title: "Retake Trip Page",
+                                  captureIcon: Icons.camera,
+                                  overlay: _buildOverlay(),
+                                  onPictureTaken: (XFile picture) {
+                                    Navigator.pop(context, picture);
+                                  },
+                                ),
+                              ),
+                            );
+                            if (retakenPicture != null) {
+                              Navigator.pop(context, retakenPicture.path);
+                            }
+                          },
+                        ),
+                      ),
+                    );
+                    if (result != null) {
+                      onImageSelected(result);
+                      Navigator.pop(context, result);
+                    }
+                  }
                 },
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildOverlay() {
+    return Stack(
+      children: [
+        Positioned(
+          left: 20,
+          top: 0,
+          bottom: 0,
+          child: Container(
+            width: 20,
+            color: Colors.white.withOpacity(0.5),
+          ),
+        ),
+        Positioned(
+          right: 20,
+          top: 0,
+          bottom: 0,
+          child: Container(
+            width: 20,
+            color: Colors.white.withOpacity(0.5),
+          ),
+        ),
+      ],
     );
   }
 }

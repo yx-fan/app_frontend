@@ -6,6 +6,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import '../viewmodels/trip_view_model.dart';
 import '../viewmodels/currency_view_model.dart';
 import '../views/image_select_view.dart';
+import 'dart:io';
 
 class TripCreationView extends StatefulWidget {
   @override
@@ -50,8 +51,8 @@ class _TripCreationViewState extends State<TripCreationView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      final selectedImage = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ImageSelectionView(
@@ -63,10 +64,18 @@ class _TripCreationViewState extends State<TripCreationView> {
                           ),
                         ),
                       );
+                      if (selectedImage != null) {
+                        setState(() {
+                          _tripImageUrl = selectedImage;
+                          print("image url is ${_tripImageUrl}");
+                        });
+                      }
                     },
                     child: CircleAvatar(
                       radius: 100, // Make the CircleAvatar larger
-                      backgroundImage: AssetImage(_tripImageUrl),
+                      backgroundImage: _tripImageUrl.startsWith('assets')
+                          ? AssetImage(_tripImageUrl) as ImageProvider
+                          : FileImage(File(_tripImageUrl)),
                       child: Icon(
                         size: 40,
                         Icons.camera_alt,
