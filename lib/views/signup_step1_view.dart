@@ -12,6 +12,7 @@ class SignUpStep1View extends StatefulWidget {
 }
 
 class _SignUpStep1ViewState extends State<SignUpStep1View> {
+  final _formKey = GlobalKey<FormState>();
   Timer? _timer;
   int _start = 60;
   bool _isButtonDisabled = false;
@@ -39,6 +40,27 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
   void dispose() {
     _timer?.cancel();
     super.dispose();
+  }
+
+  bool validateEmail(String value) {
+    if (value.isEmpty) {
+      showErrorSnackBar('Please enter your email');
+      return false;
+    }
+    final regex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!regex.hasMatch(value)) {
+      showErrorSnackBar('Please enter a valid email address');
+      return false;
+    }
+    return true;
+  }
+
+  void showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   @override
@@ -99,18 +121,20 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                         onPressed: _isButtonDisabled
                             ? null
                             : () async {
-                          bool success = await signUpViewModel.sendVerificationEmail();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                success
-                                    ? 'Verification email sent. Please check your email.'
-                                    : signUpViewModel.errorMessage!,
+                          if (validateEmail(signUpViewModel.emailController.text)) {
+                            bool success = await signUpViewModel.sendVerificationEmail();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  success
+                                      ? 'Verification email sent. Please check your email.'
+                                      : signUpViewModel.errorMessage!,
+                                ),
                               ),
-                            ),
-                          );
-                          if (success) {
-                            startTimer();
+                            );
+                            if (success) {
+                              startTimer();
+                            }
                           }
                         },
                         child: _isButtonDisabled
@@ -124,15 +148,17 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                 ThemeButtonLarge(
                   text: 'Next',
                   onPressed: () async {
-                    bool isVerified = await signUpViewModel.checkEmailVerification();
-                    if (isVerified) {
-                      Navigator.pushNamed(context, '/signup_step2');
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(signUpViewModel.errorMessage!),
-                        ),
-                      );
+                    if (validateEmail(signUpViewModel.emailController.text)) {
+                      bool isVerified = await signUpViewModel.checkEmailVerification();
+                      if (isVerified) {
+                        Navigator.pushNamed(context, '/signup_step2');
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(signUpViewModel.errorMessage!),
+                          ),
+                        );
+                      }
                     }
                   },
                 ),
