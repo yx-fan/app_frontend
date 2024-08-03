@@ -65,7 +65,8 @@ class AuthService extends ChangeNotifier {
       if (response.statusCode == 200) {
         return true;
       } else {
-        print('sendVerificationEmail error: ${response.statusCode} - ${response.body}');
+        print(
+            'sendVerificationEmail error: ${response.statusCode} - ${response.body}');
         return false;
       }
     } catch (e) {
@@ -87,7 +88,7 @@ class AuthService extends ChangeNotifier {
         }),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         String token = jsonDecode(response.body)['data']['token'];
         await _storage.write(key: 'token', value: token);
         _isLoggedIn = true;

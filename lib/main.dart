@@ -16,6 +16,7 @@ import 'viewmodels/trip_view_model.dart';
 import 'viewmodels/trip_expense_view_model.dart'; // Import TripExpenseViewModel
 import 'services/auth_service.dart';
 import 'widgets/navigation.dart';
+import 'viewmodels/signup_view_model.dart'; // Import SignUpViewModel
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CurrencyViewModel()),
         ChangeNotifierProvider(create: (_) => StarViewModel()),
         ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => SignUpViewModel()), // Add SignUpViewModel
       ],
       child: Consumer<AuthService>(
         builder: (context, authService, _) {
