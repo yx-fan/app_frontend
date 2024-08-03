@@ -18,6 +18,16 @@ class SignUpViewModel extends ChangeNotifier {
     return success;
   }
 
+  Future<bool> checkEmailVerification() async {
+    final email = emailController.text;
+    bool isVerified = await _authService.checkEmailVerification(email);
+    if (!isVerified) {
+      errorMessage = "Email not verified. Please verify your email.";
+      notifyListeners();
+    }
+    return isVerified;
+  }
+
   Future<bool> register() async {
     if (passwordController.text != confirmPasswordController.text) {
       errorMessage = "Passwords do not match";
@@ -26,6 +36,11 @@ class SignUpViewModel extends ChangeNotifier {
     }
 
     final email = emailController.text;
+    bool isVerified = await checkEmailVerification();
+    if (!isVerified) {
+      return false;
+    }
+
     final password = passwordController.text;
     bool success = await _authService.register(email, password);
     if (!success) {

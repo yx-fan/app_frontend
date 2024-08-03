@@ -65,8 +65,7 @@ class AuthService extends ChangeNotifier {
       if (response.statusCode == 200) {
         return true;
       } else {
-        print(
-            'sendVerificationEmail error: ${response.statusCode} - ${response.body}');
+        print('sendVerificationEmail error: ${response.statusCode} - ${response.body}');
         return false;
       }
     } catch (e) {
@@ -139,6 +138,27 @@ class AuthService extends ChangeNotifier {
       return token != null;
     } catch (e) {
       print('checkTokenExists exception: $e');
+      return false;
+    }
+  }
+
+  Future<bool> checkEmailVerification(String email) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/api/v1/auth/check-email-verification?email=$email'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('checkEmailVerification error: ${response.statusCode} - ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('checkEmailVerification exception: $e');
       return false;
     }
   }
