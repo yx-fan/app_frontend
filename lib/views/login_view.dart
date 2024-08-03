@@ -26,14 +26,14 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        'Sign in to ExpenseTrack',
+                        'Sign in to Tracker',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text('Welcome back to manage your expenses'),
+                      const Text('Simplify to manage your expenses'),
                       const SizedBox(height: 20),
                       TextField(
                         decoration: const InputDecoration(
