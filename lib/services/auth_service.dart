@@ -6,7 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService extends ChangeNotifier {
   final String baseUrl = dotenv.env['API_BASE_URL']!;
-  final _storage = FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
 
   bool _isLoggedIn = false;
 
@@ -18,10 +18,37 @@ class AuthService extends ChangeNotifier {
 
   Future<void> _checkLoginStatus() async {
     _isLoggedIn = await checkTokenExists();
+    if (_isLoggedIn) {
+      _isLoggedIn = await _isTokenValid();
+    }
     notifyListeners();
   }
 
-  // Send verification email
+  Future<bool> _isTokenValid() async {
+    try {
+      String? token = await _storage.read(key: 'token');
+      if (token == null) return false;
+
+      final response = await http.get(
+        Uri.parse('$baseUrl/api/v1/auth/validate-token'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        await _storage.delete(key: 'token'); // delete Invalid token
+        return false;
+      }
+    } catch (e) {
+      print('isTokenValid exception: $e');
+      return false;
+    }
+  }
+
   Future<bool> sendVerificationEmail(String email) async {
     try {
       final response = await http.post(
@@ -47,7 +74,6 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  // Register user
   Future<bool> register(String email, String password) async {
     try {
       final response = await http.post(
@@ -77,7 +103,6 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  // User login
   Future<bool> login(String email, String password) async {
     try {
       final response = await http.post(
@@ -117,7 +142,6 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  // User logout
   Future<void> logout() async {
     await _storage.delete(key: 'token');
     _isLoggedIn = false;

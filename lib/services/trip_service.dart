@@ -6,7 +6,7 @@ import '../models/trip_model.dart';
 
 class TripService {
   final String baseUrl = dotenv.env['API_BASE_URL']!;
-  final _storage = FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage();
 
   Future<String?> getToken() async {
     return await _storage.read(key: 'token');
@@ -24,7 +24,7 @@ class TripService {
       return Trip.fromJsonList(data);
     } else {
       print('Response status code: ${response.statusCode}');
-      print('token is: ${token}');
+      print('token is: $token');
       return [];
     }
   }

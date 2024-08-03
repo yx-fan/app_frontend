@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../viewmodels/inbox_view_model.dart';
 
 class InboxView extends StatelessWidget {
+  const InboxView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(

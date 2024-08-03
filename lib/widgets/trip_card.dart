@@ -11,7 +11,7 @@ class TripCard extends StatefulWidget {
   final Trip trip;
   final String formattedDate;
 
-  TripCard({required this.trip, required this.formattedDate});
+  const TripCard({super.key, required this.trip, required this.formattedDate});
 
   @override
   _TripCardState createState() => _TripCardState();
@@ -25,10 +25,10 @@ class _TripCardState extends State<TripCard> {
     final viewModel = Provider.of<CurrencyViewModel>(context, listen: false);
     String currency = viewModel.currencies[widget.trip.currencyId] ?? "USD";
 
-    return Container(
+    return SizedBox(
       height: 350,
       child: Card(
-        margin: EdgeInsets.symmetric(vertical: 4, horizontal: 18),
+        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 18),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -44,14 +44,14 @@ class _TripCardState extends State<TripCard> {
                       children: [
                         Text(
                           widget.trip.tripName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
                           'Starting Date: ${widget.formattedDate}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.grey,
                           ),
@@ -60,7 +60,7 @@ class _TripCardState extends State<TripCard> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.camera_alt),
+                    icon: const Icon(Icons.camera_alt),
                     onPressed: () {
                       // Implement camera functionality
                       Navigator.push(
@@ -74,8 +74,8 @@ class _TripCardState extends State<TripCard> {
                   ),
                 ],
               ),
-              SizedBox(height: 8),
-              Container(
+              const SizedBox(height: 8),
+              SizedBox(
                 height: 200, // Set a specific height for the image
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
@@ -87,7 +87,7 @@ class _TripCardState extends State<TripCard> {
                   ),
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 children: [
                   Flexible(
@@ -107,7 +107,7 @@ class _TripCardState extends State<TripCard> {
                             );
                           },
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         ThemeButtonSmall(
                           text: 'Details',
                           onPressed: () {
@@ -126,21 +126,21 @@ class _TripCardState extends State<TripCard> {
                       ],
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.receipt),
-                          SizedBox(width: 6),
+                          const Icon(Icons.receipt),
+                          const SizedBox(width: 6),
                           SizedBox(
                             width: 45,
                             child: Text('${widget.trip.totalCnt}'),
                           ),
                         ],
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       GestureDetector(
                         onTap: () {
                           setState(() {
@@ -152,9 +152,9 @@ class _TripCardState extends State<TripCard> {
                             Icon(_isTapped
                                 ? Icons.visibility
                                 : Icons.visibility_off),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             AnimatedSwitcher(
-                              duration: Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 300),
                               child: _isTapped
                                   ? SizedBox(
                                       width: 45,

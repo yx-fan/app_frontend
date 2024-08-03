@@ -4,13 +4,13 @@ import '../viewmodels/map_view_model.dart';
 class SearchView extends StatelessWidget {
   final MapViewModel mapViewModel;
 
-  SearchView({required this.mapViewModel});
+  const SearchView({super.key, required this.mapViewModel});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Navigate to Location'),
+        title: const Text('Navigate to Location'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -20,10 +20,12 @@ import 'widgets/navigation.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -47,12 +49,12 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Colors.white,
               ),
             ),
-            home: authService.isLoggedIn ? MainScreen() : LoginScreen(),
+            home: authService.isLoggedIn ? const MainScreen() : const LoginScreen(),
             routes: {
-              '/signup_step1': (context) => SignUpStep1View(),
-              '/signup_step2': (context) => SignUpStep2View(),
-              '/login': (context) => LoginScreen(),
-              '/tripView': (context) => MainScreen(),
+              '/signup_step1': (context) => const SignUpStep1View(),
+              '/signup_step2': (context) => const SignUpStep2View(),
+              '/login': (context) => const LoginScreen(),
+              '/tripView': (context) => const MainScreen(),
             },
           );
         },
@@ -62,6 +64,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -69,11 +73,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [
-    TripListView(),
-    StarScreen(), // Assume you have a StarScreen page
-    MapView(),
-    InboxView(),
-    ProfileView(),
+    const TripListView(),
+    const StarScreen(), // Assume you have a StarScreen page
+    const MapView(),
+    const InboxView(),
+    const ProfileView(),
   ];
 
   void _onItemTapped(int index) {

@@ -10,7 +10,7 @@ class ExpenseDetailView extends StatefulWidget {
   final bool isEditable; // 是否允许编辑
   final bool isDeletable; // 是否允许删除
 
-  ExpenseDetailView({
+  const ExpenseDetailView({super.key, 
     required this.expense,
     this.isEditable = true,
     this.isDeletable = true,
@@ -62,9 +62,9 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
     String currTripID = viewModel.tripId;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details'),
+        title: const Text('Details'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context); // 返回上一页
           },
@@ -79,23 +79,23 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
               controller: _merchantController,
               decoration: InputDecoration(
                 labelText: 'Merchant Name',
-                suffixIcon: widget.isEditable ? Icon(Icons.edit) : null,
+                suffixIcon: widget.isEditable ? const Icon(Icons.edit) : null,
               ),
               readOnly: !widget.isEditable,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               controller: _descriptionController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Description',
               ),
               readOnly: !widget.isEditable,
               maxLines: null,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             DropdownButtonFormField<int>(
               value: _selectedCategory,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Category',
               ),
               items: viewModel.categoryMap.entries.map((entry) {
@@ -112,45 +112,45 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                     }
                   : null,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               controller: _dateController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Date',
               ),
               readOnly: !widget.isEditable,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               controller: _amountController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Amount',
               ),
               readOnly: !widget.isEditable,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               controller: _locationController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Location',
               ),
               readOnly: !widget.isEditable,
             ),
-            SizedBox(height: 20),
-            Text('Receipt',
+            const SizedBox(height: 20),
+            const Text('Receipt',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: Column(
                     children: [
                       Image.network('https://via.placeholder.com/150'),
-                      Text('Main'),
+                      const Text('Main'),
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: Column(
                     children: [
                       Icon(Icons.add, size: 50),
@@ -158,7 +158,7 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                     ],
                   ),
                 ),
-                Expanded(
+                const Expanded(
                   child: Column(
                     children: [
                       Icon(Icons.add, size: 50),
@@ -168,7 +168,7 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -179,8 +179,8 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('Confirm Delete'),
-                            content: Text(
+                            title: const Text('Confirm Delete'),
+                            content: const Text(
                                 'Are you sure you want to delete this expense?'),
                             actions: [
                               TextButton(
@@ -188,14 +188,14 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                                   Navigator.of(context)
                                       .pop(false); // 返回 false 表示不删除
                                 },
-                                child: Text('Cancel'),
+                                child: const Text('Cancel'),
                               ),
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context)
                                       .pop(true); // 返回 true 表示确认删除
                                 },
-                                child: Text('Delete'),
+                                child: const Text('Delete'),
                               ),
                             ],
                           );
@@ -208,12 +208,12 @@ class _ExpenseDetailViewState extends State<ExpenseDetailView> {
                         Navigator.pop(context, true); // 返回上一页，传递 true 以触发刷新
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       'Delete expense',
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                Spacer(),
+                const Spacer(),
                 ThemeButtonSmall(
                   text: 'Save changes',
                   onPressed: () async {

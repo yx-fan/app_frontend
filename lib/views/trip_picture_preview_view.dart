@@ -5,7 +5,7 @@ class TripPicturePreviewView extends StatelessWidget {
   final String imagePath;
   final VoidCallback onRetake;
 
-  TripPicturePreviewView({
+  const TripPicturePreviewView({super.key, 
     required this.imagePath,
     required this.onRetake,
   });
@@ -14,7 +14,7 @@ class TripPicturePreviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Preview'),
+        title: const Text('Preview'),
       ),
       body: Column(
         children: [
@@ -26,14 +26,14 @@ class TripPicturePreviewView extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: onRetake,
-                child: Text('Retake'),
+                child: const Text('Retake'),
               ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context,
                       imagePath); // Return the image path to the previous screen
                 },
-                child: Text('Confirm'),
+                child: const Text('Confirm'),
               ),
             ],
           ),

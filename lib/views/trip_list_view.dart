@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import '../viewmodels/trip_view_model.dart';
 import 'trip_creation_view.dart';
 import "../widgets/trip_card.dart";
-import '../widgets/navigation.dart';
-import '../services/navigation_service.dart';
 
 class TripListView extends StatefulWidget {
+  const TripListView({super.key});
+
   @override
   _TripListViewState createState() => _TripListViewState();
 }
@@ -23,15 +23,15 @@ class _TripListViewState extends State<TripListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Trips'),
+        title: const Text('Trips'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () async {
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => TripCreationView(),
+                  builder: (context) => const TripCreationView(),
                 ),
               );
 
@@ -50,20 +50,20 @@ class _TripListViewState extends State<TripListView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Start creating your first trip bucket!',
                         style: TextStyle(
                           fontSize: 18,
-                          color: const Color.fromARGB(255, 0, 0, 0),
+                          color: Color.fromARGB(255, 0, 0, 0),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () async {
                           final result = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TripCreationView(),
+                              builder: (context) => const TripCreationView(),
                             ),
                           );
 
@@ -73,7 +73,7 @@ class _TripListViewState extends State<TripListView> {
                                 .fetchTrips();
                           }
                         },
-                        child: Text('Create'),
+                        child: const Text('Create'),
                       ),
                     ],
                   ),

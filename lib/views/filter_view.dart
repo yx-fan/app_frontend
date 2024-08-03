@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import '../widgets/theme_button_small.dart';
@@ -7,7 +6,7 @@ class FilterScreen extends StatefulWidget {
   final List<String> selectedCategories;
   final String sortOption;
 
-  FilterScreen({required this.selectedCategories, required this.sortOption});
+  const FilterScreen({super.key, required this.selectedCategories, required this.sortOption});
 
   @override
   _FilterScreenState createState() => _FilterScreenState();
@@ -54,9 +53,9 @@ class _FilterScreenState extends State<FilterScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Filters'),
+        title: const Text('Filters'),
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () {
             Navigator.pop(
                 context); // Close the filter screen without applying filters
@@ -68,7 +67,7 @@ class _FilterScreenState extends State<FilterScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Type of Expense',
               style: TextStyle(
                 fontSize: 22,
@@ -80,7 +79,7 @@ class _FilterScreenState extends State<FilterScreen> {
             _buildCategoryRow(['Entertainment', 'Accommodation']),
             _buildCategoryRow(['Shopping', 'Other']),
             SizedBox(height: 0.02 * screenHeight),
-            Text(
+            const Text(
               'Sort',
               style: TextStyle(
                 fontSize: 22,
@@ -100,7 +99,7 @@ class _FilterScreenState extends State<FilterScreen> {
               children: [
                 TextButton(
                   onPressed: _clearAll,
-                  child: Text(
+                  child: const Text(
                     'Clear All',
                     style: TextStyle(color: Colors.grey),
                   ),
@@ -126,8 +125,8 @@ class _FilterScreenState extends State<FilterScreen> {
         contentPadding: EdgeInsets.zero, // Remove internal padding
         visualDensity: VisualDensity.compact, // Adjust visual density
         activeColor:
-            Color.fromARGB(194, 241, 147, 6), // Set the active color to orange
-        title: Text(title, style: TextStyle(fontSize: 16)), // Reduce font size
+            const Color.fromARGB(194, 241, 147, 6), // Set the active color to orange
+        title: Text(title, style: const TextStyle(fontSize: 16)), // Reduce font size
         value: title,
         groupValue: sortOption,
         onChanged: (value) {
@@ -161,7 +160,7 @@ class _FilterScreenState extends State<FilterScreen> {
       width: double.infinity, // Ensure it takes the available width
       decoration: BoxDecoration(
         color: selectedCategories.contains(category)
-            ? Color.fromARGB(194, 241, 147, 6)
+            ? const Color.fromARGB(194, 241, 147, 6)
             : Colors.white,
         borderRadius: BorderRadius.circular(15),
         boxShadow: [

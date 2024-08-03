@@ -9,6 +9,8 @@ import '../views/image_select_view.dart';
 import 'dart:io';
 
 class TripCreationView extends StatefulWidget {
+  const TripCreationView({super.key});
+
   @override
   _TripCreationViewState createState() => _TripCreationViewState();
 }
@@ -19,7 +21,7 @@ class _TripCreationViewState extends State<TripCreationView> {
   String _tripDescription = '';
   String _tripImageUrl = 'assets/trip_img1.jpg'; // Default image
   DateTime _startDate = DateTime.now();
-  DateTime _endDate = DateTime.now().add(Duration(days: 7));
+  DateTime _endDate = DateTime.now().add(const Duration(days: 7));
   bool _isSelectingDates = false;
   final TextEditingController _tripNameController = TextEditingController();
   final TextEditingController _tripDescriptionController =
@@ -35,9 +37,9 @@ class _TripCreationViewState extends State<TripCreationView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create a Trip'),
+        title: const Text('Create a Trip'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -67,7 +69,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                       if (selectedImage != null) {
                         setState(() {
                           _tripImageUrl = selectedImage;
-                          print("image url is ${_tripImageUrl}");
+                          print("image url is $_tripImageUrl");
                         });
                       }
                     },
@@ -76,14 +78,14 @@ class _TripCreationViewState extends State<TripCreationView> {
                       backgroundImage: _tripImageUrl.startsWith('assets')
                           ? AssetImage(_tripImageUrl) as ImageProvider
                           : FileImage(File(_tripImageUrl)),
-                      child: Icon(
+                      child: const Icon(
                         size: 40,
                         Icons.camera_alt,
                         color: Color.fromARGB(255, 241, 139, 5),
                       ),
                     ),
                   ),
-                  SizedBox(height: 70),
+                  const SizedBox(height: 70),
                   if (!_isSelectingDates) ...[
                     Material(
                       elevation: 4,
@@ -93,7 +95,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                         decoration: InputDecoration(
                           labelText: 'Enter trip name',
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 10),
                           filled: true,
                           fillColor: Colors.white,
@@ -117,7 +119,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                         },
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Material(
                       elevation: 4,
                       borderRadius: BorderRadius.circular(10),
@@ -126,7 +128,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                         decoration: InputDecoration(
                           labelText: 'Enter description (optional)',
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 10),
                           filled: true,
                           fillColor: Colors.white,
@@ -144,7 +146,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                         },
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Consumer<CurrencyViewModel>(
                       builder: (context, currencyViewModel, child) {
                         return Material(
@@ -161,7 +163,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                               items:
                                   currencyViewModel.currencies.values.toList(),
                               selectedItem: _selectedCurrency,
-                              dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownDecoratorProps: const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   labelText: "Select Currency",
                                   border: InputBorder.none,
@@ -169,7 +171,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                                   fillColor: Colors.white,
                                 ),
                               ),
-                              popupProps: PopupProps.menu(
+                              popupProps: const PopupProps.menu(
                                 showSearchBox: true,
                                 fit: FlexFit.loose,
                               ),
@@ -183,7 +185,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                         );
                       },
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Align(
                       alignment: Alignment.centerRight,
                       child: ThemeButtonSmall(
@@ -246,7 +248,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                               style: TextStyle(color: _startDateColor),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 10),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -261,7 +263,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Material(
                             elevation: 4,
                             borderRadius: BorderRadius.circular(10),
@@ -271,7 +273,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                               style: TextStyle(color: _endDateColor),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
+                                contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 10),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -289,7 +291,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -301,7 +303,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                             });
                           },
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         ThemeButtonSmall(
                           text: 'Create',
                           onPressed: () async {

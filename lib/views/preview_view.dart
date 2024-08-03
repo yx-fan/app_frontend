@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/preview_view_model.dart';
 import 'create_expense_view.dart'; // 导入 CreateExpenseView
-import '../models/expense_model.dart'; // 导入 Expense 模型
+// 导入 Expense 模型
 
 class PreviewView extends StatelessWidget {
   final String imagePath;
   final String tripId; // 添加 tripId
 
-  PreviewView({required this.imagePath, required this.tripId}); // 更新构造函数
+  const PreviewView({super.key, required this.imagePath, required this.tripId}); // 更新构造函数
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class PreviewView extends StatelessWidget {
       create: (_) => PreviewViewModel(imagePath: imagePath, tripId: tripId), // 传递 tripId
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Preview'),
+          title: const Text('Preview'),
         ),
         body: Consumer<PreviewViewModel>(
           builder: (context, previewViewModel, child) {
@@ -33,7 +33,7 @@ class PreviewView extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('Retake'),
+                      child: const Text('Retake'),
                     ),
                     ElevatedButton(
                       onPressed: () async {
@@ -52,11 +52,11 @@ class PreviewView extends StatelessWidget {
                         } else {
                           // 处理上传失败的情况
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Failed to upload receipt')),
+                            const SnackBar(content: Text('Failed to upload receipt')),
                           );
                         }
                       },
-                      child: Text('Confirm'),
+                      child: const Text('Confirm'),
                     ),
                   ],
                 ),

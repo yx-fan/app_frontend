@@ -21,7 +21,7 @@ class StarViewModel extends ChangeNotifier {
 
   Map<int, String> get categoryMap => _categoryMap;
 
-  Map<String, List<Expense>> _starredExpenses = {};
+  final Map<String, List<Expense>> _starredExpenses = {};
   Map<String, List<Expense>> _filteredExpenses = {};
 
   List<Trip> get trips => _trips;

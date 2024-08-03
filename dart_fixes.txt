@@ -1,0 +1,184 @@
+Computing fixes in app_frontend (dry run)...
+
+253 proposed fixes in 36 files.
+
+lib/main.dart
+  prefer_const_constructors - 12 fixes
+  use_key_in_widget_constructors - 2 fixes
+
+lib/services/auth_service.dart
+  prefer_const_constructors - 1 fix
+
+lib/services/currency_service.dart
+  prefer_const_constructors - 1 fix
+  prefer_for_elements_to_map_fromiterable - 1 fix
+
+lib/services/expense_service.dart
+  prefer_const_constructors - 1 fix
+
+lib/services/navigation_service.dart
+  prefer_const_constructors - 4 fixes
+
+lib/services/notification_service.dart
+  prefer_const_constructors - 1 fix
+
+lib/services/receipt_service.dart
+  prefer_const_constructors - 1 fix
+
+lib/services/trip_service.dart
+  prefer_const_constructors - 1 fix
+  unnecessary_brace_in_string_interps - 1 fix
+
+lib/services/user_service.dart
+  prefer_const_constructors - 1 fix
+
+lib/viewmodels/camera_view_model.dart
+  prefer_const_constructors - 2 fixes
+
+lib/viewmodels/star_view_model.dart
+  prefer_final_fields - 1 fix
+
+lib/viewmodels/trip_expense_view_model.dart
+  empty_constructor_bodies - 1 fix
+
+lib/views/camera_view.dart
+  prefer_const_constructors - 4 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  unused_import - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/create_expense_view.dart
+  prefer_const_constructors - 16 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  prefer_const_declarations - 2 fixes
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/expense_detail_view.dart
+  prefer_const_constructors - 26 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/filter_view.dart
+  prefer_const_constructors - 8 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  unused_import - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/image_select_view.dart
+  prefer_const_constructors - 3 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  sized_box_for_whitespace - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/inbox_view.dart
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/login_view.dart
+  use_super_parameters - 1 fix
+
+lib/views/preview_view.dart
+  prefer_const_constructors - 4 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  unused_import - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/profile_view.dart
+  prefer_const_constructors - 10 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  unused_import - 2 fixes
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/receipt_camera_view.dart
+  prefer_const_constructors_in_immutables - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/search_view.dart
+  prefer_const_constructors - 1 fix
+  prefer_const_constructors_in_immutables - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/signup_step1_view.dart
+  prefer_const_constructors - 8 fixes
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/signup_step2_view.dart
+  prefer_const_constructors - 12 fixes
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/star_view.dart
+  prefer_const_constructors - 3 fixes
+  unnecessary_to_list_in_spreads - 1 fix
+  unused_import - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/trip_creation_view.dart
+  prefer_const_constructors - 17 fixes
+  unnecessary_brace_in_string_interps - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/trip_expense_view.dart
+  prefer_const_constructors - 4 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/trip_list_view.dart
+  prefer_const_constructors - 7 fixes
+  unused_import - 2 fixes
+  use_key_in_widget_constructors - 1 fix
+
+lib/views/trip_picture_preview_view.dart
+  prefer_const_constructors - 3 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/widgets/category_icons.dart
+  prefer_const_constructors - 6 fixes
+
+lib/widgets/expense_card.dart
+  prefer_const_constructors - 11 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  sized_box_for_whitespace - 2 fixes
+  unused_import - 2 fixes
+  use_key_in_widget_constructors - 1 fix
+
+lib/widgets/navigation.dart
+  prefer_const_constructors_in_immutables - 1 fix
+  prefer_const_literals_to_create_immutables - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/widgets/theme_button_large.dart
+  prefer_const_constructors - 3 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  sort_child_properties_last - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/widgets/theme_button_small.dart
+  prefer_const_constructors - 2 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  sort_child_properties_last - 1 fix
+  use_key_in_widget_constructors - 1 fix
+
+lib/widgets/trip_card.dart
+  prefer_const_constructors - 13 fixes
+  prefer_const_constructors_in_immutables - 1 fix
+  sized_box_for_whitespace - 2 fixes
+  use_key_in_widget_constructors - 1 fix
+
+To fix an individual diagnostic, run one of:
+  dart fix --apply --code=empty_constructor_bodies 
+  dart fix --apply --code=prefer_const_constructors 
+  dart fix --apply --code=prefer_const_constructors_in_immutables 
+  dart fix --apply --code=prefer_const_declarations 
+  dart fix --apply --code=prefer_const_literals_to_create_immutables 
+  dart fix --apply --code=prefer_final_fields 
+  dart fix --apply --code=prefer_for_elements_to_map_fromiterable 
+  dart fix --apply --code=sized_box_for_whitespace 
+  dart fix --apply --code=sort_child_properties_last 
+  dart fix --apply --code=unnecessary_brace_in_string_interps 
+  dart fix --apply --code=unnecessary_to_list_in_spreads 
+  dart fix --apply --code=unused_import 
+  dart fix --apply --code=use_key_in_widget_constructors 
+  dart fix --apply --code=use_super_parameters 
+
+To fix all diagnostics, run:
+  dart fix --apply 

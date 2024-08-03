@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 import '../viewmodels/profile_view_model.dart';
 import '../widgets/theme_button_large.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../widgets/navigation.dart';
-import '../services/navigation_service.dart';
 
 class ProfileView extends StatelessWidget {
-  final FlutterSecureStorage _storage = FlutterSecureStorage();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+
+  const ProfileView({super.key});
 
   Future<void> _signOut(BuildContext context) async {
     // 清除存储的token
@@ -22,12 +22,12 @@ class ProfileView extends StatelessWidget {
       create: (_) => ProfileViewModel(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Profile'),
+          title: const Text('Profile'),
         ),
         body: Consumer<ProfileViewModel>(
           builder: (context, model, child) {
             if (model.user == null) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             return Padding(
@@ -35,28 +35,28 @@ class ProfileView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 50,
                     backgroundImage: AssetImage('assets/login_icon.png'),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                     model.user!.nickname,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     model.user!.email,
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                    style: const TextStyle(fontSize: 16, color: Colors.grey),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   SwitchListTile(
-                    title: Text('Receive Inbox Message'),
+                    title: const Text('Receive Inbox Message'),
                     value: model.receiveInboxMessage,
                     onChanged: (value) {
                       model.toggleReceiveInboxMessage(value);
                     },
                   ),
-                  Spacer(),
+                  const Spacer(),
                   ThemeButtonLarge(
                     text: 'Sign Out',
                     onPressed: () async {

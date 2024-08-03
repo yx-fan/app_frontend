@@ -7,22 +7,22 @@ import 'trip_picture_preview_view.dart';
 class ImageSelectionView extends StatelessWidget {
   final Function(String) onImageSelected;
 
-  ImageSelectionView({required this.onImageSelected});
+  const ImageSelectionView({super.key, required this.onImageSelected});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Image'),
+        title: const Text('Select Image'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 400, // Set a specific height for the grid
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   mainAxisSpacing: 4,
                   crossAxisSpacing: 4,
@@ -48,7 +48,7 @@ class ImageSelectionView extends StatelessWidget {
                 },
               ),
             ),
-            SizedBox(height: 30), // Add space between the grid and the button
+            const SizedBox(height: 30), // Add space between the grid and the button
             Align(
               alignment: Alignment.center,
               child: ThemeButtonLarge(

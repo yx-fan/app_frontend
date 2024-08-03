@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/trip_model.dart';
 import '../widgets/expense_card.dart';
 import '../viewmodels/star_view_model.dart';
 import '../views/filter_view.dart';
 
 class StarScreen extends StatefulWidget {
+  const StarScreen({super.key});
+
   @override
   _StarViewState createState() => _StarViewState();
 }
@@ -18,10 +19,10 @@ class _StarViewState extends State<StarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Starred"),
+        title: const Text("Starred"),
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
             onPressed: () async {
               final filterCriteria = await Navigator.push(
                 context,
@@ -68,7 +69,7 @@ class _StarViewState extends State<StarScreen> {
                         vertical: 20, horizontal: 18),
                     child: Text(
                       trip.tripName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
@@ -84,7 +85,7 @@ class _StarViewState extends State<StarScreen> {
                         viewModel.updateExpense(tripId, updatedExpense);
                       },
                     );
-                  }).toList(),
+                  }),
                 ],
               );
             }).toList(),

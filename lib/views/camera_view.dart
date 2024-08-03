@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/camera_view_model.dart';
-import 'preview_view.dart';
 
 class CameraView extends StatelessWidget {
   final Function(XFile) onPictureTaken;
@@ -10,7 +9,7 @@ class CameraView extends StatelessWidget {
   final IconData captureIcon;
   final Widget? overlay;
 
-  CameraView({
+  const CameraView({super.key, 
     required this.onPictureTaken,
     required this.title,
     required this.captureIcon,
@@ -29,12 +28,12 @@ class CameraView extends StatelessWidget {
               backgroundColor: Colors.transparent,
               elevation: 0,
               leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
-              title: Text(title, style: TextStyle(color: Colors.white)),
+              title: Text(title, style: const TextStyle(color: Colors.white)),
             ),
             body: cameraViewModel.isCameraInitialized
                 ? Stack(
@@ -51,7 +50,7 @@ class CameraView extends StatelessWidget {
                         FloatingActionButton(
                           heroTag: "galleryButton",
                           backgroundColor: Colors.white.withOpacity(0.8),
-                          child: Icon(Icons.photo_library, color: Colors.black, size: 30),
+                          child: const Icon(Icons.photo_library, color: Colors.black, size: 30),
                           onPressed: () {
                             cameraViewModel.pickImageFromGallery();
                           },
@@ -73,7 +72,7 @@ class CameraView extends StatelessWidget {
                 ),
               ],
             )
-                : Center(child: CircularProgressIndicator()),
+                : const Center(child: CircularProgressIndicator()),
           );
         },
       ),

@@ -24,7 +24,7 @@ class TripExpenseViewModel extends ChangeNotifier {
   Map<int, String> get categoryMap => _categoryMap;
   String get tripId => _tripId;
 
-  TripExpenseViewModel() {}
+  TripExpenseViewModel();
 
   Future<void> fetchExpenseDetails(String tripId) async {
     try {

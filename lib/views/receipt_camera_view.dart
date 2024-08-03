@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 class ReceiptCameraPage extends StatelessWidget {
   final String tripId; // 添加 tripId
 
-  ReceiptCameraPage({required this.tripId}); // 更新构造函数
+  const ReceiptCameraPage({super.key, required this.tripId}); // 更新构造函数
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,7 @@ class Navigation extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
 
-  Navigation({required this.currentIndex, required this.onTap});
+  const Navigation({super.key, required this.currentIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class Navigation extends StatelessWidget {
       currentIndex: currentIndex,
       selectedItemColor: Colors.orange,
       unselectedItemColor: const Color.fromARGB(255, 3, 3, 3),
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',

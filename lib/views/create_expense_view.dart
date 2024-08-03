@@ -9,8 +9,8 @@ class CreateExpenseView extends StatelessWidget {
   final Map<String, dynamic> receiptData;
   final String tripId; // 添加 tripId 以便创建费用
 
-  CreateExpenseView(
-      {required this.imagePath,
+  const CreateExpenseView(
+      {super.key, required this.imagePath,
       required this.receiptData,
       required this.tripId});
 
@@ -21,7 +21,7 @@ class CreateExpenseView extends StatelessWidget {
     double amt = 0;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Expense'),
+        title: const Text('Create Expense'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -43,41 +43,41 @@ class CreateExpenseView extends StatelessWidget {
                 children: [
                   TextFormField(
                     initialValue: receiptData['merchantName'] ?? '',
-                    decoration: InputDecoration(labelText: 'Merchant Name'),
+                    decoration: const InputDecoration(labelText: 'Merchant Name'),
                     onChanged: (value) => receiptData['merchantName'] = value,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     initialValue: receiptData['date'] ?? '',
-                    decoration: InputDecoration(labelText: 'Date'),
+                    decoration: const InputDecoration(labelText: 'Date'),
                     onChanged: (value) => receiptData['date'] = value,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     initialValue: receiptData['amount']?.toString() ?? '',
-                    decoration: InputDecoration(labelText: 'Amount'),
+                    decoration: const InputDecoration(labelText: 'Amount'),
                     onChanged: (value) {
                       receiptData['amount'] = value;
                       amt = double.tryParse(value) ?? 0.0;
                       tripViewModel.updateCnt(tripId, 1, amt);
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     initialValue: receiptData['category'] ?? '',
-                    decoration: InputDecoration(labelText: 'Category'),
+                    decoration: const InputDecoration(labelText: 'Category'),
                     onChanged: (value) => receiptData['category'] = value,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     initialValue: receiptData['location'] ?? '',
-                    decoration: InputDecoration(labelText: 'Location'),
+                    decoration: const InputDecoration(labelText: 'Location'),
                     onChanged: (value) => receiptData['location'] = value,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     initialValue: receiptData['description'] ?? '',
-                    decoration: InputDecoration(labelText: 'Description'),
+                    decoration: const InputDecoration(labelText: 'Description'),
                     onChanged: (value) => receiptData['description'] = value,
                   ),
                 ],
@@ -90,7 +90,7 @@ class CreateExpenseView extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('Discard'),
+                  child: const Text('Discard'),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -98,7 +98,7 @@ class CreateExpenseView extends StatelessWidget {
                     Navigator.popUntil(context,
                         ModalRoute.withName('/tripView')); // 回到 trip 主页面
                   },
-                  child: Text('Create'),
+                  child: const Text('Create'),
                 ),
               ],
             ),
@@ -120,7 +120,7 @@ class ReceiptPainter extends CustomPainter {
       ..color = Colors.black
       ..style = PaintingStyle.fill;
 
-    final textStyle = TextStyle(
+    const textStyle = TextStyle(
       color: Colors.black,
       fontSize: 14,
     );
@@ -141,7 +141,7 @@ class ReceiptPainter extends CustomPainter {
       maxWidth: size.width,
     );
 
-    final offset = Offset(20, 40);
+    const offset = Offset(20, 40);
     textPainter.paint(canvas, offset);
   }
 

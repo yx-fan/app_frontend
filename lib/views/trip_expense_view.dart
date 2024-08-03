@@ -9,7 +9,7 @@ import '../views/filter_view.dart';
 class TripExpenseView extends StatefulWidget {
   final Trip trip;
 
-  TripExpenseView({required this.trip});
+  const TripExpenseView({super.key, required this.trip});
 
   @override
   _TripExpenseViewState createState() => _TripExpenseViewState();
@@ -36,7 +36,7 @@ class _TripExpenseViewState extends State<TripExpenseView> {
         title: Text(widget.trip.tripName),
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
             onPressed: () async {
               final filterCriteria = await Navigator.push(
                 context,
@@ -66,17 +66,17 @@ class _TripExpenseViewState extends State<TripExpenseView> {
         future: _fetchExpensesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading expenses'));
+            return const Center(child: Text('Error loading expenses'));
           } else {
             return Consumer2<TripExpenseViewModel, StarViewModel>(
               builder: (context, tripExpenseViewModel, starViewModel, child) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
                           vertical: 20, horizontal: 18),
                       child: Align(
                         alignment: Alignment.centerLeft,

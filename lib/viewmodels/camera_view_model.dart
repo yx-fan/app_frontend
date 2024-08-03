@@ -24,11 +24,11 @@ class CameraViewModel extends ChangeNotifier {
 
   Future<bool> _requestCameraPermission() async {
     try {
-      var status = await MethodChannel('flutter.native/helper').invokeMethod('checkCameraPermission');
+      var status = await const MethodChannel('flutter.native/helper').invokeMethod('checkCameraPermission');
       if (status == 'granted') {
         return true;
       } else {
-        var result = await MethodChannel('flutter.native/helper').invokeMethod('requestCameraPermission');
+        var result = await const MethodChannel('flutter.native/helper').invokeMethod('requestCameraPermission');
         return result == 'granted';
       }
     } catch (e) {

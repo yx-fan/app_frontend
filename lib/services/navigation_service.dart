@@ -10,7 +10,7 @@ class NavigationService {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => TripListView()),
+          MaterialPageRoute(builder: (context) => const TripListView()),
         );
         break;
       case 1:
@@ -19,19 +19,19 @@ class NavigationService {
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MapView(tripID: 'all')),
+          MaterialPageRoute(builder: (context) => const MapView(tripID: 'all')),
         );
         break;
       case 3:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => InboxView()),
+          MaterialPageRoute(builder: (context) => const InboxView()),
         );
         break;
       case 4:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ProfileView()),
+          MaterialPageRoute(builder: (context) => const ProfileView()),
         );
         break;
     }

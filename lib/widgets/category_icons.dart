@@ -28,17 +28,17 @@ class CategoryIcons {
   Color getCategoryColor(int category) {
     switch (category) {
       case transportation:
-        return Color.fromARGB(255, 234, 187, 238);
+        return const Color.fromARGB(255, 234, 187, 238);
       case food:
-        return Color.fromARGB(204, 244, 213, 122);
+        return const Color.fromARGB(204, 244, 213, 122);
       case entertainment:
-        return Color.fromARGB(235, 167, 168, 236);
+        return const Color.fromARGB(235, 167, 168, 236);
       case accommodation:
-        return Color.fromARGB(255, 220, 182, 126);
+        return const Color.fromARGB(255, 220, 182, 126);
       case shopping:
-        return Color.fromARGB(255, 249, 161, 161);
+        return const Color.fromARGB(255, 249, 161, 161);
       default: // Handle other as any value >= 6
-        return Color.fromARGB(255, 238, 165, 165);
+        return const Color.fromARGB(255, 238, 165, 165);
     }
   }
 }
