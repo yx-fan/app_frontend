@@ -42,6 +42,16 @@ class MapViewModel extends ChangeNotifier {
         isScrollControlled: true,
       );
     }
+    if (_mapController != null) {
+      _mapController!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target:
+                  LatLng(selectedExpense!.latitude, selectedExpense!.longitude),
+              zoom: 13),
+        ),
+      );
+    }
   }
 
   void hideBottomSheet() {
