@@ -67,14 +67,14 @@ class MyApp extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.orange),
+                  borderSide: const BorderSide(color: Colors.orange),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 labelStyle: const TextStyle(color: Colors.black),
               ),
               checkboxTheme: CheckboxThemeData(
-                fillColor: MaterialStateProperty.all(Colors.orange),
-                checkColor: MaterialStateProperty.all(Colors.white),
+                fillColor: WidgetStateProperty.all(Colors.orange),
+                checkColor: WidgetStateProperty.all(Colors.white),
               ),
               textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
@@ -89,12 +89,12 @@ class MyApp extends StatelessWidget {
                   textStyle: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              bottomNavigationBarTheme: const BottomNavigationBarThemeData(
                 backgroundColor: Colors.white,
                 selectedItemColor: Colors.orange,
                 unselectedItemColor: Colors.grey,
-                selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal),
+                selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
               ),
             ),
             home: authService.isLoggedIn ? const MainScreen() : const LoginScreen(),
