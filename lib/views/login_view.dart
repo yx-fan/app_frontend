@@ -64,6 +64,12 @@ class LoginScreen extends StatelessWidget {
                             if (success) {
                               Navigator.pushNamedAndRemoveUntil(
                                   context, '/tripView', (route) => false);
+                            } else if (viewModel.errorMessage.isNotEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(viewModel.errorMessage),
+                                ),
+                              );
                             }
                           },
                         ),
@@ -88,11 +94,6 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      if (viewModel.errorMessage.isNotEmpty)
-                        Text(
-                          viewModel.errorMessage,
-                          style: const TextStyle(color: Colors.red),
-                        ),
                       const SizedBox(height: 20),
                       TextButton(
                         onPressed: () {
