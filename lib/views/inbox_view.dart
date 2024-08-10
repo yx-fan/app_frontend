@@ -12,7 +12,6 @@ class InboxView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Inbox'),
-          // centerTitle: true,
         ),
         body: Consumer<InboxViewModel>(
           builder: (context, viewModel, child) {
@@ -28,8 +27,10 @@ class InboxView extends StatelessWidget {
                   children: [
                     Text(
                       'No messages yet',
-                      style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 30),
@@ -47,25 +48,53 @@ class InboxView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final notification = viewModel.notifications[index];
                 return Card(
-                  color: const Color.fromARGB(255, 251, 247, 244),
+                  color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: const BorderSide(
-                      color: Color.fromARGB(255, 244, 216, 174),
-                      width: 0.5,
+                    side: BorderSide(
+                      color: Colors.grey.shade300,
+                      width: 1.0,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 3, horizontal: 18),
+                  margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 18),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
                     child: ListTile(
-                      title: Text(
-                        notification.message,
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            notification.title,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            notification.message,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                      subtitle: Text(
-                        notification.date.toLocal().toString().split('.')[0],
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            notification.date.toLocal().toString().split('.')[0],
+                          ),
+                          const SizedBox(height: 4),
+                          if (notification.note != null && notification.note!.isNotEmpty)
+                            Text(
+                              notification.note!,
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.grey,
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ),
