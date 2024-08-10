@@ -83,7 +83,7 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Text(
-                  'Join ExpenseTrack!',
+                  'Join Travel Expense Tracker',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 28,

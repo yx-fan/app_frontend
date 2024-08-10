@@ -9,7 +9,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => LoginViewModel(),
+      create: (_) => LoginViewModel()..loadCredentials(),  // Load credentials when screen is built
       child: Scaffold(
         body: Center(
           child: Padding(
@@ -39,6 +39,7 @@ class LoginScreen extends StatelessWidget {
                         decoration: const InputDecoration(
                           labelText: 'Email',
                         ),
+                        controller: TextEditingController(text: viewModel.email),
                         onChanged: (value) {
                           viewModel.email = value;
                         },
@@ -49,6 +50,7 @@ class LoginScreen extends StatelessWidget {
                           labelText: 'Password',
                         ),
                         obscureText: true,
+                        controller: TextEditingController(text: viewModel.password),
                         onChanged: (value) {
                           viewModel.password = value;
                         },
@@ -80,8 +82,10 @@ class LoginScreen extends StatelessWidget {
                           Row(
                             children: [
                               Checkbox(
-                                value: false,
-                                onChanged: (value) {},
+                                value: viewModel.rememberMe,
+                                onChanged: (value) {
+                                  viewModel.rememberMe = value ?? false;
+                                },
                               ),
                               const Text('Remember me'),
                             ],
@@ -104,7 +108,7 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       const Text('Terms of Service | Privacy Policy | Contact Us'),
                       const SizedBox(height: 10),
-                      const Text('© 2024 ExpenseTrack'),
+                      const Text('© 2024 TravelExpenseTracker'),
                     ],
                   ),
                 );
