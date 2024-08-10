@@ -100,36 +100,50 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                   decoration: const InputDecoration(
                     labelText: 'Enter your email',
                     filled: true,
-                    fillColor: Colors.white, // Slightly transparent white background
+                    fillColor:
+                        Colors.white, // Slightly transparent white background
                     border: OutlineInputBorder(),
                   ),
+                  onChanged: (value) {
+                    // Update the emailController with the lowercased value
+                    signUpViewModel.emailController.text = value.toLowerCase();
+                    signUpViewModel.emailController.selection =
+                        TextSelection.fromPosition(
+                      TextPosition(
+                          offset: signUpViewModel.emailController.text.length),
+                    );
+                  },
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _isButtonDisabled
                       ? null
                       : () {
-                    if (validateEmail(signUpViewModel.emailController.text)) {
-                      signUpViewModel.sendVerificationEmail().then((success) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              success
-                                  ? 'Verification email sent. Please check your email and click the verification link to finish the verification process.'
-                                  : signUpViewModel.errorMessage!,
-                            ),
-                          ),
-                        );
-                        if (success) {
-                          startTimer();
-                        }
-                      });
-                    }
-                  },
+                          if (validateEmail(
+                              signUpViewModel.emailController.text)) {
+                            signUpViewModel
+                                .sendVerificationEmail()
+                                .then((success) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    success
+                                        ? 'Verification email sent. Please check your email and click the verification link to finish the verification process.'
+                                        : signUpViewModel.errorMessage!,
+                                  ),
+                                ),
+                              );
+                              if (success) {
+                                startTimer();
+                              }
+                            });
+                          }
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isButtonDisabled
                         ? Colors.grey // Disabled color
-                        : const Color.fromARGB(194, 241, 147, 6), // Enabled color
+                        : const Color.fromARGB(
+                            194, 241, 147, 6), // Enabled color
                     foregroundColor: Colors.white,
                     minimumSize: const Size(double.infinity, 50),
                     shape: RoundedRectangleBorder(
@@ -151,7 +165,8 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                   text: 'Next',
                   onPressed: () async {
                     if (validateEmail(signUpViewModel.emailController.text)) {
-                      bool isVerified = await signUpViewModel.checkEmailVerification();
+                      bool isVerified =
+                          await signUpViewModel.checkEmailVerification();
                       if (isVerified) {
                         Navigator.pushNamed(context, '/signup_step2');
                       } else {
@@ -171,7 +186,9 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                   },
                   child: const Text(
                     'Existing user? Sign in',
-                    style: TextStyle(color: Colors.white), // Set text color to white for contrast
+                    style: TextStyle(
+                        color: Colors
+                            .white), // Set text color to white for contrast
                   ),
                 ),
               ],

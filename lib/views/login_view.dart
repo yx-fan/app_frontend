@@ -41,7 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => LoginViewModel()..loadCredentials(),  // Load credentials when screen is built
+      create: (_) => LoginViewModel()
+        ..loadCredentials(), // Load credentials when screen is built
       child: Scaffold(
         body: Center(
           child: Padding(
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         controller: _emailController,
                         onChanged: (value) {
-                          viewModel.email = value;
+                          viewModel.email = value.toLowerCase();
                         },
                       ),
                       const SizedBox(height: 10),
@@ -138,7 +139,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('This feature is not available yet.'),
+                                  content: Text(
+                                      'This feature is not available yet.'),
                                 ),
                               );
                             },
@@ -151,10 +153,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           Navigator.pushNamed(context, '/signup_step1');
                         },
-                        child: const Text('Create an account to start tracking'),
+                        child:
+                            const Text('Create an account to start tracking'),
                       ),
                       const SizedBox(height: 20),
-                      const Text('Terms of Service | Privacy Policy | Contact Us'),
+                      const Text(
+                          'Terms of Service | Privacy Policy | Contact Us'),
                       const SizedBox(height: 10),
                       const Text('© 2024 TravelExpenseTracker'),
                     ],
