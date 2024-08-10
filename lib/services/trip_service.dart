@@ -30,8 +30,9 @@ class TripService {
   }
 
   Future<bool> createTrip(String tripName, DateTime startDate, DateTime endDate,
-      String description, String selectedCurrency) async {
+      String description, String selectedCurrency, String imageUrl) async {
     try {
+      print("image url from createTrip is:$imageUrl");
       final token = await getToken();
       final response = await http.post(
         Uri.parse('$baseUrl/api/v1/trip'),
@@ -45,6 +46,7 @@ class TripService {
           'endDate': endDate.toIso8601String(),
           'description': description,
           'currencyCode': selectedCurrency,
+          'image': imageUrl
         }),
       );
 

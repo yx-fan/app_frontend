@@ -163,7 +163,8 @@ class _TripCreationViewState extends State<TripCreationView> {
                               items:
                                   currencyViewModel.currencies.values.toList(),
                               selectedItem: _selectedCurrency,
-                              dropdownDecoratorProps: const DropDownDecoratorProps(
+                              dropdownDecoratorProps:
+                                  const DropDownDecoratorProps(
                                 dropdownSearchDecoration: InputDecoration(
                                   labelText: "Select Currency",
                                   border: InputBorder.none,
@@ -316,6 +317,7 @@ class _TripCreationViewState extends State<TripCreationView> {
                               _endDate,
                               _tripDescription,
                               _selectedCurrency,
+                              _tripImageUrl,
                             );
                             if (success) {
                               Navigator.pop(context,

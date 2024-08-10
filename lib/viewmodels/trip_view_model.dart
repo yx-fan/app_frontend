@@ -25,11 +25,11 @@ class TripViewModel extends ChangeNotifier {
   }
 
   Future<bool> createTrip(String tripName, DateTime startDate, DateTime endDate,
-      String description, String selectedCurrency) async {
+      String description, String selectedCurrency, String imageUrl) async {
     bool success = false;
     try {
-      success = await _tripService.createTrip(
-          tripName, startDate, endDate, description, selectedCurrency);
+      success = await _tripService.createTrip(tripName, startDate, endDate,
+          description, selectedCurrency, imageUrl);
     } catch (e) {
       print(e);
     }

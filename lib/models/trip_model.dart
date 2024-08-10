@@ -34,9 +34,10 @@ class Trip {
         description: json['description'],
         startDate: DateTime.parse(json['startDate']),
         endDate: DateTime.parse(json['endDate']),
-        imageUrl: json.containsKey('imageUrl') && json['imageUrl'] != null
-            ? json['imageUrl']
-            : "assets/trip_img0.jpg",
+        imageUrl:
+            json.containsKey('image') && json['image'].toString().isNotEmpty
+                ? json['image']
+                : "assets/trip_img0.jpg",
         totalAmt: (json['totalAmount'] ?? 0.0).toDouble(),
         totalCnt: (json['totalNumberOfExpenses'] ?? 0.0).toInt());
   }
