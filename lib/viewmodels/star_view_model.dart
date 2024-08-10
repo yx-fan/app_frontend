@@ -113,4 +113,17 @@ class StarViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void cleanUpStarred(String tripId) {
+    // Remove the trip from the trips list
+    _trips.removeWhere((trip) => trip.tripId == tripId);
+
+    // Remove the trip's starred expenses
+    _starredExpenses.remove(tripId);
+
+    // Remove the trip's filtered expenses
+    _filteredExpenses.remove(tripId);
+
+    notifyListeners();
+  }
 }

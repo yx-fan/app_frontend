@@ -61,4 +61,27 @@ class TripService {
       return false;
     }
   }
+
+  Future<bool> deleteTrip(String tripId) async {
+    try {
+      final token = await getToken();
+      final response = await http.delete(
+        Uri.parse('$baseUrl/api/v1/trip/$tripId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 201) {
+        return true;
+      } else {
+        print('Delete trip error: ${response.statusCode} - ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Delete trip exception: $e');
+      return false;
+    }
+  }
 }

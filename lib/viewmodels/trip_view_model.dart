@@ -64,9 +64,21 @@ class TripViewModel extends ChangeNotifier {
     }
   }
 
-  void removeTrip(Trip trip) {
-    _trips.remove(trip);
+  Future<bool> removeTrip(String tripId) async {
+    bool success = false;
+    try {
+      success = await _tripService.deleteTrip(tripId);
+    } catch (e) {
+      print(e);
+    }
+
+    for (var trip in _trips) {
+      if (trip.tripId == tripId) {
+        _trips.remove(trip);
+      }
+    }
     notifyListeners();
+    return success;
   }
 
   void changeTab(int index) {
