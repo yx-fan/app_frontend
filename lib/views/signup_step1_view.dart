@@ -111,7 +111,7 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                           SnackBar(
                             content: Text(
                               success
-                                  ? 'Verification email sent. Please check your email.'
+                                  ? 'Verification email sent. Please check your email and click the verification link to finish verification process.'
                                   : signUpViewModel.errorMessage!,
                             ),
                           ),
