@@ -72,9 +72,12 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
       body: Stack(
         fit: StackFit.expand,
         children: [
+          // Background image with reduced opacity
           Image.asset(
             'assets/signup_background.webp',
             fit: BoxFit.cover,
+            color: Colors.black.withOpacity(0.5), // Adjust opacity here
+            colorBlendMode: BlendMode.darken, // Blend the color with the image
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -88,19 +91,20 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                    color: Colors.white, // Set text color to white for contrast
                   ),
                 ),
                 const SizedBox(height: 60),
-
                 TextField(
                   controller: signUpViewModel.emailController,
                   decoration: const InputDecoration(
                     labelText: 'Enter your email',
+                    filled: true,
+                    fillColor: Colors.white, // Slightly transparent white background
+                    border: OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 20),
-
                 ElevatedButton(
                   onPressed: _isButtonDisabled
                       ? null
@@ -111,7 +115,7 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                           SnackBar(
                             content: Text(
                               success
-                                  ? 'Verification email sent. Please check your email and click the verification link to finish verification process.'
+                                  ? 'Verification email sent. Please check your email and click the verification link to finish the verification process.'
                                   : signUpViewModel.errorMessage!,
                             ),
                           ),
@@ -142,7 +146,6 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
                 ThemeButtonLarge(
                   text: 'Next',
@@ -168,7 +171,7 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                   },
                   child: const Text(
                     'Existing user? Sign in',
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: Colors.white), // Set text color to white for contrast
                   ),
                 ),
               ],

@@ -23,9 +23,12 @@ class _SignUpStep2ViewState extends State<SignUpStep2View> {
       body: Stack(
         fit: StackFit.expand,
         children: [
+          // Background image with reduced opacity
           Image.asset(
             'assets/signup_background.webp',
             fit: BoxFit.cover,
+            color: Colors.black.withOpacity(0.5), // Adjust opacity here
+            colorBlendMode: BlendMode.darken, // Blend the color with the image
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -46,7 +49,7 @@ class _SignUpStep2ViewState extends State<SignUpStep2View> {
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                      color: Colors.white), // Changed text color to white
                 ),
                 const SizedBox(height: 60),
                 TextField(
@@ -55,7 +58,6 @@ class _SignUpStep2ViewState extends State<SignUpStep2View> {
                     labelText: 'Enter your password',
                     filled: true,
                     fillColor: Colors.white,
-                    border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _isPasswordVisible
@@ -78,7 +80,6 @@ class _SignUpStep2ViewState extends State<SignUpStep2View> {
                     labelText: 'Confirm your password',
                     filled: true,
                     fillColor: Colors.white,
-                    border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _isConfirmPasswordVisible
@@ -88,7 +89,7 @@ class _SignUpStep2ViewState extends State<SignUpStep2View> {
                       onPressed: () {
                         setState(() {
                           _isConfirmPasswordVisible =
-                              !_isConfirmPasswordVisible;
+                          !_isConfirmPasswordVisible;
                         });
                       },
                     ),
@@ -118,14 +119,14 @@ class _SignUpStep2ViewState extends State<SignUpStep2View> {
                     Navigator.pushNamed(context, '/signup_step1');
                   },
                   child: const Text('Didn\'t receive it? Resend',
-                      style: TextStyle(color: Colors.black)),
+                      style: TextStyle(color: Colors.white)), // Changed text color to white
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/login');
                   },
                   child: const Text('Existing user? Sign in',
-                      style: TextStyle(color: Colors.black)),
+                      style: TextStyle(color: Colors.white)), // Changed text color to white
                 ),
               ],
             ),
