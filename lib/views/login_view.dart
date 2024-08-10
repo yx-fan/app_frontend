@@ -111,7 +111,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              // Handle forgot password
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('This feature is not available yet.'),
+                                ),
+                              );
                             },
                             child: const Text('Forgot your password?'),
                           ),
