@@ -3,8 +3,16 @@ import 'package:provider/provider.dart';
 import '../viewmodels/signup_view_model.dart';
 import '../widgets/theme_button_large.dart';
 
-class SignUpStep2View extends StatelessWidget {
+class SignUpStep2View extends StatefulWidget {
   const SignUpStep2View({super.key});
+
+  @override
+  _SignUpStep2ViewState createState() => _SignUpStep2ViewState();
+}
+
+class _SignUpStep2ViewState extends State<SignUpStep2View> {
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +51,49 @@ class SignUpStep2View extends StatelessWidget {
                 const SizedBox(height: 60),
                 TextField(
                   controller: signUpViewModel.passwordController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Enter your password',
                     filled: true,
                     fillColor: Colors.white,
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    ),
                   ),
-                  obscureText: true,
+                  obscureText: !_isPasswordVisible,
                 ),
                 const SizedBox(height: 20),
                 TextField(
                   controller: signUpViewModel.confirmPasswordController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Confirm your password',
                     filled: true,
                     fillColor: Colors.white,
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isConfirmPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isConfirmPasswordVisible =
+                              !_isConfirmPasswordVisible;
+                        });
+                      },
+                    ),
                   ),
-                  obscureText: true,
+                  obscureText: !_isConfirmPasswordVisible,
                 ),
                 const SizedBox(height: 20),
                 if (signUpViewModel.errorMessage != null)
