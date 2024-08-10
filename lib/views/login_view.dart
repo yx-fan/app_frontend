@@ -3,8 +3,15 @@ import 'package:provider/provider.dart';
 import '../viewmodels/login_view_model.dart';
 import '../widgets/theme_button_large.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +53,22 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       TextField(
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _passwordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                          ),
                         ),
-                        obscureText: true,
+                        obscureText: !_passwordVisible,
                         controller: TextEditingController(text: viewModel.password),
                         onChanged: (value) {
                           viewModel.password = value;
