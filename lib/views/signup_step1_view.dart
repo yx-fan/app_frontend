@@ -92,58 +92,57 @@ class _SignUpStep1ViewState extends State<SignUpStep1View> {
                   ),
                 ),
                 const SizedBox(height: 60),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 48,
-                        child: TextField(
-                          controller: signUpViewModel.emailController,
-                          decoration: const InputDecoration(
-                            labelText: 'Enter your email',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    SizedBox(
-                      width: 100,
-                      height: 48,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: _isButtonDisabled
-                            ? null
-                            : () async {
-                          if (validateEmail(signUpViewModel.emailController.text)) {
-                            bool success = await signUpViewModel.sendVerificationEmail();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  success
-                                      ? 'Verification email sent. Please check your email.'
-                                      : signUpViewModel.errorMessage!,
-                                ),
-                              ),
-                            );
-                            if (success) {
-                              startTimer();
-                            }
-                          }
-                        },
-                        child: _isButtonDisabled
-                            ? Text('Resend ($_start)')
-                            : const Text('Send'),
-                      ),
-                    ),
-                  ],
+
+                TextField(
+                  controller: signUpViewModel.emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter your email',
+                  ),
                 ),
+                const SizedBox(height: 20),
+
+                ElevatedButton(
+                  onPressed: _isButtonDisabled
+                      ? null
+                      : () {
+                    if (validateEmail(signUpViewModel.emailController.text)) {
+                      signUpViewModel.sendVerificationEmail().then((success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              success
+                                  ? 'Verification email sent. Please check your email.'
+                                  : signUpViewModel.errorMessage!,
+                            ),
+                          ),
+                        );
+                        if (success) {
+                          startTimer();
+                        }
+                      });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _isButtonDisabled
+                        ? Colors.grey // Disabled color
+                        : const Color.fromARGB(194, 241, 147, 6), // Enabled color
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  child: Text(
+                    _isButtonDisabled
+                        ? 'Resend ($_start)'
+                        : 'Send a verification email',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+
                 const SizedBox(height: 20),
                 ThemeButtonLarge(
                   text: 'Next',
