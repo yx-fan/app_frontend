@@ -5,15 +5,16 @@ class Notification {
   final String message;
   final String? note; // Note is now optional
   final DateTime date;
+  bool isReverted;
 
-  Notification({
-    required this.id,
-    required this.user,
-    required this.title,
-    required this.message,
-    this.note, // Optional parameter
-    required this.date,
-  });
+  Notification(
+      {required this.id,
+      required this.user,
+      required this.title,
+      required this.message,
+      this.note, // Optional parameter
+      required this.date,
+      required this.isReverted});
 
   factory Notification.fromJson(Map<String, dynamic> json) {
     return Notification(
@@ -23,6 +24,7 @@ class Notification {
       message: json['message'],
       note: json['note'], // Can be null
       date: DateTime.parse(json['createdAt']),
+      isReverted: false,
     );
   }
 }

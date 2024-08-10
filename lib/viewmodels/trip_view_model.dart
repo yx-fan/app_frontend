@@ -66,18 +66,42 @@ class TripViewModel extends ChangeNotifier {
 
   Future<bool> removeTrip(String tripId) async {
     bool success = false;
+    print("removing trip");
     try {
       success = await _tripService.deleteTrip(tripId);
     } catch (e) {
       print(e);
     }
 
-    for (var trip in _trips) {
-      if (trip.tripId == tripId) {
-        _trips.remove(trip);
-      }
-    }
+    // Safely remove the trip from the list
+    _trips.removeWhere((trip) => trip.tripId == tripId);
+
     notifyListeners();
+    return success;
+  }
+
+  Future<bool> revertTrip(String tripId) async {
+    bool success = false;
+    Trip? trip;
+
+    try {
+      // Attempt to revert the trip using the service
+      success = await _tripService.revertTrip(tripId);
+
+      if (success) {
+        // If the revert was successful, try to fetch the trip details
+        trip = await _tripService.getOneTrip(tripId);
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    // If trip is not null, add it to the _trips list
+    if (trip != null) {
+      _trips.add(trip);
+      notifyListeners();
+    }
+
     return success;
   }
 

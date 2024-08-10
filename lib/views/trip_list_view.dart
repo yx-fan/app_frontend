@@ -1,3 +1,4 @@
+import 'package:app_frontend/viewmodels/inbox_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -90,24 +91,44 @@ class _TripListViewState extends State<TripListView> {
                       key: Key(trip
                           .tripId), // Ensure each Dismissible has a unique key
                       direction: DismissDirection.endToStart,
-                      onDismissed: (direction) {
-                        // Perform the deletion and update both view models
+                      onDismissed: (direction) async {
                         final tripId = trip.tripId;
                         final tripName = trip.tripName;
 
+                        print('Deleting trip: $tripName');
+
+                        // Remove the trip from the list immediately for UI purposes
                         setState(() {
                           tripViewModel.trips.removeAt(index);
                         });
 
-                        tripViewModel.removeTrip(tripId);
-                        starViewModel.cleanUpStarred(tripId);
+                        try {
+                          final results = await Future.wait([
+                            tripViewModel.removeTrip(tripId),
+                          ]);
 
-                        // Show a snackbar for feedback
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('$tripName has been deleted'),
-                          ),
-                        );
+                          Provider.of<InboxViewModel>(context, listen: false)
+                              .fetchNotifications();
+
+                          starViewModel.cleanUpStarred(tripId);
+
+                          // Show a snackbar for feedback
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('$tripName has been deleted'),
+                            ),
+                          );
+                        } catch (e) {
+                          print(
+                              'Error during trip deletion or notification fetch: $e');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  'An error occurred while deleting the trip or fetching notifications'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
                       },
                       background: Container(
                         color: Color.fromARGB(255, 245, 168, 45),

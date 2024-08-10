@@ -1,4 +1,5 @@
 import 'package:app_frontend/viewmodels/currency_view_model.dart';
+import 'package:app_frontend/viewmodels/inbox_view_model.dart';
 import 'package:app_frontend/viewmodels/star_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => StarViewModel()),
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => SignUpViewModel()),
+        ChangeNotifierProvider(create: (_) => InboxViewModel()),
       ],
       child: Consumer<AuthService>(
         builder: (context, authService, _) {
@@ -97,7 +99,9 @@ class MyApp extends StatelessWidget {
                 unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
               ),
             ),
-            home: authService.isLoggedIn ? const MainScreen() : const LoginScreen(),
+            home: authService.isLoggedIn
+                ? const MainScreen()
+                : const LoginScreen(),
             routes: {
               '/signup_step1': (context) => const SignUpStep1View(),
               '/signup_step2': (context) => const SignUpStep2View(),

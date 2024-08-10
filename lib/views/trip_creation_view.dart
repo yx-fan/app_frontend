@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import '../viewmodels/trip_view_model.dart';
+import '../viewmodels/inbox_view_model.dart';
 import '../viewmodels/currency_view_model.dart';
 import '../views/image_select_view.dart';
 import 'dart:io';
@@ -308,8 +309,8 @@ class _TripCreationViewState extends State<TripCreationView> {
                         ThemeButtonSmall(
                           text: 'Create',
                           onPressed: () async {
-                            final success = await Provider.of<TripViewModel>(
-                                    context,
+                            // Use a Consumer to access InboxViewModel
+                            await Provider.of<TripViewModel>(context,
                                     listen: false)
                                 .createTrip(
                               _tripName,
@@ -318,13 +319,18 @@ class _TripCreationViewState extends State<TripCreationView> {
                               _tripDescription,
                               _selectedCurrency,
                               _tripImageUrl,
-                            );
-                            if (success) {
-                              Navigator.pop(context,
-                                  true); // Close the creation view and indicate success
-                            }
+                            )
+                                .then((success) {
+                              if (success) {
+                                Provider.of<InboxViewModel>(context,
+                                        listen: false)
+                                    .fetchNotifications();
+                                Navigator.pop(context,
+                                    true); // Close the creation view and indicate success
+                              }
+                            });
                           },
-                        ),
+                        )
                       ],
                     ),
                   ],

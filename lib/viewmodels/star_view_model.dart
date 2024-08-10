@@ -115,7 +115,8 @@ class StarViewModel extends ChangeNotifier {
   }
 
   void cleanUpStarred(String tripId) {
-    // Remove the trip from the trips list
+    print("clean up starred");
+    // Remove the trip from the trips list;
     _trips.removeWhere((trip) => trip.tripId == tripId);
 
     // Remove the trip's starred expenses
@@ -123,6 +124,21 @@ class StarViewModel extends ChangeNotifier {
 
     // Remove the trip's filtered expenses
     _filteredExpenses.remove(tripId);
+
+    notifyListeners();
+  }
+
+  void revertStarred(String tripId) async {
+    Trip? trip;
+    trip = await _tripService.getOneTrip(tripId);
+    if (trip != null) {
+      _trips.add(trip);
+    }
+
+    List<Expense> expenses = await _expenseService.fetchExpenses(tripId);
+
+    _starredExpenses[tripId] = expenses;
+    _filteredExpenses[tripId] = expenses;
 
     notifyListeners();
   }

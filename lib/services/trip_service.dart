@@ -73,7 +73,7 @@ class TripService {
         },
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return true;
       } else {
         print('Delete trip error: ${response.statusCode} - ${response.body}');
@@ -82,6 +82,46 @@ class TripService {
     } catch (e) {
       print('Delete trip exception: $e');
       return false;
+    }
+  }
+
+  Future<bool> revertTrip(String tripId) async {
+    try {
+      final token = await getToken();
+      final response = await http.delete(
+        Uri.parse('$baseUrl/api/v1/trip/revert-deleted-trip/$tripId'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('Revert trip error: ${response.statusCode} - ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Revert trip exception: $e');
+      return false;
+    }
+  }
+
+  Future<Trip?> getOneTrip(String tripId) async {
+    final token = await getToken();
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/v1/trip/$tripId'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body)['data'];
+      return Trip.fromJson(data); // Assuming data is a single trip object
+    } else {
+      print('Response status code: ${response.statusCode}');
+      print('Token is: $token');
+      return null;
     }
   }
 }
