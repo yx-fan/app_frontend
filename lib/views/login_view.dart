@@ -13,6 +13,31 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _passwordVisible = false;
 
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize controllers
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+
+    // Load initial data
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final loginViewModel = context.read<LoginViewModel>();
+      _emailController.text = loginViewModel.email;
+      _passwordController.text = loginViewModel.password;
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -46,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: const InputDecoration(
                           labelText: 'Email',
                         ),
-                        controller: TextEditingController(text: viewModel.email),
+                        controller: _emailController,
                         onChanged: (value) {
                           viewModel.email = value;
                         },
@@ -69,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         obscureText: !_passwordVisible,
-                        controller: TextEditingController(text: viewModel.password),
+                        controller: _passwordController,
                         onChanged: (value) {
                           viewModel.password = value;
                         },
