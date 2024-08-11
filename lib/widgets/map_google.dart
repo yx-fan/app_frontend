@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -31,24 +32,60 @@ class _MapGoogleState extends State<MapGoogle> {
     _initializeFuture = initialize();
   }
 
+  LatLngBounds _getLatLngBounds(List<Expense> expenses) {
+    double? minLat, maxLat, minLng, maxLng;
+
+    for (var expense in expenses) {
+      final lat = expense.latitude;
+      final lng = expense.longitude;
+
+      if (minLat == null || lat < minLat) minLat = lat;
+      if (maxLat == null || lat > maxLat) maxLat = lat;
+      if (minLng == null || lng < minLng) minLng = lng;
+      if (maxLng == null || lng > maxLng) maxLng = lng;
+    }
+
+    return LatLngBounds(
+      southwest: LatLng(minLat!, minLng!),
+      northeast: LatLng(maxLat!, maxLng!),
+    );
+  }
+
   Future<void> initialize() async {
-    print('initialize called');
     try {
       expenses = widget.tripID == null
           ? await expenseService.fetchAllExpenses()
           : await expenseService.fetchExpenses(widget.tripID!);
-      print('Expenses loaded: ${expenses.length}');
+
       if (expenses.isNotEmpty) {
-        final firstExpense = expenses.first;
-        setState(() {
-          initialCameraPosition = CameraPosition(
-            target: LatLng(firstExpense.latitude, firstExpense.longitude),
-            zoom: 13.0,
-          );
+        // final firstExpense = expenses.first;
+        // initialCameraPosition = CameraPosition(
+        //   target: LatLng(firstExpense.latitude, firstExpense.longitude),
+        //   zoom: 13.0,
+        // );
+        LatLngBounds bounds = _getLatLngBounds(expenses);
+        initialCameraPosition = CameraPosition(
+          target: LatLng(
+            (bounds.northeast.latitude + bounds.southwest.latitude) / 2,
+            (bounds.northeast.longitude + bounds.southwest.longitude) / 2,
+          ),
+          zoom: 13.0, 
+        );
+      } else {
+        await Geolocator.requestPermission()
+            .then((value) {})
+            .onError((e, StackTrace) {
+          print('error$e');
         });
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        initialCameraPosition = CameraPosition(
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 13.0,
+        );
       }
     } catch (e) {
-      print('Failed to load expenses: $e');
+      print(e);
     }
   }
 
@@ -68,9 +105,16 @@ class _MapGoogleState extends State<MapGoogle> {
             children: [
               GoogleMap(
                 initialCameraPosition: initialCameraPosition,
-                onMapCreated: (GoogleMapController controller) {
+                onMapCreated: (GoogleMapController controller) async {
                   viewModel.setMapController(controller);
+                  if (expenses.isNotEmpty) {
+                    LatLngBounds bounds = _getLatLngBounds(expenses);
+                    await controller.animateCamera(
+                      CameraUpdate.newLatLngBounds(bounds, 50),
+                    );
+                  }
                 },
+                myLocationButtonEnabled: false,
                 markers: expenses
                     .map(
                       (expense) => Marker(

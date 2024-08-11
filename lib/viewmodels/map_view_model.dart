@@ -37,21 +37,23 @@ class MapViewModel extends ChangeNotifier {
   void showBottomSheet() {
     if (bottomSheetContext != null && selectedExpense != null) {
       showModalBottomSheet(
+        useSafeArea: true,
+        useRootNavigator: true,
         context: bottomSheetContext!,
         builder: (context) => MapExpense(expense: selectedExpense!),
         isScrollControlled: true,
       );
     }
-    if (_mapController != null) {
-      _mapController!.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-              target:
-                  LatLng(selectedExpense!.latitude, selectedExpense!.longitude),
-              zoom: 13),
-        ),
-      );
-    }
+    // if (_mapController != null) {
+    //   _mapController!.animateCamera(
+    //     CameraUpdate.newCameraPosition(
+    //       CameraPosition(
+    //           target:
+    //               LatLng(selectedExpense!.latitude, selectedExpense!.longitude),
+    //           zoom: 13),
+    //     ),
+    //   );
+    // }
   }
 
   void hideBottomSheet() {
