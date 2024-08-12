@@ -4,9 +4,14 @@ import '../viewmodels/inbox_view_model.dart';
 import '../viewmodels/trip_view_model.dart';
 import '../viewmodels/star_view_model.dart';
 
-class InboxView extends StatelessWidget {
+class InboxView extends StatefulWidget {
   const InboxView({super.key});
 
+  @override
+  _InboxViewState createState() => _InboxViewState();
+}
+
+class _InboxViewState extends State<InboxView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,6 +126,10 @@ class InboxView extends StatelessWidget {
                                           'This action has expired and can no longer be reverted.'),
                                     ),
                                   );
+
+                                  // Trigger a re-render to update the button state
+                                  setState(() {});
+
                                   return;
                                 }
 
