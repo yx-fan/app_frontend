@@ -146,7 +146,7 @@ class _InboxViewState extends State<InboxView> {
                                 foregroundColor:
                                     isExpired || notification.isReverted
                                         ? Colors.grey
-                                        : Colors.blue,
+                                        : Color.fromARGB(255, 247, 161, 31),
                               ),
                               child: Text(
                                 notification.isReverted

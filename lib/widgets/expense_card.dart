@@ -8,7 +8,8 @@ class ExpenseCard extends StatefulWidget {
   final void Function(bool) onStarred;
   final void Function(Expense) onUpdate;
 
-  const ExpenseCard({super.key, 
+  const ExpenseCard({
+    super.key,
     required this.expense,
     required this.onStarred,
     required this.onUpdate,
@@ -46,10 +47,10 @@ class _ExpenseCardState extends State<ExpenseCard> {
         }
       },
       child: Card(
-        color: const Color.fromARGB(255, 251, 247, 244),
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           side: const BorderSide(
-            color: Color.fromARGB(255, 244, 216, 174),
+            color: Color.fromARGB(129, 116, 115, 115),
             width: 0.5,
           ),
           borderRadius: BorderRadius.circular(8),
@@ -122,7 +123,8 @@ class _ExpenseCardState extends State<ExpenseCard> {
                         children: [
                           Text(
                             '${widget.expense.date}'.split(' ')[0],
-                            style: const TextStyle(color: Colors.grey, fontSize: 14),
+                            style: const TextStyle(
+                                color: Colors.grey, fontSize: 14),
                           ),
                           IconButton(
                             icon: Icon(
