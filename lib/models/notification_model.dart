@@ -24,7 +24,7 @@ class Notification {
       message: json['message'],
       note: json['note'], // Can be null
       date: DateTime.parse(json['createdAt']),
-      isReverted: false,
+      isReverted: true,
     );
   }
 }

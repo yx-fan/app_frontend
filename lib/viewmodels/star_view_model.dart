@@ -1,3 +1,4 @@
+import 'package:app_frontend/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import '../models/expense_model.dart';
 import '../models/trip_model.dart';
@@ -7,6 +8,7 @@ import '../services/expense_service.dart';
 class StarViewModel extends ChangeNotifier {
   final TripService _tripService = TripService();
   final ExpenseService _expenseService = ExpenseService();
+  final NotificationService _notificationService = NotificationService();
   List<String> _categories = [];
   List<Trip> _trips = [];
 
@@ -129,17 +131,27 @@ class StarViewModel extends ChangeNotifier {
   }
 
   void revertStarred(String tripId) async {
-    Trip? trip;
-    trip = await _tripService.getOneTrip(tripId);
-    if (trip != null) {
-      _trips.add(trip);
+    try {
+      List<Trip> _deletedTrips = await _notificationService.fetchDeletedTrips();
+      Trip? deletedTrip = null;
+      for (var trip in _deletedTrips) {
+        if (trip.tripId == tripId) {
+          deletedTrip = trip;
+          _trips.add(deletedTrip);
+          break;
+        }
+      }
+      List<Expense> expenses = await _expenseService.fetchExpenses(tripId);
+      List<Expense> starredExpenses =
+          expenses.where((expense) => expense.starred).toList();
+      starredExpenses.sort((a, b) => b.date.compareTo(a.date));
+      if (starredExpenses.isNotEmpty) {
+        _starredExpenses[tripId] = starredExpenses;
+      }
+      _filteredExpenses = _starredExpenses;
+      notifyListeners();
+    } catch (e) {
+      // handle error
     }
-
-    List<Expense> expenses = await _expenseService.fetchExpenses(tripId);
-
-    _starredExpenses[tripId] = expenses;
-    _filteredExpenses[tripId] = expenses;
-
-    notifyListeners();
   }
 }

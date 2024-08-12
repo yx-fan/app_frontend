@@ -49,6 +49,10 @@ class InboxView extends StatelessWidget {
             itemBuilder: (context, index) {
               final notification = inboxViewModel.notifications[index];
 
+              // Calculate whether the notification has expired
+              final isExpired =
+                  DateTime.now().difference(notification.date).inHours >= 24;
+
               return Card(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -102,28 +106,49 @@ class InboxView extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: notification.isReverted
-                                  ? null
-                                  : () {
-                                      // Implement the revert logic using both view models
-                                      tripViewModel
-                                          .revertTrip(notification.note!);
-                                      inboxViewModel.revertNotification(
-                                          notification.note!);
-                                      starViewModel
-                                          .revertStarred(notification.note!);
-                                    },
+                              onPressed: () {
+                                // Re-check if 24 hours have passed
+                                final isExpiredNow = DateTime.now()
+                                        .difference(notification.date)
+                                        .inHours >=
+                                    24;
+
+                                if (isExpiredNow) {
+                                  // Optionally, show a message to the user that the action has expired
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'This action has expired and can no longer be reverted.'),
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                if (!notification.isReverted) {
+                                  // Implement the revert logic using both view models
+                                  tripViewModel.revertTrip(notification.note!);
+                                  inboxViewModel
+                                      .revertNotification(notification.note!);
+                                  starViewModel
+                                      .revertStarred(notification.note!);
+                                }
+                              },
                               style: TextButton.styleFrom(
-                                foregroundColor: notification.isReverted
-                                    ? Colors.grey
-                                    : Colors.blue,
+                                foregroundColor:
+                                    isExpired || notification.isReverted
+                                        ? Colors.grey
+                                        : Colors.blue,
                               ),
                               child: Text(
-                                notification.isReverted ? "Reverted" : "Revert",
+                                notification.isReverted
+                                    ? "Reverted"
+                                    : isExpired
+                                        ? "Expired"
+                                        : "Revert",
                                 style: TextStyle(
-                                  color: notification.isReverted
+                                  color: isExpired || notification.isReverted
                                       ? Colors.grey
-                                      : Colors.blue,
+                                      : Color.fromARGB(255, 247, 161, 31),
                                 ),
                               ),
                             ),

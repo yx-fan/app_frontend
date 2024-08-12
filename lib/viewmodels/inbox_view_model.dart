@@ -28,25 +28,16 @@ class InboxViewModel extends ChangeNotifier {
     try {
       // Fetch notifications and deleted trips
       _notifications = await _notificationService.fetchNotifications();
-      // _deletedTrips = await _notificationService.fetchDeletedTrips();
-      _deletedTrips = [];
+      _deletedTrips = await _notificationService.fetchDeletedTrips();
 
       // Iterate over each notification
       for (var notification in _notifications) {
         if (notification.title == "Trip Deleted") {
-          bool tripFound = false;
-
           // Check if the notification's note matches any trip ID
           for (var trip in _deletedTrips) {
             if (notification.note == trip.tripId) {
-              tripFound = true;
-              break;
+              notification.isReverted = false;
             }
-          }
-
-          // If tripId is not found in the list, set isReverted to true
-          if (!tripFound) {
-            notification.isReverted = true;
           }
         }
       }

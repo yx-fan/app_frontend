@@ -32,7 +32,7 @@ class NotificationService {
   Future<List<Trip>> fetchDeletedTrips() async {
     final token = await getToken();
     final response = await http.get(
-      Uri.parse('$baseUrl/api/v1/deleted-trip'),
+      Uri.parse('$baseUrl/api/v1/trip/deleted-trips/all'),
       headers: {'Authorization': 'Bearer $token'},
     );
 
@@ -40,7 +40,8 @@ class NotificationService {
       final List<dynamic> data = jsonDecode(response.body)['data'];
       return Trip.fromJsonList(data);
     } else {
-      print('Response status code: ${response.statusCode}');
+      print(
+          'Response status code for fetching deleted is: ${response.statusCode}');
       print('token is: $token');
       return [];
     }

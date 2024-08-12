@@ -91,6 +91,7 @@ class TripViewModel extends ChangeNotifier {
       if (success) {
         // If the revert was successful, try to fetch the trip details
         trip = await _tripService.getOneTrip(tripId);
+        print("i just revered a trip for id: $tripId");
       }
     } catch (e) {
       print(e);

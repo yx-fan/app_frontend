@@ -54,6 +54,30 @@ class _StarViewState extends State<StarScreen> {
               ? viewModel.filteredExpenses
               : viewModel.starredExpenses;
 
+          if (expensesToDisplay.isEmpty) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'No starred expenses yet!',
+                      style: TextStyle(fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 8), // Add some space between the two lines
+                    Text(
+                      'Go to trip details and heart some expenses to get started.',
+                      style: TextStyle(fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+
           return ListView(
             children: expensesToDisplay.entries.map((entry) {
               final tripId = entry.key;

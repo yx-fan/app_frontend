@@ -88,13 +88,15 @@ class TripService {
   Future<bool> revertTrip(String tripId) async {
     try {
       final token = await getToken();
-      final response = await http.delete(
+      final response = await http.post(
         Uri.parse('$baseUrl/api/v1/trip/revert-deleted-trip/$tripId'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
         },
       );
+
+      print("trip to be reverted is $tripId");
 
       if (response.statusCode == 200) {
         return true;
@@ -119,7 +121,8 @@ class TripService {
       final data = jsonDecode(response.body)['data'];
       return Trip.fromJson(data); // Assuming data is a single trip object
     } else {
-      print('Response status code: ${response.statusCode}');
+      print(
+          'Response status code to get one trip with id $tripId is: ${response.statusCode}');
       print('Token is: $token');
       return null;
     }
