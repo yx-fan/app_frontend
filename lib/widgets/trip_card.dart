@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../views/map_view.dart';
 import '../views/trip_expense_view.dart';
-import '../views/receipt_camera_view.dart'; // 导入 ReceiptCameraPage
+import '../views/receipt_camera_view.dart'; // Import ReceiptCameraPage
 import "../models/trip_model.dart";
 import '../widgets/theme_button_small.dart';
+import '../views/trip_edit_view.dart'; // Import TripEditPage
+import '../viewmodels/trip_view_model.dart';
 
 class TripCard extends StatefulWidget {
   final Trip trip;
@@ -59,18 +61,43 @@ class _TripCardState extends State<TripCard> {
                       ],
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.camera_alt),
-                    onPressed: () {
-                      // Implement camera functionality
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ReceiptCameraPage(
-                              tripId: widget.trip.tripId), // 传递 tripId
-                        ),
-                      );
-                    },
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.camera_alt),
+                        onPressed: () {
+                          // Navigate to the camera page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReceiptCameraPage(
+                                tripId: widget.trip.tripId,
+                              ), // Pass the tripId to the camera page
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.settings),
+                        onPressed: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditTripView(
+                                trip: widget.trip,
+                              ),
+                            ),
+                          );
+
+                          if (result == true) {
+                            print(
+                                'Edit trip result received, refreshing trips'); // Debug print
+                            Provider.of<TripViewModel>(context, listen: false)
+                                .fetchTrips();
+                          }
+                        },
+                      )
+                    ],
                   ),
                 ],
               ),
@@ -96,7 +123,7 @@ class _TripCardState extends State<TripCard> {
                         ThemeButtonSmall(
                           text: 'Map',
                           onPressed: () {
-                            // Implement map functionality
+                            // Navigate to the map view
                             Navigator.push(
                               context,
                               MaterialPageRoute(

@@ -106,6 +106,25 @@ class TripViewModel extends ChangeNotifier {
     return success;
   }
 
+  Future<bool> editTrip(
+      String tripID,
+      String tripName,
+      DateTime startDate,
+      DateTime endDate,
+      String description,
+      String selectedCurrency,
+      String imageUrl) async {
+    bool success = false;
+    try {
+      success = await _tripService.editTrip(tripID, tripName, startDate,
+          endDate, description, selectedCurrency, imageUrl);
+    } catch (e) {
+      print(e);
+    }
+    notifyListeners();
+    return success;
+  }
+
   void changeTab(int index) {
     _currentIndex = index;
     notifyListeners();

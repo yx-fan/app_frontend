@@ -127,4 +127,43 @@ class TripService {
       return null;
     }
   }
+
+  Future<bool> editTrip(
+      String tripID,
+      String tripName,
+      DateTime startDate,
+      DateTime endDate,
+      String description,
+      String selectedCurrency,
+      String imageUrl) async {
+    try {
+      print("image url from editTrip is:$imageUrl");
+      final token = await getToken();
+      final response = await http.patch(
+        Uri.parse('$baseUrl/api/v1/trip/$tripID'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'tripName': tripName,
+          'startDate': startDate.toIso8601String(),
+          'endDate': endDate.toIso8601String(),
+          'description': description,
+          'currencyCode': selectedCurrency,
+          'image': imageUrl
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('Edit trip error: ${response.statusCode} - ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      print('Edit trip exception: $e');
+      return false;
+    }
+  }
 }
