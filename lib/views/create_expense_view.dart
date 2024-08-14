@@ -99,8 +99,9 @@ class CreateExpenseView extends StatelessWidget {
                     await viewModel.createExpense(tripId, receiptData);
                     tripViewModel.updateAmt(tripId, 0, amt);
                     tripViewModel.updateCnt(tripId, 1, 0);
-                    Navigator.popUntil(context,
-                        ModalRoute.withName('/tripView')); // 回到 trip 主页面
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
                   },
                   child: const Text('Create'),
                 ),
