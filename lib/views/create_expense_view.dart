@@ -97,7 +97,8 @@ class CreateExpenseView extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     await viewModel.createExpense(tripId, receiptData);
-                    tripViewModel.fetchTrips();
+                    tripViewModel.updateAmt(tripId, 0, amt);
+                    tripViewModel.updateCnt(tripId, 1, 0);
                     Navigator.popUntil(context,
                         ModalRoute.withName('/tripView')); // 回到 trip 主页面
                   },
