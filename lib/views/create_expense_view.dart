@@ -10,7 +10,8 @@ class CreateExpenseView extends StatelessWidget {
   final String tripId; // 添加 tripId 以便创建费用
 
   const CreateExpenseView(
-      {super.key, required this.imagePath,
+      {super.key,
+      required this.imagePath,
       required this.receiptData,
       required this.tripId});
 
@@ -43,7 +44,8 @@ class CreateExpenseView extends StatelessWidget {
                 children: [
                   TextFormField(
                     initialValue: receiptData['merchantName'] ?? '',
-                    decoration: const InputDecoration(labelText: 'Merchant Name'),
+                    decoration:
+                        const InputDecoration(labelText: 'Merchant Name'),
                     onChanged: (value) => receiptData['merchantName'] = value,
                   ),
                   const SizedBox(height: 10),
@@ -95,6 +97,7 @@ class CreateExpenseView extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     await viewModel.createExpense(tripId, receiptData);
+                    tripViewModel.fetchTrips();
                     Navigator.popUntil(context,
                         ModalRoute.withName('/tripView')); // 回到 trip 主页面
                   },
