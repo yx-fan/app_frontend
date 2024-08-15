@@ -30,6 +30,7 @@ class _TripExpenseViewState extends State<TripExpenseView> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -72,50 +73,65 @@ class _TripExpenseViewState extends State<TripExpenseView> {
           } else {
             return Consumer2<TripExpenseViewModel, StarViewModel>(
               builder: (context, tripExpenseViewModel, starViewModel, child) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 18),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Past Expenses',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                if (tripExpenseViewModel.expenses.isEmpty) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(18.0),
+                      child: Text(
+                        'Go back to trip page, then tap on the camera button to start capturing your first expense!',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Past Expenses',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount:
-                            tripExpenseViewModel.filteredExpenses.isNotEmpty
-                                ? tripExpenseViewModel.filteredExpenses.length
-                                : tripExpenseViewModel.expenses.length,
-                        itemBuilder: (context, index) {
-                          final expense =
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount:
                               tripExpenseViewModel.filteredExpenses.isNotEmpty
-                                  ? tripExpenseViewModel.filteredExpenses[index]
-                                  : tripExpenseViewModel.expenses[index];
-                          return ExpenseCard(
-                            expense: expense,
-                            onStarred: (isStarred) {
-                              starViewModel.toggleStarredExpense(
-                                  widget.trip.tripId, expense);
-                            },
-                            onUpdate: (updatedExpense) {
-                              tripExpenseViewModel
-                                  .updateExpense(updatedExpense);
-                            },
-                          );
-                        },
+                                  ? tripExpenseViewModel.filteredExpenses.length
+                                  : tripExpenseViewModel.expenses.length,
+                          itemBuilder: (context, index) {
+                            final expense = tripExpenseViewModel
+                                    .filteredExpenses.isNotEmpty
+                                ? tripExpenseViewModel.filteredExpenses[index]
+                                : tripExpenseViewModel.expenses[index];
+                            return ExpenseCard(
+                              expense: expense,
+                              onStarred: (isStarred) {
+                                starViewModel.toggleStarredExpense(
+                                    widget.trip.tripId, expense);
+                              },
+                              onUpdate: (updatedExpense) {
+                                tripExpenseViewModel
+                                    .updateExpense(updatedExpense);
+                              },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                );
+                    ],
+                  );
+                }
               },
             );
           }
