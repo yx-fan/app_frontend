@@ -1,3 +1,4 @@
+import 'package:app_frontend/widgets/map_expense_list.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -69,7 +70,7 @@ class _MapGoogleState extends State<MapGoogle> {
             (bounds.northeast.latitude + bounds.southwest.latitude) / 2,
             (bounds.northeast.longitude + bounds.southwest.longitude) / 2,
           ),
-          zoom: 13.0, 
+          zoom: 13.0,
         );
       } else {
         await Geolocator.requestPermission()
@@ -131,7 +132,7 @@ class _MapGoogleState extends State<MapGoogle> {
                           snippet: '\$${expense.amount}',
                         ),
                         onTap: () {
-                          viewModel.selectExpense(expense);
+                          // viewModel.selectExpense(expense);
                         },
                       ),
                     )
@@ -218,46 +219,7 @@ class _MapGoogleState extends State<MapGoogle> {
                   child: const Icon(Icons.my_location),
                 ),
               ),
-              // DraggableScrollableSheet(
-              //   snap: true,
-              //   snapSizes: [0.25],
-              //   initialChildSize: 0.1,
-              //   minChildSize: 0.1,
-              //   maxChildSize: 0.8,
-              //   builder: (context, scrollController) {
-              //     return Container(
-              //       decoration: const BoxDecoration(
-              //         color: Colors.white,
-              //         borderRadius: BorderRadius.only(
-              //           topLeft: Radius.circular(20),
-              //           topRight: Radius.circular(20),
-              //         ),
-              //       ),
-              //       child: ListView.builder(
-              //         controller: scrollController,
-              //         itemCount: expenses.length,
-              //         itemBuilder: (context, index) {
-              //           final expense = expenses[index];
-              //           return ListTile(
-              //             title: Text(expense.merchantName),
-              //             subtitle: Text(
-              //                 '${'${expense.date}'.split(' ')[0]}\n\$${expense.amount}'),
-              //             trailing: Icon(
-              //               expense.starred
-              //                   ? Icons.favorite
-              //                   : Icons.favorite_border,
-              //               color: Color.fromARGB(194, 241, 147, 6),
-              //               size: 24,
-              //             ),
-              //             onTap: () {
-              //               viewModel.selectExpense(expense);
-              //             },
-              //           );
-              //         },
-              //       ),
-              //     );
-              //   },
-              // ),
+              MapExpenseList(expenses: expenses),
             ],
           );
         }

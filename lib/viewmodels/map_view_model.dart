@@ -4,11 +4,9 @@ import 'package:geolocator/geolocator.dart';
 import '../services/expense_service.dart';
 import '../services/google_places_service.dart';
 import '../models/expense_model.dart';
-import '../widgets/map_expense.dart';
 
 class MapViewModel extends ChangeNotifier {
   Expense? _selectedExpense;
-  BuildContext? bottomSheetContext;
   LatLng? _currentLocation;
   GoogleMapController? _mapController;
   TextEditingController searchController = TextEditingController();
@@ -16,50 +14,22 @@ class MapViewModel extends ChangeNotifier {
   final ExpenseService expenseService = ExpenseService();
   final GooglePlacesService placesService = GooglePlacesService();
 
-  Expense? get selectedExpense => _selectedExpense;
-
   void selectExpense(Expense expense) {
     _selectedExpense = expense;
     notifyListeners();
-    showBottomSheet();
+    if (_mapController != null) {
+      _mapController!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(_selectedExpense!.latitude, _selectedExpense!.longitude), zoom: 13),
+        ),
+      );
+    }
   }
 
   void unselectExpense() {
     _selectedExpense = null;
     notifyListeners();
-    hideBottomSheet();
-  }
-
-  void setBottomSheetContext(BuildContext context) {
-    bottomSheetContext = context;
-  }
-
-  void showBottomSheet() {
-    if (bottomSheetContext != null && selectedExpense != null) {
-      showModalBottomSheet(
-        useSafeArea: true,
-        useRootNavigator: true,
-        context: bottomSheetContext!,
-        builder: (context) => MapExpense(expense: selectedExpense!),
-        isScrollControlled: true,
-      );
-    }
-    // if (_mapController != null) {
-    //   _mapController!.animateCamera(
-    //     CameraUpdate.newCameraPosition(
-    //       CameraPosition(
-    //           target:
-    //               LatLng(selectedExpense!.latitude, selectedExpense!.longitude),
-    //           zoom: 13),
-    //     ),
-    //   );
-    // }
-  }
-
-  void hideBottomSheet() {
-    if (bottomSheetContext != null) {
-      Navigator.of(bottomSheetContext!).pop();
-    }
+    // hideBottomSheet();
   }
 
   void setMapController(GoogleMapController controller) {

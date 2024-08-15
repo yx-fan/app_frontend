@@ -14,15 +14,7 @@ class MapView extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => MapViewModel(),
       child: Scaffold(
-        body: Builder(builder: (context) {
-          Provider.of<MapViewModel>(context, listen: false)
-              .setBottomSheetContext(context);
-          return Stack(
-            children: [
-              tripID == null ? const MapGoogle() : MapGoogle(tripID: tripID),
-            ],
-          );
-        }),
+        body: tripID == null ? const MapGoogle() : MapGoogle(tripID: tripID),
       ),
     );
   }
